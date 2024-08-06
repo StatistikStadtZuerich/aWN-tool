@@ -2,7 +2,6 @@
 
 export(run_app)
 import(dplyr)
-import(icons)
 import(jpeg)
 import(openxlsx)
 import(reactable)
