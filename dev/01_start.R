@@ -20,13 +20,13 @@
 ##
 golem::fill_desc(
   pkg_name = "awntool", # The Name of the package containing the App
-  pkg_title = "PKG_TITLE", # The Title of the package containing the App
-  pkg_description = "PKG_DESC.", # The Description of the package containing the App
-  author_first_name = "AUTHOR_FIRST", # Your First Name
-  author_last_name = "AUTHOR_LAST", # Your Last Name
-  author_email = "AUTHOR@MAIL.COM", # Your Email
+  pkg_title = "aWN-Tool", # The Title of the package containing the App
+  pkg_description = "Tool for retrieving official apartment numbers in the city of Zurich.",
+  author_first_name = c("Alessandro", "Thamilini"), # Your First Name
+  author_last_name = c("Feller", "Easwaralingam"), # Your Last Name
+  author_email = c("alessandro.feller@zuerich.ch", "thamilini.easwaralingam@zuerich.ch"), # Your Email
   repo_url = NULL, # The URL of the GitHub Repo (optional),
-  pkg_version = "0.0.0.9000" # The Version of the package containing the App
+  pkg_version = "0.0.1" # The Version of the package containing the App
 )
 
 ## Set {golem} options ----
