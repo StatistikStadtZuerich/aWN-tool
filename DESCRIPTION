@@ -10,6 +10,7 @@ Description: What the package does (one paragraph).
 License: What license is it under?
 Imports: 
     config (>= 0.3.2),
+    dplyr,
     golem (>= 0.4.1),
     pkgload,
     shiny (>= 1.8.0)
