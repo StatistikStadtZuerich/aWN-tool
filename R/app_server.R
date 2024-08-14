@@ -7,7 +7,7 @@
 app_server <- function(input, output, session) {
   
   # Load data from the utility script
-  data <- get_data()  # Assuming get_data() is defined in utils_dataload_datatransformation.R
+  data <- get_data()  
   
   # Call the input module server function
   input_data <- mod_input_server("input_module", data)
