@@ -6,45 +6,27 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # Leave this function for adding external resources
+    # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
     
-    # Your application UI logic
+    # Page layout
     fluidPage(
       titlePanel("Gebäude Information"),
       
+      # Sidebar layout
       sidebarLayout(
+        # Sidebar with inputs
         sidebarPanel(
-          selectInput("address", "Select Address", choices = NULL),  # Choices will be populated in the server
-          actionButton("load_data", "Daten herunterladen"),
-          downloadButton("download_csv", "CSV"),
-          downloadButton("download_excel", "XLSX"),
-          downloadButton("download_ogd", "OGD")
+          mod_input_ui("input_module"),  # Address input module
+          actionButton("load_data", "Abfrage")  # Button Abfrage
         ),
         
+        # Main panel for outputs
         mainPanel(
-          conditionalPanel(
-            condition = "input.load_data > 0",
-            
-            h3(textOutput("selected_address")),
-            hr(),
-            
-            # Building Information
-            h4("Informationen zum Gebäude"),
-            uiOutput("building_info"),
-            
-            # Entrance Information
-            h4("Heizung & Wasser"),
-            uiOutput("entrance_info"),
-            
-            # Apartment Information
-            h4("Informationen zu Wohnungen"),
-            uiOutput("apartment_info"),
-            tableOutput("apartment_table"),
-            
-            # Chart Container (if applicable)
-            div(id = "sszvis-chart")
-          )
+          h3("Adresse eingeben"),
+          p("Mit dieser Applikation können Sie Abfragen zu den amtlichen Wohnungsnummern in der Stadt Zürich machen. Geben Sie in den linken Eingabefenster die für die Abfrage gewünschte Adresse ein."),
+          hr(),
+          uiOutput("address_input_info")  # Placeholder for dynamic content
         )
       )
     )
@@ -71,8 +53,7 @@ golem_add_external_resources <- function() {
       path = app_sys("app/www"),
       app_title = "awntool"
     ),
-    # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert()
+    # Example for adding ShinyJS (if needed)
     shinyjs::useShinyjs(debug = TRUE)
   )
 }
