@@ -10,7 +10,25 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      h1("awntool")
+      titlePanel("Gebäude Information"),
+      
+      sidebarLayout(
+        sidebarPanel(
+          selectInput("address", "Select Address", choices = NULL),  
+          actionButton("load_data", "Daten herunterladen"),
+          downloadButton("download_csv", "CSV"),
+          downloadButton("download_excel", "XLSX"),
+          downloadButton("download_ogd", "OGD")
+        ),
+        
+        
+        mainPanel(
+          h3(textOutput("selected_address")),
+          uiOutput("building_info"),
+          uiOutput("entrance_info"),
+          uiOutput("apartment_info")
+        )
+      )
     )
   )
 }
@@ -39,3 +57,4 @@ golem_add_external_resources <- function() {
     # for example, you can add shinyalert::useShinyalert()
   )
 }
+
