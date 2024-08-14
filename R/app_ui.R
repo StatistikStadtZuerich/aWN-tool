@@ -8,25 +8,43 @@ app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+    
     # Your application UI logic
     fluidPage(
       titlePanel("Gebäude Information"),
       
       sidebarLayout(
         sidebarPanel(
-          selectInput("address", "Select Address", choices = NULL),  
+          selectInput("address", "Select Address", choices = NULL),  # Choices will be populated in the server
           actionButton("load_data", "Daten herunterladen"),
           downloadButton("download_csv", "CSV"),
           downloadButton("download_excel", "XLSX"),
           downloadButton("download_ogd", "OGD")
         ),
         
-        
         mainPanel(
-          h3(textOutput("selected_address")),
-          uiOutput("building_info"),
-          uiOutput("entrance_info"),
-          uiOutput("apartment_info")
+          conditionalPanel(
+            condition = "input.load_data > 0",
+            
+            h3(textOutput("selected_address")),
+            hr(),
+            
+            # Building Information
+            h4("Informationen zum Gebäude"),
+            uiOutput("building_info"),
+            
+            # Entrance Information
+            h4("Heizung & Wasser"),
+            uiOutput("entrance_info"),
+            
+            # Apartment Information
+            h4("Informationen zu Wohnungen"),
+            uiOutput("apartment_info"),
+            tableOutput("apartment_table"),
+            
+            # Chart Container (if applicable)
+            div(id = "sszvis-chart")
+          )
         )
       )
     )
@@ -46,15 +64,16 @@ golem_add_external_resources <- function() {
     "www",
     app_sys("app/www")
   )
-
+  
   tags$head(
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
       app_title = "awntool"
-    )
+    ),
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
+    shinyjs::useShinyjs(debug = TRUE)
   )
 }
 
