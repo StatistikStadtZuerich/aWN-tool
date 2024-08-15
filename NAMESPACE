@@ -2,8 +2,10 @@
 
 export(run_app)
 import(dplyr)
+import(furrr)
 import(jpeg)
 import(openxlsx)
+import(purrr)
 import(reactable)
 import(shiny)
 import(shinyjs)
