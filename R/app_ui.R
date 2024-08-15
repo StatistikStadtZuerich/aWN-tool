@@ -20,6 +20,7 @@ app_ui <- function(request) {
         # Sidebar with inputs
         sidebarPanel(
           mod_input_ui("input_module")  # Address input module
+          
         ),
         
         # Main panel for outputs
