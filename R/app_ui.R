@@ -17,7 +17,7 @@ app_ui <- function(request) {
       sidebarLayout(
         # Sidebar with inputs
         sidebarPanel(
-          mod_input_ui("input_module")  # Address input module (with Abfrage button inside the module)
+          mod_input_ui("input_module")  # Address input module
         ),
         
         # Main panel for outputs
@@ -31,3 +31,29 @@ app_ui <- function(request) {
     )
   )
 }
+
+#' Add external Resources to the Application
+#'
+#' This function is internally used to add external
+#' resources inside the Shiny application.
+#'
+#' @import shiny
+#' @importFrom golem add_resource_path activate_js favicon bundle_resources
+#' @noRd
+golem_add_external_resources <- function() {
+  add_resource_path(
+    "www",
+    app_sys("app/www")
+  )
+  
+  tags$head(
+    favicon(),
+    bundle_resources(
+      path = app_sys("app/www"),
+      app_title = "awntool"
+    ),
+    # Example for adding ShinyJS (if needed)
+    shinyjs::useShinyjs(debug = TRUE)
+  )
+}
+
