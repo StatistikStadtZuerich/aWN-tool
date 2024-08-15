@@ -1,19 +1,32 @@
-Package: awntool
-Title: An Amazing Shiny App
+Package: aWNtool
+Title: Shiny App for querying official apartment numbers in the city of Zurich
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "firstname",
-           family = "lastname",
-           role = c("aut", "cre"),
-           email = "your@email.com")
+      person(given = "Thamilini",
+             family = "Easwaralingam",
+             role = c("aut", "cre"),
+             email = "thamilini.easwaralingam@zuerich.ch")
 Description: What the package does (one paragraph).
 License: What license is it under?
 Imports: 
     config (>= 0.3.2),
+    data.table,
     dplyr,
+    furrr,
     golem (>= 0.4.1),
+    gtools,
+    jpeg,
+    kableExtra,
+    knitr,
+    openxlsx,
     pkgload,
-    shiny (>= 1.8.0)
+    reactable,
+    readxl,
+    shiny (>= 1.8.0),
+    shinycssloaders,
+    shinyjs,
+    tidyr,
+    zuericssstyle
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
