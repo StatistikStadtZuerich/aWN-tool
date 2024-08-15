@@ -20,6 +20,7 @@ Imports:
     knitr,
     openxlsx,
     pkgload,
+    purrr,
     reactable,
     readxl,
     shiny (>= 1.8.0),
