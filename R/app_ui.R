@@ -23,9 +23,19 @@ app_ui <- function(request) {
         # Main panel for outputs
         mainPanel(
           h3("Adresse eingeben"),
-          p("Mit dieser Applikation können Sie Abfragen zu den amtlichen Wohnungsnummern in der Stadt Zürich machen. Geben Sie in den linken Eingabefenster die für die Abfrage gewünschte Adresse ein."),
+          p("Mit dieser Applikation können Sie Abfragen zu den amtlichen Wohnungsnummern in der Stadt Zürich machen."),
           hr(),
-          uiOutput("address_input_info")  # Placeholder for dynamic content
+          
+          # UI outputs for building, entrance, and apartment information
+          h4("Informationen zum Gebäude"),
+          uiOutput("building_info"),
+          
+          h4("Heizung & Wasser"),
+          uiOutput("entrance_info"),
+          
+          h4("Informationen zu Wohnungen"),
+          uiOutput("apartment_info"),
+          tableOutput("apartment_table")
         )
       )
     )

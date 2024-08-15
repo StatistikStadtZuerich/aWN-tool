@@ -12,20 +12,22 @@ app_server <- function(input, output, session) {
   # Call the input module server function
   input_data <- mod_input_server("input_module", data)
   
-  # Simplified observeEvent for debugging
+  # Observe the Abfrage button click event
   observeEvent(input_data$load_data_trigger(), {
     print("Abfrage button clicked")  # Debugging: Check if button is clicked
     
     # Check if an address is selected
-    print(paste("Selected address:", input_data$selected_address()))
+    selected_address <- input_data$selected_address()
+    print(paste("Selected address:", selected_address))
     
-    req(input_data$selected_address())
+    req(selected_address)
     
     # Filter building based on the selected address
     selected_building <- data$building_info %>%
-      filter(Address == input_data$selected_address())
+      filter(Address == selected_address)
     
     # Debugging log
+    print("Filtered Building Info:")
     print(selected_building)
     
     if (nrow(selected_building) == 0) {
@@ -33,7 +35,7 @@ app_server <- function(input, output, session) {
       return(NULL)
     }
     
-    # Render building information for debugging
+    # Render building information
     output$building_info <- renderUI({
       tagList(
         p(paste("Gebäudetyp:", selected_building$GKLASLang)),
@@ -54,29 +56,31 @@ app_server <- function(input, output, session) {
       )
     })
     
-    # Render apartment information
+    # Filter apartment information based on the selected building's EGID
     selected_apartments <- data$apartment_info %>%
       filter(EGID == selected_building$EGID)
     
-    output$apartment_info <- renderUI({
-      if (nrow(selected_apartments) > 0) {
-        tableOutput("apartment_table")
-      } else {
-        p("Keine Wohnungsinformationen verfügbar.")
-      }
-    })
+    print("Filtered Apartment Info:")
+    print(selected_apartments)
     
-    # Render apartment table
-    output$apartment_table <- renderTable({
-      selected_apartments %>%
-        select(WHGNR, EWID, WSTWKLang, WAZIM, WAREA, WKCHELang) %>%
-        rename(`Amtl. Wohnungsnummer` = WHGNR,
-               `EWID` = EWID,
-               `Stockwerk` = WSTWKLang,
-               `Zimmer` = WAZIM,
-               `Wohnfläche (m2)` = WAREA,
-               `Küchenausstattung` = WKCHELang)
-    })
+    # Conditionally render the apartment table only if data is available
+    if (nrow(selected_apartments) > 0) {
+      output$apartment_table <- renderTable({
+        selected_apartments %>%
+          select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang) %>%
+          rename(`Amtl. Wohnungsnummer` = WHGNR,
+                 `EWID` = EWID,
+                 `Stockwerk` = WSTWKLang,
+                 `Lage Wohnung`=WBEZ,
+                 `Zimmer` = WAZIM,
+                 `Wohnfläche (m2)` = WAREA,
+                 `Küchenausstattung` = WKCHELang)
+      })
+    } else {
+      output$apartment_info <- renderUI({
+        p("Keine Wohnungsinformationen verfügbar.")
+      })
+    }
   })
   
   # Download Handlers for data export
@@ -113,3 +117,4 @@ app_server <- function(input, output, session) {
     }
   )
 }
+

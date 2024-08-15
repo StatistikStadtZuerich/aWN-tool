@@ -11,13 +11,11 @@ mod_input_ui <- function(id) {
   ns <- NS(id)
   tagList(
     # Select input for address
-    selectInput(ns("address"), "Select Address", choices = NULL),  # Choices will be populated in the server
+    selectInput(ns("address"), "Adresse eingeben", choices = NULL),  # Choices will be populated in the server
     
     # Button to load data
-    actionButton(ns("load_data"), "Daten herunterladen"),
+    actionButton(ns("load_data"), "Abfrage")
     
-    # "Abfrage" action button
-    actionButton(ns("abfrage"), "Abfrage", class = "btn-primary")
   )
 }
 
