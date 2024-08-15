@@ -7,12 +7,14 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_input_ui <- function(id) {
+mod_input_ui <- function(id, addresses) {
   ns <- NS(id)
   tagList(
     # Select input for address
     selectInput(ns("address"), "Adresse eingeben", choices = NULL),  # Choices will be populated in the server
-    
+    # sszAutocompleteInput(ns("address"), 
+    #                      "Geben Sie eine Adresse ein", 
+    #                      choices = unique(addresses$Address)), 
     # Button to load data
     actionButton(ns("load_data"), "Abfrage")
     
@@ -34,7 +36,7 @@ mod_input_server <- function(id, data) {
     
     # Populate the address dropdown with sorted addresses
     updateSelectizeInput(session, "address",
-                         choices = data$building_info$Address,
+                         choices = unique(data$building_info$Address),
                          server = TRUE)
     
     return(list(

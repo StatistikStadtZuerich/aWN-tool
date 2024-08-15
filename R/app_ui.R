@@ -5,6 +5,8 @@
 #' @import shiny
 #' @noRd
 app_ui <- function(request) {
+  
+  data <- get_data()
   tagList(
     # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
