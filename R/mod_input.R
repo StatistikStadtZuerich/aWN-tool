@@ -16,7 +16,7 @@ mod_input_ui <- function(id, addresses) {
     #                      "Geben Sie eine Adresse ein", 
     #                      choices = unique(addresses$Address)), 
     # Button to load data
-    actionButton(ns("load_data"), "Abfrage")
+    sszActionButton(ns("load_data"), "Abfrage")
     
   )
 }
