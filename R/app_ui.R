@@ -6,11 +6,29 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # Leave this function for adding external resources
+    # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
-    # Your application UI logic
+    
+    # Page layout
     fluidPage(
-      h1("awntool")
+      titlePanel("Gebäude Information"),
+      
+      # Sidebar layout
+      sidebarLayout(
+        # Sidebar with inputs
+        sidebarPanel(
+          mod_input_ui("input_module"),  # Address input module
+          actionButton("load_data", "Abfrage")  # Button Abfrage
+        ),
+        
+        # Main panel for outputs
+        mainPanel(
+          h3("Adresse eingeben"),
+          p("Mit dieser Applikation können Sie Abfragen zu den amtlichen Wohnungsnummern in der Stadt Zürich machen. Geben Sie in den linken Eingabefenster die für die Abfrage gewünschte Adresse ein."),
+          hr(),
+          uiOutput("address_input_info")  # Placeholder for dynamic content
+        )
+      )
     )
   )
 }
@@ -28,14 +46,15 @@ golem_add_external_resources <- function() {
     "www",
     app_sys("app/www")
   )
-
+  
   tags$head(
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
       app_title = "awntool"
-    )
-    # Add here other external resources
-    # for example, you can add shinyalert::useShinyalert()
+    ),
+    # Example for adding ShinyJS (if needed)
+    shinyjs::useShinyjs(debug = TRUE)
   )
 }
+
