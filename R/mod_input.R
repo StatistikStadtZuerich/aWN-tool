@@ -24,23 +24,28 @@ mod_input_ui <- function(id) {
 #' input Server Functions
 #'
 #' @noRd
-mod_input_server <- function(id, data) {  # Assuming 'data' is passed to the module
+mod_input_server <- function(id, data) {  
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    
+    # Debugging: Print to check if the values are being captured
+    observe({
+      print(paste("Address selected:", input$address))
+      print(paste("Load data button clicked:", input$load_data))
+    })
     
     # Populate the address dropdown with sorted addresses
     updateSelectizeInput(session, "address",
                          choices = data$building_info$Address,
                          server = TRUE)
     
-    # Return the selected address and load_data status for further processing
     return(list(
       selected_address = reactive(input$address),
-      load_data_trigger = reactive(input$load_data),
-      abfrage_trigger = reactive(input$abfrage)  # Abfrage trigger
+      load_data_trigger = reactive(input$load_data)
     ))
   })
 }
+
 
 ## To be copied in the UI
 # mod_input_ui("input_module")
