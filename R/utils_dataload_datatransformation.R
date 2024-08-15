@@ -8,38 +8,26 @@
 #' @noRd
 #' 
 #' 
-library(data.table)#package were not loaded, need to update these two into the script awn-tool package.R
-library(furrr)
+# library(data.table)#package were not loaded, need to update these two into the script awn-tool package.R
+# library(furrr)
 get_data <- function() {
+  
+  # Apllying tryCatch
   tryCatch(
     expr = {
+      
+      # By default data is empty
       data <- NULL
       
-      ## URLS
+      # Specify URLS
       URLs <- c(
         "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeude.csv",
         "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeudeeingaenge.csv",
         "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_wohnungen.csv"
       )
       
-      ## Download
-      dataDownload <- function(link) {
-        message("Downloading data from: ", link)
-        data <- tryCatch(
-          {
-            fread(link, encoding = "UTF-8")
-          },
-          error = function(e) {
-            message("Error downloading data from: ", link)
-            message("Error details: ", e)
-            NULL
-          }
-        )
-        return(data)
-      }
-      
       # Parallelisation
-      data <- future_map(URLs, dataDownload)
+      data <- future_map(URLs, data_download)
       
       # Check if any data download failed
       if (any(sapply(data, is.null))) {
@@ -81,7 +69,7 @@ get_data <- function() {
             GENW1Lang            # Energy source warm water 1
           ) %>%
           mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
-            Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
+                 Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
           ) %>% 
           unique() %>%
           arrange(STRNAME, DEINR_numeric, DEINR)
@@ -101,10 +89,10 @@ get_data <- function() {
             DEINR,               # House Number
             DPLZ4,               # Postal Code
             DPLZNAME             # City
-            ) %>%
-              mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
-                Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
-              ) %>%
+          ) %>%
+          mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
+                 Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
+          ) %>%
           unique() %>%
           arrange(STRNAME, DEINR_numeric, DEINR)
         
@@ -126,5 +114,6 @@ get_data <- function() {
   ) # Closing tryCatch block
 } # Closing get_data function
 
-data_vector <- get_data()
+# data_vector <- get_data()
+
 
