@@ -81,7 +81,7 @@ get_data <- function() {
             GENW1Lang            # Energy source warm water 1
           ) %>%
           mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
-            Address = paste(STRNAME, DEINR, DPLZ4, DPLZNAME, sep = " ")  # Create a full address
+            Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
           ) %>% 
           unique() %>%
           arrange(STRNAME, DEINR_numeric, DEINR)
@@ -103,7 +103,7 @@ get_data <- function() {
             DPLZNAME             # City
             ) %>%
               mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
-                Address = paste(STRNAME, DEINR, DPLZ4, DPLZNAME, sep = " ")  # Create a full address
+                Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
               ) %>%
           unique() %>%
           arrange(STRNAME, DEINR_numeric, DEINR)
