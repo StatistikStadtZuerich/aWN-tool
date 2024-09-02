@@ -8,15 +8,20 @@
 #'
 #' @importFrom shiny NS tagList
 mod_input_ui <- function(id, addresses) {
+  
   ns <- NS(id)
+  
   tagList(
+    
     # Select input for address
-    selectInput(ns("address"), "Adresse eingeben", choices = NULL),  # Choices will be populated in the server
-    # sszAutocompleteInput(ns("address"), 
-    #                      "Geben Sie eine Adresse ein", 
-    #                      choices = unique(addresses$Address)), 
+    sszAutocompleteInput(
+      ns("address"),
+      "Geben Sie eine Adresse ein",
+      unique(data$building_info$Address)
+    ),
+    
     # Button to load data
-    sszActionButton(ns("load_data"), "Abfrage")
+    sszActionButton(ns("load_data"), "Abfrage starten")
     
   )
 }
@@ -28,16 +33,10 @@ mod_input_server <- function(id, data) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
-    # Debugging: Print to check if the values are being captured
-    observe({
-      print(paste("Address selected:", input$address))
-      print(paste("Load data button clicked:", input$load_data))
-    })
-    
-    # Populate the address dropdown with sorted addresses
-    updateSelectizeInput(session, "address",
-                         choices = unique(data$building_info$Address),
-                         server = TRUE)
+    # Needed for second query. We do later
+    # updateSelectizeInput(session, "address",
+    #                      choices = unique(data$building_info$Address),
+    #                      server = TRUE)
     
     return(list(
       selected_address = reactive(input$address),
