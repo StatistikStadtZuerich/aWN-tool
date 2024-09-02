@@ -6,13 +6,13 @@
 #' @noRd
 app_server <- function(input, output, session) {
   
-  # Load data from the utility script
-  data <- get_data()  
-  
   # Call the input module server function
   input_data <- mod_input_server("input_module", data)
   
-  # Observe the Abfrage button click event
+  # Call the output module
+  # mod_building_server(id = "asdf")
+  
+  # TEMPORARY OUTPUTS BEFORE MODULARIZATION
   observeEvent(input_data$load_data_trigger(), {
     print("Abfrage button clicked")  # Debugging: Check if button is clicked
     
@@ -20,15 +20,11 @@ app_server <- function(input, output, session) {
     selected_address <- input_data$selected_address()
     print(paste("Selected address:", selected_address))
     
-    req(selected_address)
-    
     # Filter building based on the selected address
+    req(selected_address)
     selected_building <- data$building_info %>%
       filter(Address == selected_address)
-    
-    # Debugging log
-    print("Filtered Building Info:")
-    print(selected_building)
+    print(paste("Filtered Building Info:", selected_building[1]))
     
     if (nrow(selected_building) == 0) {
       showNotification("Keine Gebäudeinformationen verfügbar.", type = "error")
@@ -38,17 +34,33 @@ app_server <- function(input, output, session) {
     # Render building information
     output$building_info <- renderUI({
       tagList(
+        h4("Informationen zum Gebäude"),
         p(paste("Gebäudetyp:", selected_building$GKLASLang)),
         p(paste("Baujahr:", selected_building$GBAUJ)),
         p(paste("Oberirdische Geschosse:", selected_building$GASTW)),
         p(paste("Unterirdische Geschosse:", selected_building$GAZZI)),
         p(paste("Zivilschutzraum:", selected_building$GSCHUTZRLang))
       )
+      bslib::card(
+        height = 350,
+        full_screen = TRUE,
+        card_header(h4("Informationen zum Gebäude")),
+        card_body(
+          min_height = 200,
+          layout_column_wrap(
+            width = 1/2,
+            p(paste("Gebäudetyp:", selected_building$GKLASLang)),
+            p(paste("Baujahr:", selected_building$GBAUJ))
+          )
+        ),
+        lorem::ipsum(paragraphs = 3, sentences = 5)
+      )
     })
     
     # Render entrance information
     output$entrance_info <- renderUI({
       tagList(
+        h4("Heizung & Wasser"),
         p(paste("Wärmeerzeuger Heizung:", selected_building$GWAERZH1Lang)),
         p(paste("Energiequelle Heizung:", selected_building$GENH1Lang)),
         p(paste("Wärmeerzeuger Warmwasser:", selected_building$GWAERZW1Lang)),
@@ -71,6 +83,7 @@ app_server <- function(input, output, session) {
     
     # Conditionally render the apartment table only if data is available
     if (nrow(selected_apartments) > 0) {
+      h4("Informationen zu Wohnungen")
       output$apartment_table <- renderTable({
         # Check if WBEZ exists in the dataset
         if ("WBEZ" %in% names(selected_apartments)) {
@@ -96,6 +109,7 @@ app_server <- function(input, output, session) {
       })
     } else {
       output$apartment_info <- renderUI({
+        h4("Informationen zu Wohnungen")
         p("Keine Wohnungsinformationen verfügbar.")
       })
     }
