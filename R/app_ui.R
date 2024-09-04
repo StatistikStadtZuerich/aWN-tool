@@ -40,8 +40,6 @@ app_ui <- function(request) {
           # TEMPORARY OUTPUTS BEFORE MODULARIZATION
           uiOutput("building_info"),
           
-          uiOutput("entrance_info"),
-          
           uiOutput("apartment_info"),
           tableOutput("apartment_table")
         )
