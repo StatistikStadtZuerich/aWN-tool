@@ -33,38 +33,32 @@ app_server <- function(input, output, session) {
     
     # Render building information
     output$building_info <- renderUI({
-      tagList(
-        h4("Informationen zum Gebäude"),
-        p(paste("Gebäudetyp:", selected_building$GKLASLang)),
-        p(paste("Baujahr:", selected_building$GBAUJ)),
-        p(paste("Oberirdische Geschosse:", selected_building$GASTW)),
-        p(paste("Unterirdische Geschosse:", selected_building$GAZZI)),
-        p(paste("Zivilschutzraum:", selected_building$GSCHUTZRLang))
-      )
       bslib::card(
         height = 350,
         full_screen = TRUE,
-        bslib::card_header(h4("Informationen zum Gebäude")),
+        bslib::card_header(h4(paste("Informationen zum Gebäude mit EGID:", selected_building$EGID))),
         card_body(
           min_height = 200,
           layout_column_wrap(
             width = 1/2,
-            p(paste("Gebäudetyp:", selected_building$GKLASLang)),
-            p(paste("Baujahr:", selected_building$GBAUJ))
+            tagList(
+              h4("Allgemeine Informationen"),
+              p(paste("Gebäudetyp:", selected_building$GKLASLang)),
+              p(paste("Baujahr:", selected_building$GBAUJ)),
+              p(paste("Oberirdische Geschosse:", selected_building$GASTW)),
+              p(paste("Unterirdische Geschosse:", selected_building$GAZZI)),
+              p(paste("Zivilschutzraum:", selected_building$GSCHUTZRLang))
+            ),
+            tagList(
+              h4("Heizung & Wasser"),
+              p(paste("Wärmeerzeuger Heizung:", selected_building$GWAERZH1Lang)),
+              p(paste("Energiequelle Heizung:", selected_building$GENH1Lang)),
+              p(paste("Wärmeerzeuger Warmwasser:", selected_building$GWAERZW1Lang)),
+              p(paste("Energiequelle Warmwasser:", selected_building$GENW1Lang)),
+              p(paste("EGID:", selected_building$EGID))
+            )
           )
-        ),
-        lorem::ipsum(paragraphs = 3, sentences = 5)
-      )
-    })
-    
-    # Render entrance information
-    output$entrance_info <- renderUI({
-      tagList(
-        h4("Heizung & Wasser"),
-        p(paste("Wärmeerzeuger Heizung:", selected_building$GWAERZH1Lang)),
-        p(paste("Energiequelle Heizung:", selected_building$GENH1Lang)),
-        p(paste("Wärmeerzeuger Warmwasser:", selected_building$GWAERZW1Lang)),
-        p(paste("Energiequelle Warmwasser:", selected_building$GENW1Lang))
+        )
       )
     })
     
