@@ -44,7 +44,7 @@ app_server <- function(input, output, session) {
       bslib::card(
         height = 350,
         full_screen = TRUE,
-        card_header(h4("Informationen zum Gebäude")),
+        bslib::card_header(h4("Informationen zum Gebäude")),
         card_body(
           min_height = 200,
           layout_column_wrap(

@@ -20,5 +20,6 @@
 #' @import zuericssstyle
 
 ## usethis namespace: start
+#' @import bslib
 ## usethis namespace: end
 NULL
