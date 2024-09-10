@@ -7,40 +7,44 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_input_ui <- function(id) {
+mod_input_ui <- function(id, addresses) {
+  
   ns <- NS(id)
+  
   tagList(
+    
     # Select input for address
-    selectInput(ns("address"), "Select Address", choices = NULL),  # Choices will be populated in the server
+    sszAutocompleteInput(
+      ns("address"),
+      "Geben Sie eine Adresse ein",
+      unique(data$building_info$Address)
+    ),
     
     # Button to load data
-    actionButton(ns("load_data"), "Daten herunterladen"),
+    sszActionButton(ns("load_data"), "Abfrage starten")
     
-    # "Abfrage" action button
-    actionButton(ns("abfrage"), "Abfrage", class = "btn-primary")
   )
 }
 
 #' input Server Functions
 #'
 #' @noRd
-mod_input_server <- function(id, data) {  # Assuming 'data' is passed to the module
+mod_input_server <- function(id, data) {  
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
-    # Populate the address dropdown with sorted addresses
-    updateSelectizeInput(session, "address",
-                         choices = data$building_info$Address,
-                         server = TRUE)
+    # Needed for second query. We do later
+    # updateSelectizeInput(session, "address",
+    #                      choices = unique(data$building_info$Address),
+    #                      server = TRUE)
     
-    # Return the selected address and load_data status for further processing
     return(list(
       selected_address = reactive(input$address),
-      load_data_trigger = reactive(input$load_data),
-      abfrage_trigger = reactive(input$abfrage)  # Abfrage trigger
+      load_data_trigger = reactive(input$load_data)
     ))
   })
 }
+
 
 ## To be copied in the UI
 # mod_input_ui("input_module")

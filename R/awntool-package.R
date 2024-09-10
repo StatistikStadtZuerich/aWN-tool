@@ -2,6 +2,8 @@
 "_PACKAGE"
 #'
 #' @importFrom data.table fread
+#' @importFrom furrr future_map
+#' @import purrr
 #' @import dplyr
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @importFrom gtools mixedsort
@@ -18,5 +20,6 @@
 #' @import zuericssstyle
 
 ## usethis namespace: start
+#' @import bslib
 ## usethis namespace: end
 NULL

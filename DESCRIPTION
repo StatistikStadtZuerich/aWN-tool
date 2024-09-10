@@ -9,6 +9,7 @@ Authors@R:
 Description: What the package does (one paragraph).
 License: What license is it under?
 Imports: 
+    bslib,
     config (>= 0.3.2),
     data.table,
     dplyr,
@@ -20,6 +21,7 @@ Imports:
     knitr,
     openxlsx,
     pkgload,
+    purrr,
     reactable,
     readxl,
     shiny (>= 1.8.0),
