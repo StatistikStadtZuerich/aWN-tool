@@ -2,9 +2,9 @@
 "_PACKAGE"
 #'
 #' @importFrom data.table fread
+#' @importFrom furrr future_map
 #' @import purrr
 #' @import dplyr
-#' @import furrr
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @importFrom gtools mixedsort
 #' @import jpeg
