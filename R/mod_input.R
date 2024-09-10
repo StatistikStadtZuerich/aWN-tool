@@ -7,40 +7,38 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_input_ui <- function(id, addresses) {
-  
+mod_input_ui <- function(id) {
   ns <- NS(id)
-  
   tagList(
     
     # Select input for address
     sszAutocompleteInput(
       ns("address"),
       "Geben Sie eine Adresse ein",
-      unique(data$building_info$Address)
-    ),
-    
-    # Button to load data
-    sszActionButton(ns("load_data"), "Abfrage starten")
-    
+      unique(df_main$df_building$Address)
+    )
   )
 }
 
 #' input Server Functions
 #'
 #' @noRd
-mod_input_server <- function(id, data) {  
+mod_input_server <- function(id) {  
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
-    # Needed for second query. We do later
-    # updateSelectizeInput(session, "address",
-    #                      choices = unique(data$building_info$Address),
-    #                      server = TRUE)
+    # Filter Data
+    filtered_building <- reactive({
+      filter_input(df_main[["df_building"]], input$address)
+    })
+    
+    filtered_apartment <- reactive({
+      filter_input(df_main[["df_apartment"]], input$address)
+    })
     
     return(list(
-      selected_address = reactive(input$address),
-      load_data_trigger = reactive(input$load_data)
+      "filtered_building" = filtered_building,
+      "filtered_apartment" = filtered_apartment
     ))
   })
 }
