@@ -6,42 +6,20 @@
 #' 
 #' @return a named list of tibbles with zones, series, and addresses
 #' @noRd
-#' 
-#' 
-
 get_data <- function() {
   
-  # Apllying tryCatch
-  tryCatch(
-    expr = {
-      
-      # By default data is empty
-      data <- NULL
-      
-      # Specify URLS
-      URLs <- c(
-        "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeude.csv",
-        "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeudeeingaenge.csv",
-        "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_wohnungen.csv"
-      )
-      
-      # Parallelisation
-      data <- furrr::future_map(URLs, data_download)
-      
-    }, # Closing expr block
-    error = function(e) {
-      message("Error in Data Load: ", e)
-      return(NULL)
-    },
-    warning = function(w) {
-      message("Warning in Data Load: ", w)
-    }
-  ) # Closing tryCatch block
+  # By default data is empty
+  data <- NULL
   
-  # Check if any data download failed
-  if (any(sapply(data, is.null))) {
-    stop("One or more datasets failed to download.")
-  }
+  # Specify URLS
+  URLs <- c(
+    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeude.csv",
+    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeudeeingaenge.csv",
+    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_wohnungen.csv"
+  )
+  
+  # Parallelisation
+  data <- furrr::future_map(URLs, data_download)
   
   if (!is.null(data)) {
     ### Data Transformation
@@ -107,13 +85,10 @@ get_data <- function() {
     
     # Return the final transformed data
     return(list(
-      building_info = building_with_address,
-      apartment_info = transformed_apartments
+      df_building = building_with_address,
+      df_apartment = transformed_apartments
     ))
   }
-  
-} # Closing get_data function
+}
 
-data <- get_data()  
-
-
+df_main <- get_data()
