@@ -40,6 +40,7 @@ get_data <- function() {
     building_with_address <- filtered_gebaeude %>%
       left_join(eingang, by = "EGID") %>%  # Joining by EGID to get address data
       select(
+        EDID,                # Entrance identity
         EGID,                # Unique building ID
         STRNAME,             # Street Name
         DEINR,               # House Number
@@ -52,8 +53,12 @@ get_data <- function() {
         GSCHUTZRLang,        # Civil protection room
         GWAERZH1Lang,        # Heating system 1
         GENH1Lang,           # Energy source 1
+        GWAERZH2Lang,        # Heating system 2
+        GENH2Lang,           # Energy source 2
         GWAERZW1Lang,        # Warm water generator 1
-        GENW1Lang            # Energy source warm water 1
+        GENW1Lang,            # Energy source warm water 1
+        GWAERZW2Lang,        # Warm water generator 2
+        GENW2Lang            # Energy source warm water 2
       ) %>%
       mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
              Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
