@@ -72,7 +72,7 @@ get_data <- function() {
         EGID,                # Unique building ID (to join with building)
         WHGNR,               # Apartment number
         EWID,                # Apartment ID
-        WBEZ,                # location of the apartement
+        WBEZ,                # location of the apartment
         WSTWKLang,           # Floor
         WAZIM,               # Number of rooms
         WAREA,               # Living space in m2
