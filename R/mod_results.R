@@ -57,16 +57,26 @@ mod_results_server <- function(id, building_data, apartment_data) {
         output$entrance_info <- renderUI({
           bslib::card(
             full_screen = TRUE,
-            bslib::card_header(h3("Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen:")),
+            bslib::card_header(h3("Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Addressen:")),
             card_body(
-              tableOutput(ns("multiple_entrances_table")) # Display multiple entrances as a table
+              reactableOutput(ns("multiple_entrances_table"))  
             )
           )
         })
         
-        output$multiple_entrances_table <- renderTable({
-          building_multiple_entries %>%
-            select(EDID, Address)
+        output$multiple_entrances_table <- renderReactable({
+          reactable(
+            building_multiple_entries %>%
+              select( Address) %>%
+              rename(`Adresse` = Address),
+            columns = list(
+              `Adresse` = colDef(name = "Adresse")
+            ),
+            highlight = TRUE,
+            bordered = TRUE,
+            striped = TRUE,
+            resizable = TRUE
+          )
         })
       } else {
         # If no multiple entrances, clear the entrance info UI
