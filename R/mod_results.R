@@ -16,7 +16,7 @@ mod_results_ui <- function(id) {
     uiOutput(ns("entrance_info")),  # Add this line to include entrance info UI
     
     # Reactable Output with Apartment Infos
-    reactableOutput(ns("id_table"))
+    uiOutput(ns("id_table"))
   )
 }
 
@@ -55,11 +55,14 @@ mod_results_server <- function(id, building_data, apartment_data) {
       if (n_distinct(building_multiple_entries$EDID) > 1) {
         # If multiple entrances exist for the building, show the additional card for entrances
         output$entrance_info <- renderUI({
-          bslib::card(
-            full_screen = TRUE,
-            bslib::card_header(h3("Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Addressen:")),
-            card_body(
-              reactableOutput(ns("multiple_entrances_table"))  
+          tagList(
+            h4("Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen."),
+            p("Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingängen suchen, geben Sie diese Adresse ins Suchfeld links ein."),
+            bslib::card(
+              full_screen = TRUE,
+              bslib::card_body(
+                reactableOutput(ns("multiple_entrances_table"))  
+              )
             )
           )
         })
@@ -70,7 +73,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
               select( Address) %>%
               rename(`Adresse` = Address),
             columns = list(
-              `Adresse` = colDef(name = "Adresse")
+              `Adresse` = colDef(name = "Weitere Eingänge")
             ),
             highlight = TRUE,
             bordered = TRUE,
@@ -98,26 +101,29 @@ mod_results_server <- function(id, building_data, apartment_data) {
           arrange(aWN_korrigiert)
         
         # Render the table if apartments are present
-        output$id_table <- renderReactable({
-          reactable(
-            sorted_apartments %>%
-              select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang, Address) %>%
-              rename(
-                `Amtliche Wohnungsnummer` = WHGNR,
-                `EWID` = EWID,
-                `Stockwerk` = WSTWKLang,
-                `Lage Wohnung` = WBEZ,
-                `Zimmer` = WAZIM,
-                `Wohnfläche (m2)` = WAREA,
-                `Küchenausstattung` = WKCHELang,
-                `Adresse` = Address
-              )
+        output$id_table <- renderUI({
+          tagList(
+            h3("Informationen zu den Wohnungen"),
+            reactable(
+              sorted_apartments %>%
+                select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang, Address) %>%
+                rename(
+                  `Amtliche Wohnungsnummer` = WHGNR,
+                  `EWID` = EWID,
+                  `Stockwerk` = WSTWKLang,
+                  `Lage Wohnung` = WBEZ,
+                  `Zimmer` = WAZIM,
+                  `Wohnfläche (m2)` = WAREA,
+                  `Küchenausstattung` = WKCHELang,
+                  `Adresse` = Address
+                )
+            )
           )
         })
       } else {
         # Render a blank table or a message when no apartments are found
-        output$id_table <- renderReactable({
-          reactable(data.frame(Message = "In diesem Gebäude gibt es keine Wohnungen."))
+        output$id_table <- renderText({
+          "In diesem Gebäude gibt es keine Wohnungen."
         })
       }
     })
