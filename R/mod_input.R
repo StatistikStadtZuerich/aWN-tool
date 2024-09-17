@@ -29,11 +29,15 @@ mod_input_server <- function(id) {
     
     # Filter Data
     filtered_building <- reactive({
-      filter_input(df_main[["df_building"]], input$address)
+      req(input$address)  # Ensure address is selected
+      df_main[["df_building"]] %>%
+        filter(Address == input$address)
     })
     
     filtered_apartment <- reactive({
-      filter_input(df_main[["df_apartment"]], input$address)
+      req(input$address)  # Ensure address is selected
+      df_main[["df_apartment"]] %>%
+        filter(Address == input$address)
     })
     
     return(list(
@@ -42,7 +46,6 @@ mod_input_server <- function(id) {
     ))
   })
 }
-
 
 ## To be copied in the UI
 # mod_input_ui("input_module")

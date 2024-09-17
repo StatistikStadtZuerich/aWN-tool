@@ -14,7 +14,7 @@ get_card <- function(dataset, height, card_min_height, card_width) {
   bslib::card(
     height = height,
     full_screen = TRUE,
-    bslib::card_header(h2(paste("Informationen zum Gebäude mit EGID:", dataset$EGID))),
+    bslib::card_header(h2(paste("Informationen zum Gebäude mit der Adresse:", dataset$Address, "und EGID:", dataset$EGID))),
     card_body(
       min_height = card_min_height,
       layout_column_wrap(
@@ -29,14 +29,28 @@ get_card <- function(dataset, height, card_min_height, card_width) {
         ),
         tagList(
           h4("Heizung & Wasser"),
-          p(paste("Wärmeerzeuger Heizung:", dataset$GWAERZH1Lang)),
-          p(paste("Energiequelle Heizung:", dataset$GENH1Lang)),
-          p(paste("Wärmeerzeuger Warmwasser:", dataset$GWAERZW1Lang)),
-          p(paste("Energiequelle Warmwasser:", dataset$GENW1Lang))
+          p(paste("Wärmeerzeuger Heizung 1:", dataset$GWAERZH1Lang)),
+          p(paste("Energiequelle Heizung 1:", dataset$GENH1Lang)),
+          # Conditionally display Heizung 2 only if it's not empty
+          if (!is.na(dataset$GWAERZH2Lang) && dataset$GWAERZH2Lang != "") {
+            p(paste("Wärmeerzeuger Heizung 2:", dataset$GWAERZH2Lang))
+          },
+          if (!is.na(dataset$GENH2Lang) && dataset$GENH2Lang != "") {
+            p(paste("Energiequelle Heizung 2:", dataset$GENH2Lang))
+          },
+          p(paste("Wärmeerzeuger Warmwasser 1:", dataset$GWAERZW1Lang)),
+          p(paste("Energiequelle Warmwasser 1:", dataset$GENW1Lang)),
+          # Conditionally display Warmwasser 2 only if it's not empty
+          
+          if (!is.na(dataset$GWAERZW2Lang) && dataset$GWAERZW2Lang != "") {
+            p(paste("Wärmeerzeuger Warmwasser 2:", dataset$GWAERZW2Lang))
+          },
+          if (!is.na(dataset$GENW2Lang) && dataset$GENW2Lang != "") {
+            p(paste("Energiequelle Warmwasser 2:", dataset$GENW2Lang))
+          }
         )
       )
     )
   )
 }
-
 
