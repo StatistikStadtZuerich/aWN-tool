@@ -46,13 +46,20 @@ mod_results_server <- function(id, building_data, apartment_data) {
       
       # Get the EGID of the selected building address
       selected_egid <- building_data()$EGID[1]
+      selected_address <- building_data()$Address[1]
+      
+    
       
       # Filter building data to get all entries with the same EGID
       building_multiple_entries <- df_main[["df_building"]] %>%
         filter(EGID == selected_egid)
       
+      # Exclude the selected address
+      entrances_to_show <- building_multiple_entries %>%
+        filter(Address != selected_address)
+      
       # Check if there are multiple entrances (distinct EDIDs)
-      if (n_distinct(building_multiple_entries$EDID) > 1) {
+      if (n_distinct(entrances_to_show$EDID) > 1) {
         # If multiple entrances exist for the building, show the additional card for entrances
         output$entrance_info <- renderUI({
           tagList(
@@ -69,7 +76,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
         
         output$multiple_entrances_table <- renderReactable({
           reactable(
-            building_multiple_entries %>%
+            entrances_to_show  %>%
               select( Address) %>%
               rename(`Adresse` = Address),
             columns = list(
