@@ -41,13 +41,13 @@ app_ui <- function(request) {
           
           # Downloads
           conditionalPanel(
-            condition = "input.ActionButtonId>0",
-            h3("Daten herunterladen")
-            # mod_download_ui("download_1", ssz_icons, ogd_link)
+            condition = "input.ActionButtonId > 0",
+            h3("Daten herunterladen"),
+            mod_download_ui("download_1")  # Include the download module UI
           )
         ),
         
-        # Main Pnael: Outputs are placed here
+        # Main Panel: Outputs are placed here
         mainPanel(
           conditionalPanel(
             condition = "input.ActionButtonId>0",
