@@ -9,17 +9,24 @@
 #' @importFrom shiny NS tagList 
 mod_download_ui <- function(id) {
   ns <- NS(id)
+  
+  # Icons
+  ssz_icons <- icons::icon_set("inst/app/www/icons/")
+  
+  # Download Buttons
   tagList(
     tags$div(
       id = ns("downloadWrapperId"),
       class = "downloadWrapperDiv",
-      sszDownloadButton(
-        outputId = ns("csv_download"),
-        label = "csv"
-      ),
+      # sszDownloadButton(
+      #   outputId = ns("csv_download"),
+      #   label = "csv",
+      #   image = img(ssz_icons$download)
+      # ),
       sszDownloadButton(
         outputId = ns("excel_download"),
-        label = "xlsx"
+        label = "xlsx",
+        image = img(ssz_icons$download)
       ),
       sszOgdDownload(
         outputId = ns("ogd_download"),
@@ -62,15 +69,15 @@ mod_download_server <- function(id, building_data, apartment_data) {
     })
     
     # CSV Download
-    output$csv_download <- downloadHandler(
-      filename = function() {
-        paste0(address_for_filename(), "_", Sys.Date(), ".csv")
-      },
-      content = function(file) {
-        data_to_save <- data_for_download()$Building_Info  # Get the building info
-        write.csv(data_to_save, file, row.names = FALSE, na = "")
-      }
-    )
+    # output$csv_download <- downloadHandler(
+    #   filename = function() {
+    #     paste0(address_for_filename(), "_", Sys.Date(), ".csv")
+    #   },
+    #   content = function(file) {
+    #     data_to_save <- data_for_download()$Building_Info  # Get the building info
+    #     write.csv(data_to_save, file, row.names = FALSE, na = "")
+    #   }
+    # )
     
     # Excel Download
     output$excel_download <- downloadHandler(
