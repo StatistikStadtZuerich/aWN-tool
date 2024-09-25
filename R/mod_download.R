@@ -10,12 +10,26 @@
 mod_download_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    downloadButton(ns("csvDownload"), "Download CSV"),
-    downloadButton(ns("excelDownload"), "Download Excel")
+    tags$div(
+      id = ns("downloadWrapperId"),
+      class = "downloadWrapperDiv",
+      sszDownloadButton(
+        outputId = ns("csv_download"),
+        label = "csv"
+      ),
+      sszDownloadButton(
+        outputId = ns("excel_download"),
+        label = "xlsx"
+      ),
+      sszOgdDownload(
+        outputId = ns("ogd_download"),
+        label = "OGD",
+        href = "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell"
+      )
+    )
   )
 }
 
-    
 #' download Server Functions
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
@@ -41,7 +55,6 @@ mod_download_server <- function(id, building_data, apartment_data) {
       )
     })
     
-    
     # Get the selected address to use in the filename
     address_for_filename <- reactive({
       address <- building_data()$Address[1]  # Get the selected address
@@ -49,7 +62,7 @@ mod_download_server <- function(id, building_data, apartment_data) {
     })
     
     # CSV Download
-    output$csvDownload <- downloadHandler(
+    output$csv_download <- downloadHandler(
       filename = function() {
         paste0( address_for_filename(), "_", Sys.Date(), ".csv")
       },
@@ -60,20 +73,32 @@ mod_download_server <- function(id, building_data, apartment_data) {
     )
     
     # Excel Download
-    output$excelDownload <- downloadHandler(
+    output$excel_download <- downloadHandler(
       filename = function() {
         paste0(address_for_filename(), "_", Sys.Date(), ".xlsx")
       },
+      
       content = function(file) {
-        building_info <- data_for_download()$Building_Info  # Get the building info
-        apartment_info <- data_for_download()$Apartment_Info  # Get the apartment info
         
-        # Write each sheet to the Excel file
-        writexl::write_xlsx(list(Building_Info = building_info, Apartment_Info = apartment_info), file)
+        # Get the building and apartment data
+        building_info <- data_for_download()$Building_Info  
+        apartment_info <- data_for_download()$Apartment_Info  
+        
+        # Check if apartment data has rows
+        if (nrow(apartment_data()) > 0) {
+          # Both building and apartment data available
+          writexl::write_xlsx(list(Gebäudeinfos = building_info, 
+                                   Wohnungsinfos = apartment_info), 
+                              file)
+        } else {
+          # Only building data available
+          writexl::write_xlsx(list(Gebäudeinfos = building_info), file)
+        }
       }
     )
   })
 }
+
 ## To be copied in the UI
 # mod_download_ui("download_1")
 
