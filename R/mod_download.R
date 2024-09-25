@@ -64,7 +64,7 @@ mod_download_server <- function(id, building_data, apartment_data) {
     # CSV Download
     output$csv_download <- downloadHandler(
       filename = function() {
-        paste0( address_for_filename(), "_", Sys.Date(), ".csv")
+        paste0(address_for_filename(), "_", Sys.Date(), ".csv")
       },
       content = function(file) {
         data_to_save <- data_for_download()$Building_Info  # Get the building info
