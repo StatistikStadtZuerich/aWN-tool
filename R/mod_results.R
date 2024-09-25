@@ -111,18 +111,19 @@ mod_results_server <- function(id, building_data, apartment_data) {
             h3("Informationen zu den Wohnungen"),
             reactable(
               sorted_apartments %>%
-                select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang, Address) %>%
+                select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang) %>%
                 rename(
-                  `Amtliche Wohnungsnummer` = WHGNR,
+                  `aWN` = WHGNR,
                   `EWID` = EWID,
                   `Stockwerk` = WSTWKLang,
                   `Lage Wohnung` = WBEZ,
                   `Zimmer` = WAZIM,
                   `Wohnfläche (m2)` = WAREA,
-                  `Küchenausstattung` = WKCHELang,
-                  `Adresse` = Address
+                  `Küchenausstattung` = WKCHELang
                 )
-            )
+            ),
+            p("aWN = amtliche Wohnungsnummer"),
+            p ("EWID = Eidgenössischer Wohnungsidentifikator")
           )
         })
       } else {
