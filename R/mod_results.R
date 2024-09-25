@@ -48,8 +48,6 @@ mod_results_server <- function(id, building_data, apartment_data) {
       selected_egid <- building_data()$EGID[1]
       selected_address <- building_data()$Address[1]
       
-    
-      
       # Filter building data to get all entries with the same EGID
       building_multiple_entries <- df_main[["df_building"]] %>%
         filter(EGID == selected_egid)
