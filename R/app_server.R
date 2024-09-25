@@ -16,6 +16,7 @@ app_server <- function(input, output, session) {
     filtered_input$filtered_building,
     filtered_input$filtered_apartment
   )
+  
   # Download Module
   mod_download_server(
     "download_1",
