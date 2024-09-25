@@ -96,4 +96,4 @@ get_data <- function() {
   }
 }
 
-df_main <- get_data()
+# df_main <- get_data()
