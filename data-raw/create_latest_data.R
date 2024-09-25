@@ -5,9 +5,9 @@
 pkgload::load_all(helpers = FALSE, attach_testthat = FALSE)
 
 # get data and make Data Frames
-data <- get_data()
+df_main <- get_data()
 
-usethis::use_data(data,
+usethis::use_data(df_main,
                   overwrite = TRUE,
                   internal = TRUE
 )
