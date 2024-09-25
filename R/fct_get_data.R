@@ -6,42 +6,20 @@
 #' 
 #' @return a named list of tibbles with zones, series, and addresses
 #' @noRd
-#' 
-#' 
-
 get_data <- function() {
   
-  # Apllying tryCatch
-  tryCatch(
-    expr = {
-      
-      # By default data is empty
-      data <- NULL
-      
-      # Specify URLS
-      URLs <- c(
-        "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeude.csv",
-        "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeudeeingaenge.csv",
-        "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_wohnungen.csv"
-      )
-      
-      # Parallelisation
-      data <- furrr::future_map(URLs, data_download)
-      
-    }, # Closing expr block
-    error = function(e) {
-      message("Error in Data Load: ", e)
-      return(NULL)
-    },
-    warning = function(w) {
-      message("Warning in Data Load: ", w)
-    }
-  ) # Closing tryCatch block
+  # By default data is empty
+  data <- NULL
   
-  # Check if any data download failed
-  if (any(sapply(data, is.null))) {
-    stop("One or more datasets failed to download.")
-  }
+  # Specify URLS
+  URLs <- c(
+    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeude.csv",
+    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeudeeingaenge.csv",
+    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_wohnungen.csv"
+  )
+  
+  # Parallelisation
+  data <- furrr::future_map(URLs, data_download)
   
   if (!is.null(data)) {
     ### Data Transformation
@@ -62,6 +40,7 @@ get_data <- function() {
     building_with_address <- filtered_gebaeude %>%
       left_join(eingang, by = "EGID") %>%  # Joining by EGID to get address data
       select(
+        EDID,                # Entrance identity
         EGID,                # Unique building ID
         STRNAME,             # Street Name
         DEINR,               # House Number
@@ -74,8 +53,12 @@ get_data <- function() {
         GSCHUTZRLang,        # Civil protection room
         GWAERZH1Lang,        # Heating system 1
         GENH1Lang,           # Energy source 1
+        GWAERZH2Lang,        # Heating system 2
+        GENH2Lang,           # Energy source 2
         GWAERZW1Lang,        # Warm water generator 1
-        GENW1Lang            # Energy source warm water 1
+        GENW1Lang,            # Energy source warm water 1
+        GWAERZW2Lang,        # Warm water generator 2
+        GENW2Lang            # Energy source warm water 2
       ) %>%
       mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
              Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
@@ -89,7 +72,7 @@ get_data <- function() {
         EGID,                # Unique building ID (to join with building)
         WHGNR,               # Apartment number
         EWID,                # Apartment ID
-        WBEZ,                # location of the apartement
+        WBEZ,                # location of the apartment
         WSTWKLang,           # Floor
         WAZIM,               # Number of rooms
         WAREA,               # Living space in m2
@@ -107,13 +90,10 @@ get_data <- function() {
     
     # Return the final transformed data
     return(list(
-      building_info = building_with_address,
-      apartment_info = transformed_apartments
+      df_building = building_with_address,
+      df_apartment = transformed_apartments
     ))
   }
-  
-} # Closing get_data function
+}
 
-data <- get_data()  
-
-
+# df_main <- get_data()

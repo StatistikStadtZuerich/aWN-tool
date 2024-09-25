@@ -23,25 +23,36 @@ app_ui <- function(request) {
         hr()
       ),
       
-      
-      # Sidebar layout
+      # Sidebar: Input widgets are placed here
       sidebarLayout(
-        # Sidebar with inputs
         sidebarPanel(
-          mod_input_ui("input_module")  # Address input module
+          
+          # Input Module
+          mod_input_ui("input_module"),
+          
+          # Action Button
+          conditionalPanel(
+            condition = "input.ActionButtonId==0",
+            sszActionButton(
+              "ActionButtonId",
+              "Abfrage starten"
+            )
+          ),
+          
+          # Downloads
+          conditionalPanel(
+            condition = "input.ActionButtonId > 0",
+            h3("Daten herunterladen"),
+            mod_download_ui("download_1")  # Include the download module UI
+          )
         ),
         
-        # Main panel for outputs
+        # Main Panel: Outputs are placed here
         mainPanel(
-          
-          # tbd: call mod_result functions !!!!!
-          #mod_building_ui(id "asdf")
-          
-          # TEMPORARY OUTPUTS BEFORE MODULARIZATION
-          uiOutput("building_info"),
-          
-          uiOutput("apartment_info"),
-          tableOutput("apartment_table")
+          conditionalPanel(
+            condition = "input.ActionButtonId>0",
+            mod_results_ui("results_1")
+          )
         )
       )
     )

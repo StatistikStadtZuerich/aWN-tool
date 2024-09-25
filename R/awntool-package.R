@@ -7,6 +7,7 @@
 #' @import dplyr
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @importFrom gtools mixedsort
+#' @import icons
 #' @import jpeg
 #' @importFrom kableExtra kable_styling
 #' @importFrom knitr kable
