@@ -32,16 +32,16 @@ app_ui <- function(request) {
           
           # Action Button
           conditionalPanel(
-            condition = "input.ActionButtonId==0",
+            condition = "input['input_module-address'] == '' || input.ActionButtonId == 0",  # Show button if address is empty or ActionButtonId is 0
             sszActionButton(
               "ActionButtonId",
               "Abfrage starten"
             )
           ),
           
-          # Downloads
+          # Downloads (Appears only if both ActionButtonId > 0 and input_module_address is filled)
           conditionalPanel(
-            condition = "input.ActionButtonId > 0",
+            condition = "input.ActionButtonId > 0 && input['input_module-address'] !== null && input['input_module-address'] !== ''",  # Button clicked AND address filled properly
             h3("Daten herunterladen"),
             mod_download_ui("download_1")  # Include the download module UI
           )
@@ -50,7 +50,7 @@ app_ui <- function(request) {
         # Main Panel: Outputs are placed here
         mainPanel(
           conditionalPanel(
-            condition = "input.ActionButtonId>0",
+            condition = "input.ActionButtonId > 0",  # Show results if ActionButtonId > 0
             mod_results_ui("results_1")
           )
         )
