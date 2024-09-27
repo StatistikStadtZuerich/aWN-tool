@@ -2,19 +2,66 @@
 * aWN CSS settings
 *******************************/
 
-
-/* Entrace Info */
 .entraceDiv {
   margin-top: 40px;
 }
 
-.bslib-card {
+.info_na_icon {
+  display: flex;
+  align-items: flex-start;
+}
+
+.info_na_text {
+  padding-left: 16px;
+}
+
+.infoDiv {
   margin-top: 20px;
-  background-color: #ffffff; /* Changed to white background */
-  border: 1px solid #dee2e6;
+  padding: 20px;
+  background-color: #F2F2F2;
+}
+
+.bold-vars {
+  font-family: HelveticaNeueLTW05_85Heavy;
+}
+
+h6 {
+  font-family: HelveticaNeueLTW05_85Heavy;
+  color: #4D4D4D;
+  font-size: 14px;
+  line-height: 23px;
+  font-weight: 750;
+  margin-top: -1px;
+  margin-bottom: -0.5px;
+}
+
+h5 {
+  font-family: HelveticaNeueLTW05_85Heavy;
+  color: #0F05A0;
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 750;
+}
+
+.info_na_div {
+  font-size: 14px;
+  margin-top: 20px;
+  color: #4D4D4D;
+  padding: 16px;
+  display: flex;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border: 1px solid #e8e8e8;
+}
+
+/* Apply a uniform top margin for all cards */
+.bslib-card {
+  margin-top: 20px;  /* Same top margin for all cards */
+  background-color: #ffffff;
+  border: 1px solid #e8e8e8;
   padding-left: 20px;       
   padding-right: 20px;
-  padding-bottom:20px;
+  padding-bottom: 20px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   height: auto;
   overflow: hidden;
@@ -32,17 +79,69 @@
 }
 
 .bslib-card-body {
-  line-height: 1.5;
+  line-height: 1;
   padding-top: 10px;
+}
+
+.bslib-card .card-body p {
+  margin-top: 0;
+  font-size: 1.25rem;
 }
 
 .Reactable {
   margin-top: 20px;
 }
 
-@media (max-width: 768px) {
+/********************************
+* Media Queries for Mobile Devices
+*******************************/
+
+/* For screens 480px or smaller (small phones) */
+@media (max-width: 480px) {
+  .bslib-card {
+    padding-left: 10px; 
+    padding-right: 10px;
+    margin-top: 20px;  /* Adjust top margin for small devices */
+  }
+  
+  .bslib-grid {
+    row-gap: 0rem;
+  }
+  
+  .info_na_div {
+    margin-top: 20px;
+  }
+  
+  .infoDiv {
+    margin-top: 20px;
+  }
+}
+
+/* For screens between 481px and 768px (larger phones and small tablets) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .bslib-card {
+    padding-left: 15px; 
+    padding-right: 15px;
+    margin-top: 30px;  /* Adjust top margin for medium devices */
+  }
+  
+  .bslib-grid {
+    row-gap: 0rem;
+  }
+  
+  .info_na_div {
+    margin-top: 30px;
+  }
+  
+  .infoDiv {
+    margin-top: 30px;
+  }
+}
+
+/* For screens 768px and larger (tablets and above) */
+@media (min-width: 768px) {
   .bslib-card {
     width: 100%;
-    margin-bottom: 20px;
+    margin-top: 20px;  /* Keep consistent top margin for larger screens */
   }
 }
