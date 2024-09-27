@@ -34,8 +34,8 @@ mod_results_server <- function(id, building_data, apartment_data) {
     output$building_info <- renderUI({
       get_card(
         dataset = building_data(),
-        height = 300,
-        card_min_height = 200,
+        height = "auto",
+        card_min_height = "auto",
         card_width = 1 / 2
       )
     })
@@ -58,9 +58,11 @@ mod_results_server <- function(id, building_data, apartment_data) {
       
       # Check if there are multiple entrances (distinct EDIDs)
       if (n_distinct(entrances_to_show$EDID) > 1) {
+        
         # If multiple entrances exist for the building, show the additional card for entrances
         output$entrance_info <- renderUI({
-          tagList(
+          tags$div(
+            class = "entraceDiv",
             h4("Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen."),
             p("Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingängen suchen, geben Sie diese Adresse ins Suchfeld links ein."),
             bslib::card(
@@ -71,21 +73,21 @@ mod_results_server <- function(id, building_data, apartment_data) {
             )
           )
         })
-        
         output$multiple_entrances_table <- renderReactable({
           reactable(
             entrances_to_show  %>%
-              select( Address) %>%
+              select(Address) %>%
               rename(`Adresse` = Address),
             columns = list(
               `Adresse` = colDef(name = "Weitere Eingänge")
             ),
-            highlight = TRUE,
-            bordered = TRUE,
-            striped = TRUE,
-            resizable = TRUE
+            highlight = FALSE,
+            bordered = FALSE,
+            striped = FALSE,
+            resizable = FALSE
           )
         })
+        
       } else {
         # If no multiple entrances, clear the entrance info UI
         output$entrance_info <- renderUI({
@@ -108,22 +110,34 @@ mod_results_server <- function(id, building_data, apartment_data) {
         # Render the table if apartments are present
         output$id_table <- renderUI({
           tagList(
-            h3("Informationen zu den Wohnungen"),
-            reactable(
-              sorted_apartments %>%
-                select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang) %>%
-                rename(
-                  `aWN` = WHGNR,
-                  `EWID` = EWID,
-                  `Stockwerk` = WSTWKLang,
-                  `Lage Wohnung` = WBEZ,
-                  `Zimmer` = WAZIM,
-                  `Wohnfläche (m2)` = WAREA,
-                  `Küchenausstattung` = WKCHELang
-                )
+            bslib::card(
+              h3("Informationen zu den Wohnungen"),
+              reactable(
+                sorted_apartments %>%
+                  select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang) %>%
+                  rename(
+                    `aWN` = WHGNR,
+                    `EWID` = EWID,
+                    `Stockwerk` = WSTWKLang,
+                    `Lage Wohnung` = WBEZ,
+                    `Zimmer` = WAZIM,
+                    `Wohnfläche (m2)` = WAREA,
+                    `Küche` = WKCHELang
+                  ),
+                columns = list(
+                  `aWN` = colDef(minWidth  = 50),  # Small fixed width for aWN
+                  `EWID` = colDef(minWidth  = 50),  # Small fixed width for EWID
+                  `Stockwerk` = colDef(minWidth  = 100),  # Reasonable fixed width
+                  `Lage Wohnung` = colDef(minWidth  = 80),  # Reasonable fixed width
+                  `Zimmer` = colDef(minWidth  = 60),  # Small width
+                  `Wohnfläche (m2)` = colDef(),  # Larger width for Wohnfläche
+                  `Küchenausstattung` = colDef()  # Largest width for Küchenausstattung
+                ),
+                fullWidth = TRUE
+              )
             ),
             p("aWN = amtliche Wohnungsnummer"),
-            p ("EWID = Eidgenössischer Wohnungsidentifikator")
+            p("EWID = Eidgenössischer Wohnungsidentifikator")
           )
         })
       } else {
