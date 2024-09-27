@@ -19,7 +19,7 @@ get_data <- function() {
   )
   
   # Parallelisation
-  data <- furrr::future_map(URLs, data_download)
+  data <- furrr::future-map(URLs, \(x) data.table::fread(x, encoding = "UTF-8"))
   
   if (!is.null(data)) {
     ### Data Transformation
