@@ -15,6 +15,7 @@ app_ui <- function(request) {
       
       # TEMPORARY: until golem_add_external_resources() works
       includeCSS("inst/app/www/sszThemeShiny.css"),
+      includeCSS("inst/app/www/aWNTheme.css"),
       
       tags$div(
         class = "queryDiv",
