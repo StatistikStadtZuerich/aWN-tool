@@ -30,9 +30,9 @@ mod_results_server <- function(id, building_data, apartment_data) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     
-    # Building Infos
+    # Output for Building Infos
     output$building_info <- renderUI({
-      get_card(
+      get_building_card(
         dataset = building_data(),
         height = "auto",
         card_min_height = "auto",
@@ -40,7 +40,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
       )
     })
     
-    # Check for multiple entrances (i.e., multiple EDIDs for the same EGID)
+    # Output for Entrance Infos: Check for multiple entrances (i.e., multiple EDIDs for the same EGID)
     observeEvent(building_data(), {
       req(building_data())
       
@@ -61,33 +61,10 @@ mod_results_server <- function(id, building_data, apartment_data) {
         
         # If multiple entrances exist for the building, show the additional card for entrances
         output$entrance_info <- renderUI({
-          tags$div(
-            class = "entraceDiv",
-            h4("Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen."),
-            p("Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingängen suchen, geben Sie diese Adresse ins Suchfeld links ein."),
-            bslib::card(
-              full_screen = TRUE,
-              bslib::card_body(
-                reactableOutput(ns("multiple_entrances_table"))  
-              )
-            )
+          get_entrance_card(
+            dataset = entrances_to_show
           )
         })
-        output$multiple_entrances_table <- renderReactable({
-          reactable(
-            entrances_to_show  %>%
-              select(Address) %>%
-              rename(`Adresse` = Address),
-            columns = list(
-              `Adresse` = colDef(name = "Weitere Eingänge")
-            ),
-            highlight = FALSE,
-            bordered = FALSE,
-            striped = FALSE,
-            resizable = FALSE
-          )
-        })
-        
       } else {
         # If no multiple entrances, clear the entrance info UI
         output$entrance_info <- renderUI({
@@ -109,41 +86,15 @@ mod_results_server <- function(id, building_data, apartment_data) {
         
         # Render the table if apartments are present
         output$id_table <- renderUI({
-          tagList(
-            bslib::card(
-              h3("Informationen zu den Wohnungen"),
-              reactable(
-                sorted_apartments %>%
-                  select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang) %>%
-                  rename(
-                    `aWN` = WHGNR,
-                    `EWID` = EWID,
-                    `Stockwerk` = WSTWKLang,
-                    `Lage Wohnung` = WBEZ,
-                    `Zimmer` = WAZIM,
-                    `Wohnfläche (m2)` = WAREA,
-                    `Küche` = WKCHELang
-                  ),
-                columns = list(
-                  `aWN` = colDef(minWidth  = 50),  # Small fixed width for aWN
-                  `EWID` = colDef(minWidth  = 50),  # Small fixed width for EWID
-                  `Stockwerk` = colDef(minWidth  = 100),  # Reasonable fixed width
-                  `Lage Wohnung` = colDef(minWidth  = 80),  # Reasonable fixed width
-                  `Zimmer` = colDef(minWidth  = 60),  # Small width
-                  `Wohnfläche (m2)` = colDef(),  # Larger width for Wohnfläche
-                  `Küchenausstattung` = colDef()  # Largest width for Küchenausstattung
-                ),
-                fullWidth = TRUE
-              )
-            ),
-            p("aWN = amtliche Wohnungsnummer"),
-            p("EWID = Eidgenössischer Wohnungsidentifikator")
+          get_apartment_card(
+            dataset = sorted_apartments
           )
         })
       } else {
         # Render a blank table or a message when no apartments are found
-        output$id_table <- renderText({
-          "In diesem Gebäude gibt es keine Wohnungen."
+        output$id_table <- renderUI({
+          get_na_info(
+          )
         })
       }
     })
