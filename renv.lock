@@ -112,33 +112,6 @@
       ],
       "Hash": "d7421bb5dfeb2676b9e4a5a60c2fcfd2"
     },
-    "awntool": {
-      "Package": "aWNtool",
-      "Version": "0.0.0.9000",
-      "Source": "unknown",
-      "Requirements": [
-        "config",
-        "data.table",
-        "dplyr",
-        "furrr",
-        "golem",
-        "gtools",
-        "jpeg",
-        "kableExtra",
-        "knitr",
-        "openxlsx",
-        "pkgload",
-        "purrr",
-        "reactable",
-        "readxl",
-        "shiny",
-        "shinycssloaders",
-        "shinyjs",
-        "tidyr",
-        "zuericssstyle"
-      ],
-      "Hash": "ec51ed1d52ef19ba5a19b851622cbf63"
-    },
     "base64enc": {
       "Package": "base64enc",
       "Version": "0.1-3",
