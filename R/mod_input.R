@@ -15,7 +15,7 @@ mod_input_ui <- function(id) {
     sszAutocompleteInput(
       ns("address"),
       "Geben Sie eine Adresse ein",
-      unique(df_main$df_building$Adresse)
+      df_main$df_unique_addresses
     )
   )
 }
