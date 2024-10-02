@@ -19,26 +19,26 @@ get_data <- function() {
   )
   
   # Parallelisation
-  data <- furrr::future-map(URLs, \(x) data.table::fread(x, encoding = "UTF-8"))
+  data <- furrr::future_map(URLs, \(x) data.table::fread(x, encoding = "UTF-8"))
   
   if (!is.null(data)) {
     ### Data Transformation
     
     # Assuming the structure of data corresponds to the downloaded datasets
-    gebaeude <- data[[1]]  # First dataset
-    eingang <- data[[2]]   # Second dataset
-    wohnung <- data[[3]]   # Third dataset
+    gebaeude <- data[[1]]
+    eingang <- data[[2]]
+    wohnung <- data[[3]]
     
     # Filter based on yellow-highlighted variables 
-    filtered_gebaeude <- gebaeude %>%
+    filtered_gebaeude <- gebaeude |>
       filter(GSTATLang == "Bestehend",
              GDEKT == "ZH",
              GGDENR == 261,
              GGDENAME == "Zürich")  
     
     # Select and transform the data needed for building infroamtion
-    building_with_address <- filtered_gebaeude %>%
-      left_join(eingang, by = "EGID") %>%  # Joining by EGID to get address data
+    building_with_address <- filtered_gebaeude |>
+      left_join(eingang, by = "EGID") |>
       select(
         EDID,                # Entrance identity
         EGID,                # Unique building ID
@@ -59,15 +59,30 @@ get_data <- function() {
         GENW1Lang,            # Energy source warm water 1
         GWAERZW2Lang,        # Warm water generator 2
         GENW2Lang            # Energy source warm water 2
-      ) %>%
+      ) |>
       mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
-             Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
-      ) %>% 
-      unique() %>%
-      arrange(STRNAME, DEINR_numeric, DEINR)
+             Adresse = paste(STRNAME, DEINR,  sep = " ")
+      ) |> 
+      unique() |>
+      arrange(STRNAME, DEINR_numeric, DEINR) |> 
+      rename(
+        `Gebäudetyp` = GKLASLang,
+        `Baujahr` = GBAUJ,
+        `Oberirdische Geschosse` = GASTW,
+        `Unterirdische Geschosse` = GAZZI,
+        `Zivilschutzraum` = GSCHUTZRLang,
+        `Wärmeerzeuger Heizung 1` = GWAERZH1Lang,
+        `Energiequelle Heizung 1` = GENH1Lang,
+        `Wärmeerzeuger Warmwasser 1` = GWAERZW1Lang,
+        `Energiequelle Warmwasser 1` = GENW1Lang,
+        `Wärmeerzeuger Heizung 2` = GWAERZH2Lang,
+        `Energiequelle Heizung 2` = GENH2Lang,
+        `Wärmeerzeuger Warmwasser 2` = GWAERZW2Lang,
+        `Energiequelle Warmwasser 2` = GENW2Lang
+      )
     
     # Select and transform the data for apartments
-    transformed_apartments <- wohnung %>%
+    transformed_apartments <- wohnung |>
       select(
         EGID,                # Unique building ID (to join with building)
         WHGNR,               # Apartment number
@@ -81,12 +96,23 @@ get_data <- function() {
         DEINR,               # House Number
         DPLZ4,               # Postal Code
         DPLZNAME             # City
-      ) %>%
+      ) |>
       mutate(DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
-             Address = paste(STRNAME, DEINR,  sep = " ")  # Create a full address
-      ) %>%
-      unique() %>%
-      arrange(STRNAME, DEINR_numeric, DEINR)
+             Adresse = paste(STRNAME, DEINR,  sep = " ")
+      ) |>
+      unique() |>
+      mutate(awn = as.numeric(WHGNR),
+             aWN_korrigiert = ifelse(awn >= 9800 & awn <= 9999, awn - 10000, awn)) |>
+      arrange(STRNAME, DEINR_numeric, DEINR, EGID, aWN_korrigiert) |> 
+      rename(
+        `aWN` = WHGNR,
+        `EWID` = EWID,
+        `Stockwerk` = WSTWKLang,
+        `Lage Wohnung` = WBEZ,
+        `Zimmer` = WAZIM,
+        `Wohnfläche (m2)` = WAREA,
+        `Küche` = WKCHELang
+      )
     
     # Return the final transformed data
     return(list(
@@ -95,5 +121,3 @@ get_data <- function() {
     ))
   }
 }
-
-# df_main <- get_data()
