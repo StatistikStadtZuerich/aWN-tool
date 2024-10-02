@@ -13,14 +13,15 @@ app_server <- function(input, output, session) {
   # Result Module
   mod_results_server(
     "results_1",
-    filtered_input$filtered_building,
-    filtered_input$filtered_apartment
+    building_data = filtered_input$filtered_building,
+    apartment_data = filtered_input$filtered_apartment
   )
   
   # Download Module
   mod_download_server(
     "download_1",
-    filtered_input$filtered_building, 
-    filtered_input$filtered_apartment  
+    building_data = filtered_input$filtered_building,
+    apartment_data = filtered_input$filtered_apartment,
+    fct_create_excel = ssz_download_excel
   )
 }
