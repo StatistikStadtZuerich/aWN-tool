@@ -31,14 +31,17 @@ get_data <- function() {
     
     # Filter based on yellow-highlighted variables 
     filtered_gebaeude <- gebaeude |>
-      filter(GSTATLang == "Bestehend",
-             GDEKT == "ZH",
+      filter(GDEKT == "ZH",
              GGDENR == 261,
-             GGDENAME == "Zürich")  
+             GGDENAME == "Zürich",
+             GSTAT == 1004)  
+    
+    filtered_wohnungen <- wohnung |> 
+      filter(WSTAT == 3004)
     
     # Select and transform the data needed for building infroamtion
     building_with_address <- filtered_gebaeude |>
-      left_join(eingang, by = "EGID") |>
+      left_join(filtered_wohnungen, by = "EGID") |>
       select(
         EDID,                # Entrance identity
         EGID,                # Unique building ID
@@ -46,6 +49,7 @@ get_data <- function() {
         DEINR,               # House Number
         DPLZ4,               # Postal Code
         DPLZNAME,            # City
+        GSTAT,
         GBAUJ,               # Building year
         GKLASLang,           # Building class
         GASTW,               # Number of floors
@@ -82,11 +86,12 @@ get_data <- function() {
       )
     
     # Select and transform the data for apartments
-    transformed_apartments <- wohnung |>
+    transformed_apartments <- filtered_wohnungen |>
       select(
         EGID,                # Unique building ID (to join with building)
         WHGNR,               # Apartment number
         EWID,                # Apartment ID
+        WSTAT,
         WBEZ,                # location of the apartment
         WSTWKLang,           # Floor
         WAZIM,               # Number of rooms
