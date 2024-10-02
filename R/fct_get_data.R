@@ -119,10 +119,14 @@ get_data <- function() {
         `Küche` = WKCHELang
       )
     
+    # Select unique addresses
+    unique_addresses <- unique(building_with_address$Adresse)
+    
     # Return the final transformed data
     return(list(
       df_building = building_with_address,
-      df_apartment = transformed_apartments
+      df_apartment = transformed_apartments,
+      df_unique_addresses = unique_addresses
     ))
   }
 }
