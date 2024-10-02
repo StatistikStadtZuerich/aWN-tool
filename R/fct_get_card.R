@@ -19,7 +19,7 @@ get_building_card <- function(dataset,
                               title_1 = "Allgemeine Informationen",
                               title_2 = "Heizung & Wasser") {
   tagList(
-    h2(paste0(dataset$Address, " (EGID", dataset$EGID, ")")),
+    h2(paste0(dataset$Adresse, " (EGID ", dataset$EGID, ")")),
     
     # Wrap the cards in a two-column layout
     layout_column_wrap(
@@ -31,11 +31,11 @@ get_building_card <- function(dataset,
         bslib::card_header(h2(title_1)),
         card_body(
           min_height = card_min_height,
-          p(HTML(paste("Gebäudetyp:", "<span class='bold-vars'>", dataset$GKLASLang, "</span>"))),
-          p(HTML(paste("Baujahr:", "<span class='bold-vars'>", dataset$GBAUJ, "</span>"))),
-          p(HTML(paste("Oberirdische Geschosse:", "<span class='bold-vars'>", dataset$GASTW, "</span>"))),
-          p(HTML(paste("Unterirdische Geschosse:", "<span class='bold-vars'>", dataset$GAZZI, "</span>"))),
-          p(HTML(paste("Zivilschutzraum:", "<span class='bold-vars'>", dataset$GSCHUTZRLang, "</span>")))
+          p(HTML(paste("Gebäudetyp:", "<span class='bold-vars'>", dataset$Gebäudetyp, "</span>"))),
+          p(HTML(paste("Baujahr:", "<span class='bold-vars'>", dataset$Baujahr, "</span>"))),
+          p(HTML(paste("Oberirdische Geschosse:", "<span class='bold-vars'>", dataset$`Oberirdische Geschosse`, "</span>"))),
+          p(HTML(paste("Unterirdische Geschosse:", "<span class='bold-vars'>", dataset$`Unterirdische Geschosse`, "</span>"))),
+          p(HTML(paste("Zivilschutzraum:", "<span class='bold-vars'>", dataset$Zivilschutzraum, "</span>")))
         )
       ),
       
@@ -45,21 +45,21 @@ get_building_card <- function(dataset,
         bslib::card_header(h2(title_2)),
         card_body(
           min_height = card_min_height,
-          p(HTML(paste("Wärmeerzeuger Heizung 1:", "<span class='bold-vars'>", dataset$GWAERZH1Lang, "</span>"))),
-          p(HTML(paste("Energiequelle Heizung 1:", "<span class='bold-vars'>", dataset$GENH1Lang, "</span>"))),
-          if (!is.na(dataset$GWAERZH2Lang) && dataset$GWAERZH2Lang != "") {
-            p(HTML(paste("Wärmeerzeuger Heizung 2:", "<span class='bold-vars'>", dataset$GWAERZH2Lang, "</span>")))
+          p(HTML(paste("Wärmeerzeuger Heizung 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 1`, "</span>"))),
+          p(HTML(paste("Energiequelle Heizung 1:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 1`, "</span>"))),
+          if (!is.na(dataset$`Wärmeerzeuger Heizung 2`) && dataset$`Wärmeerzeuger Heizung 2` != "") {
+            p(HTML(paste("Wärmeerzeuger Heizung 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 2`, "</span>")))
           },
-          if (!is.na(dataset$GENH2Lang) && dataset$GENH2Lang != "") {
-            p(HTML(paste("Energiequelle Heizung 2:", "<span class='bold-vars'>", dataset$GENH2Lang, "</span>")))
+          if (!is.na(dataset$`Energiequelle Heizung 2`) && dataset$`Energiequelle Heizung 2` != "") {
+            p(HTML(paste("Energiequelle Heizung 2:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 2`, "</span>")))
           },
-          p(HTML(paste("Wärmeerzeuger Warmwasser 1:", "<span class='bold-vars'>", dataset$GWAERZW1Lang, "</span>"))),
-          p(HTML(paste("Energiequelle Warmwasser 1:", "<span class='bold-vars'>", dataset$GENW1Lang, "</span>"))),
-          if (!is.na(dataset$GWAERZW2Lang) && dataset$GWAERZW2Lang != "") {
-            p(HTML(paste("Wärmeerzeuger Warmwasser 2:", "<span class='bold-vars'>", dataset$GWAERZW2Lang, "</span>")))
+          p(HTML(paste("Wärmeerzeuger Warmwasser 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 1`, "</span>"))),
+          p(HTML(paste("Energiequelle Warmwasser 1:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 1`, "</span>"))),
+          if (!is.na(dataset$`Wärmeerzeuger Warmwasser 2`) && dataset$`Wärmeerzeuger Warmwasser 2` != "") {
+            p(HTML(paste("Wärmeerzeuger Warmwasser 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 2`, "</span>")))
           },
-          if (!is.na(dataset$GENW2Lang) && dataset$GENW2Lang != "") {
-            p(HTML(paste("Energiequelle Warmwasser 2:", "<span class='bold-vars'>", dataset$GENW2Lang, "</span>")))
+          if (!is.na(dataset$`Energiequelle Warmwasser 2`) && dataset$`Energiequelle Warmwasser 2` != "") {
+            p(HTML(paste("Energiequelle Warmwasser 2:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 2`, "</span>")))
           }
         )
       )
@@ -95,8 +95,7 @@ get_entrance_card <- function(dataset,
         p(text),
           reactable(
             dataset  %>%
-              select(Address) %>%
-              rename(`Adresse` = Address),
+              select(Adresse),
             columns = list(
               `Adresse` = colDef(name = "Weitere Eingänge")
             ),
@@ -128,25 +127,27 @@ get_apartment_card <- function(dataset = sorted_apartments,
       bslib::card_header(h2(title)),
       reactable(
         dataset %>%
-          select(WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang) %>%
-          rename(
-            `aWN` = WHGNR,
-            `EWID` = EWID,
-            `Stockwerk` = WSTWKLang,
-            `Lage Wohnung` = WBEZ,
-            `Zimmer` = WAZIM,
-            `Wohnfläche (m2)` = WAREA,
-            `Küche` = WKCHELang
-          ),
+          select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Küche),
         columns = list(
-          `aWN` = colDef(minWidth  = 50), 
-          `EWID` = colDef(minWidth  = 50),
-          `Stockwerk` = colDef(minWidth  = 100), 
-          `Lage Wohnung` = colDef(minWidth  = 80), 
-          `Zimmer` = colDef(minWidth  = 60),  
-          `Wohnfläche (m2)` = colDef(), 
-          `Küche` = colDef()
+          aWN = colDef(name = "aWN", minWidth = 50), 
+          EWID = colDef(minWidth = 50),
+          Stockwerk = colDef(name = "Stockwerk", minWidth = 100), 
+          `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 80), 
+          Zimmer = colDef(name = "Zimmer", minWidth = 60),  
+          `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)"), 
+          Küche = colDef(name = "Küche")
         ),
+        paginationType = "simple",
+        language = reactableLang(
+          noData = "Keine Einträge gefunden",
+          pageNumbers = "{page} von {pages}",
+          pageInfo = "{rowStart} bis {rowEnd} von {rows} Einträgen",
+          pagePrevious = "\u276e",
+          pageNext = "\u276f",
+          pagePreviousLabel = "Vorherige Seite",
+          pageNextLabel = "Nächste Seite"
+        ),
+        defaultPageSize = 10,
         fullWidth = TRUE
       )
     ),
