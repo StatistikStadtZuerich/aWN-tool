@@ -18,11 +18,6 @@ mod_download_ui <- function(id) {
     tags$div(
       id = ns("downloadWrapperId"),
       class = "downloadWrapperDiv",
-      # sszDownloadButton(
-      #   outputId = ns("csv_download"),
-      #   label = "csv",
-      #   image = img(ssz_icons$download)
-      # ),
       sszDownloadButton(
         outputId = ns("excel_download"),
         label = "xlsx",
@@ -51,40 +46,18 @@ mod_download_server <- function(id, building_data, apartment_data, fct_create_ex
     data_for_download <- reactive({
       
       # Data with Building Infos
-      building_info <- building_data() %>%
-        select(Address, EGID, GKLASLang, GBAUJ, GASTW, GAZZI, GSCHUTZRLang, GWAERZH1Lang, GENH1Lang, GWAERZW1Lang, GENW1Lang) |> 
-        rename(
-          `Adresse` = Address,
-          `Gebäudetyp` = GKLASLang,
-          `Baujahr` = GBAUJ,
-          `Oberirdische Geschosse` = GASTW,
-          `Unterirdische Geschosse` = GAZZI,
-          `Zivilschutzraum` = GSCHUTZRLang,
-          `Wärmeerzeuger Heizung 1` = GWAERZH1Lang,
-          `Energiequelle Heizung 1` = GENH1Lang,
-          `Wärmeerzeuger Warmwasser 1` = GWAERZW1Lang,
-          `Energiequelle Warmwasser 1` = GENW1Lang
-        )
+      building_info <- building_data() |> 
+        select(Adresse, EGID, Gebäudetyp, Baujahr, `Oberirdische Geschosse`, `Unterirdische Geschosse`, `Zivilschutzraum`, `Wärmeerzeuger Heizung 1`, `Energiequelle Heizung 1`, `Wärmeerzeuger Warmwasser 1`, `Energiequelle Warmwasser 1`)
       
       # Data with Aparment Infos
-      apartment_info <- apartment_data() %>%
-        select(Address, WHGNR, EWID, WSTWKLang, WBEZ, WAZIM, WAREA, WKCHELang) |> 
-        rename(
-          `Adresse` = Address,
-          `aWN` = WHGNR,
-          `EWID` = EWID,
-          `Stockwerk` = WSTWKLang,
-          `Lage Wohnung` = WBEZ,
-          `Zimmer` = WAZIM,
-          `Wohnfläche (m2)` = WAREA,
-          `Küche` = WKCHELang
-        )
+      apartment_info <- apartment_data() |>
+        select(Adresse, aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Küche) 
       
       # Number of Aparments
       number_aparments <- nrow(apartment_info)
       
       # Address
-      address <- building_data()$Address[1]
+      address <- building_data()$Adresse[1]
       
       # Combine the building and apartment data
       list(
