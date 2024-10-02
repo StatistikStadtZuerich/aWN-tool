@@ -9,7 +9,6 @@ app_server <- function(input, output, session) {
   # Input Module returns filtered Data
   filtered_input <- mod_input_server("input_module")
 
-  
   # Result Module
   mod_results_server(
     "results_1",
