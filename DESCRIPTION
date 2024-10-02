@@ -16,7 +16,7 @@ Imports:
     furrr,
     golem (>= 0.4.1),
     gtools,
-    icons,
+    icons (>= 0.2.0),
     jpeg,
     kableExtra,
     knitr,
@@ -35,3 +35,5 @@ LazyData: true
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 2.10)
+Remotes:  
+    github::mitchelloharawild/icons
