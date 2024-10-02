@@ -49,11 +49,11 @@ mod_results_server <- function(id, building_data, apartment_data) {
       selected_address <- building_data()$Address[1]
       
       # Filter building data to get all entries with the same EGID
-      building_multiple_entries <- df_main[["df_building"]] %>%
+      building_multiple_entries <- df_main[["df_building"]] |>
         filter(EGID == selected_egid)
       
       # Exclude the selected address
-      entrances_to_show <- building_multiple_entries %>%
+      entrances_to_show <- building_multiple_entries |>
         filter(Address != selected_address)
       
       # Check if there are multiple entrances (distinct EDIDs)
@@ -79,9 +79,9 @@ mod_results_server <- function(id, building_data, apartment_data) {
       
       if (nrow(apartment_data()) > 0) {
         # Sort the apartments by aWN_korrigiert (if necessary)
-        sorted_apartments <- apartment_data() %>%
-          mutate(awn = as.numeric(WHGNR)) %>%
-          mutate(aWN_korrigiert = ifelse(awn >= 9800 & awn <= 9999, awn - 10000, awn)) %>%
+        sorted_apartments <- apartment_data() |> 
+          mutate(awn = as.numeric(WHGNR)) |>
+          mutate(aWN_korrigiert = ifelse(awn >= 9800 & awn <= 9999, awn - 10000, awn)) |>
           arrange(aWN_korrigiert)
         
         # Render the table if apartments are present
