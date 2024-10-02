@@ -10,7 +10,7 @@
 mod_input_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    
+
     # Select input for address
     sszAutocompleteInput(
       ns("address"),
@@ -23,23 +23,23 @@ mod_input_ui <- function(id) {
 #' input Server Functions
 #'
 #' @noRd
-mod_input_server <- function(id) {  
+mod_input_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
+
     # Filter Data
     filtered_building <- reactive({
-      req(input$address)  # Ensure address is selected
-      df_main[["df_building"]] |> 
+      req(input$address) # Ensure address is selected
+      df_main[["df_building"]] |>
         filter(Adresse == input$address)
     })
-    
+
     filtered_apartment <- reactive({
-      req(input$address)  # Ensure address is selected
+      req(input$address) # Ensure address is selected
       df_main[["df_apartment"]] |>
         filter(Adresse == input$address)
     })
-    
+
     return(list(
       "filtered_building" = filtered_building,
       "filtered_apartment" = filtered_apartment

@@ -12,19 +12,19 @@
 #' @return BsLib Card Object
 #'
 #' @noRd
-get_building_card <- function(dataset, 
-                              height, 
-                              card_min_height, 
+get_building_card <- function(dataset,
+                              height,
+                              card_min_height,
                               card_width,
                               title_1 = "Allgemeine Informationen",
                               title_2 = "Heizung & Wasser") {
   tagList(
     h2(paste0(dataset$Adresse, " (EGID ", dataset$EGID, ")")),
-    
+
     # Wrap the cards in a two-column layout
     layout_column_wrap(
-      width = 1/2,
-      
+      width = 1 / 2,
+
       # Card for "Allgemeine Informationen"
       bslib::card(
         height = "auto",
@@ -38,7 +38,7 @@ get_building_card <- function(dataset,
           p(HTML(paste("Zivilschutzraum:", "<span class='bold-vars'>", dataset$Zivilschutzraum, "</span>")))
         )
       ),
-      
+
       # Card for "Heizung & Wasser"
       bslib::card(
         height = "auto",
@@ -93,16 +93,16 @@ get_entrance_card <- function(dataset,
         class = "info_na_text",
         h6(title),
         p(text),
-          reactable(
-            dataset  %>%
-              select(Adresse),
-            columns = list(
-              `Adresse` = colDef(name = "Weitere Eingänge")
-            ),
-            highlight = FALSE,
-            bordered = FALSE,
-            striped = FALSE,
-            resizable = FALSE
+        reactable(
+          dataset %>%
+            select(Adresse),
+          columns = list(
+            `Adresse` = colDef(name = "Weitere Eingänge")
+          ),
+          highlight = FALSE,
+          bordered = FALSE,
+          striped = FALSE,
+          resizable = FALSE
         )
       )
     )
@@ -120,7 +120,7 @@ get_entrance_card <- function(dataset,
 #' @return BsLib Card Object
 #'
 #' @noRd
-get_apartment_card <- function(dataset = sorted_apartments, 
+get_apartment_card <- function(dataset = sorted_apartments,
                                title = "Informationen zu den Wohnungen") {
   tagList(
     bslib::card(
@@ -129,12 +129,12 @@ get_apartment_card <- function(dataset = sorted_apartments,
         dataset %>%
           select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Küche),
         columns = list(
-          aWN = colDef(name = "aWN", minWidth = 50), 
+          aWN = colDef(name = "aWN", minWidth = 50),
           EWID = colDef(minWidth = 50),
-          Stockwerk = colDef(name = "Stockwerk", minWidth = 100), 
-          `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 80), 
-          Zimmer = colDef(name = "Zimmer", minWidth = 60),  
-          `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)"), 
+          Stockwerk = colDef(name = "Stockwerk", minWidth = 100),
+          `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 80),
+          Zimmer = colDef(name = "Zimmer", minWidth = 60),
+          `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)"),
           Küche = colDef(name = "Küche")
         ),
         paginationType = "simple",
@@ -160,4 +160,3 @@ get_apartment_card <- function(dataset = sorted_apartments,
     )
   )
 }
-

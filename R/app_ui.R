@@ -5,53 +5,51 @@
 #' @import shiny
 #' @noRd
 app_ui <- function(request) {
-  
   tagList(
     # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
-    
+
     # Page layout
     fluidPage(
-      
+
       # TEMPORARY: until golem_add_external_resources() works
       includeCSS("inst/app/www/sszThemeShiny.css"),
       includeCSS("inst/app/www/aWNTheme.css"),
-      
       tags$div(
         class = "queryDiv",
         h1("Wählen Sie eine Adresse"),
         p("Mit dieser Applikation können Sie Abfragen zu den amtlichen Wohnungsnummern in der Stadt Zürich machen."),
         hr()
       ),
-      
+
       # Sidebar: Input widgets are placed here
       sidebarLayout(
         sidebarPanel(
-          
+
           # Input Module
           mod_input_ui("input_module"),
-          
+
           # Action Button
           conditionalPanel(
-            condition = "input['input_module-address'] == '' || input.ActionButtonId == 0",  # Show button if address is empty or ActionButtonId is 0
+            condition = "input['input_module-address'] == '' || input.ActionButtonId == 0", # Show button if address is empty or ActionButtonId is 0
             sszActionButton(
               "ActionButtonId",
               "Abfrage starten"
             )
           ),
-          
+
           # Downloads (Appears only if both ActionButtonId > 0 and input_module_address is filled)
           conditionalPanel(
-            condition = "input.ActionButtonId > 0 && input['input_module-address'] !== null && input['input_module-address'] !== ''",  # Button clicked AND address filled properly
+            condition = "input.ActionButtonId > 0 && input['input_module-address'] !== null && input['input_module-address'] !== ''", # Button clicked AND address filled properly
             h3("Daten herunterladen"),
-            mod_download_ui("download_1")  # Include the download module UI
+            mod_download_ui("download_1") # Include the download module UI
           )
         ),
-        
+
         # Main Panel: Outputs are placed here
         mainPanel(
           conditionalPanel(
-            condition = "input.ActionButtonId > 0",  # Show results if ActionButtonId > 0
+            condition = "input.ActionButtonId > 0", # Show results if ActionButtonId > 0
             mod_results_ui("results_1")
           )
         )
@@ -59,30 +57,28 @@ app_ui <- function(request) {
     )
   )
 }
-  
-  #' Add external Resources to the Application
-  #'
-  #' This function is internally used to add external
-  #' resources inside the Shiny application.
-  #'
-  #' @import shiny
-  #' @importFrom golem add_resource_path activate_js favicon bundle_resources
-  #' @noRd
-  golem_add_external_resources <- function() {
-    add_resource_path(
-      "www",
-      app_sys("app/www")
-    )
-    
-    tags$head(
-      favicon(),
-      bundle_resources(
-        path = app_sys("app/www"),
-        app_title = "aWNtool"
-      ),
-      # Example for adding ShinyJS (if needed)
-      shinyjs::useShinyjs(debug = TRUE)
-    )
-  }
-  
-  
+
+#' Add external Resources to the Application
+#'
+#' This function is internally used to add external
+#' resources inside the Shiny application.
+#'
+#' @import shiny
+#' @importFrom golem add_resource_path activate_js favicon bundle_resources
+#' @noRd
+golem_add_external_resources <- function() {
+  add_resource_path(
+    "www",
+    app_sys("app/www")
+  )
+
+  tags$head(
+    favicon(),
+    bundle_resources(
+      path = app_sys("app/www"),
+      app_title = "aWNtool"
+    ),
+    # Example for adding ShinyJS (if needed)
+    shinyjs::useShinyjs(debug = TRUE)
+  )
+}

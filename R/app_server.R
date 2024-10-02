@@ -5,7 +5,6 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
-  
   # Input Module returns filtered Data
   filtered_input <- mod_input_server("input_module")
 
@@ -15,7 +14,7 @@ app_server <- function(input, output, session) {
     building_data = filtered_input$filtered_building,
     apartment_data = filtered_input$filtered_apartment
   )
-  
+
   # Download Module
   mod_download_server(
     "download_1",

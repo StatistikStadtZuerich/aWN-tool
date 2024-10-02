@@ -24,4 +24,3 @@ get_na_info <- function(title = "Info",
     )
   )
 }
-
