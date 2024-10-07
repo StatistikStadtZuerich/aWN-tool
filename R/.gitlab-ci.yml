@@ -45,6 +45,6 @@ deploy-job-prod:
   before_script:
     - Rscript -e "renv::restore()"
   script:
-    - Rscript -e "renv::restore()"
+    - Rscript -e "renv::status()"
     #- Rscript -e "source('data-raw/create_latest_data.R')"
     - Rscript -e "source('dev/deploy.R')"
