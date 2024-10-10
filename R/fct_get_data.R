@@ -42,7 +42,7 @@ get_data <- function() {
     
     # Select and transform the data needed for building infroamtion
     building_with_address <- filtered_gebaeude |>
-      left_join(filtered_wohnungen, by = "EGID") |>
+      left_join(eingang, by = "EGID") |>
       select(
         EDID, # Entrance identity
         EGID, # Unique building ID
@@ -69,7 +69,6 @@ get_data <- function() {
         DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
         Adresse = paste(STRNAME, DEINR, sep = " ")
       ) |>
-      unique() |>
       arrange(STRNAME, DEINR_numeric, DEINR) |>
       rename(
         `Gebäudetyp` = GKLASLang,
