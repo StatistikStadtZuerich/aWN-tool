@@ -3,6 +3,7 @@
 export(run_app)
 import(bslib)
 import(dplyr)
+import(icons)
 import(jpeg)
 import(openxlsx)
 import(purrr)

@@ -43,12 +43,6 @@ usethis::use_data_raw(name = "my_dataset", open = FALSE)
 ## Add one line by test you want to create
 usethis::use_test("app")
 
-# Documentation
-
-## Vignette ----
-usethis::use_vignette("awntool")
-devtools::build_vignettes()
-
 ## Code Coverage----
 ## Set the code coverage service ("codecov" or "coveralls")
 usethis::use_coverage()

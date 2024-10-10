@@ -8,6 +8,6 @@ pkgload::load_all(helpers = FALSE, attach_testthat = FALSE)
 df_main <- get_data()
 
 usethis::use_data(df_main,
-                  overwrite = TRUE,
-                  internal = TRUE
+  overwrite = TRUE,
+  internal = TRUE
 )
