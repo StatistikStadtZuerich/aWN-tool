@@ -9,6 +9,13 @@
     ]
   },
   "Packages": {
+    "AsioHeaders": {
+      "Package": "AsioHeaders",
+      "Version": "1.22.1-2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "85bf3bd8fa58da21a22d84fd4f4ef0a8"
+    },
     "BH": {
       "Package": "BH",
       "Version": "1.84.0-0",
@@ -112,6 +119,16 @@
       ],
       "Hash": "d7421bb5dfeb2676b9e4a5a60c2fcfd2"
     },
+    "backports": {
+      "Package": "backports",
+      "Version": "1.5.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "e1e1b9d75c37401117b636b7ae50827a"
+    },
     "base64enc": {
       "Package": "base64enc",
       "Version": "0.1-3",
@@ -196,6 +213,38 @@
         "tibble"
       ],
       "Hash": "f61dbaec772ccd2e17705c1e872e9e7c"
+    },
+    "checkmate": {
+      "Package": "checkmate",
+      "Version": "2.3.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "backports",
+        "utils"
+      ],
+      "Hash": "0e14e01ce07e7c88fd25de6d4260d26b"
+    },
+    "chromote": {
+      "Package": "chromote",
+      "Version": "0.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R6",
+        "curl",
+        "fastmap",
+        "jsonlite",
+        "later",
+        "magrittr",
+        "processx",
+        "promises",
+        "rlang",
+        "utils",
+        "websocket"
+      ],
+      "Hash": "5532726015b620830baae59aa689ea52"
     },
     "cli": {
       "Package": "cli",
@@ -1045,6 +1094,18 @@
       ],
       "Hash": "15da5a8412f317beeee6175fbc76f4bb"
     },
+    "pingr": {
+      "Package": "pingr",
+      "Version": "2.0.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "processx",
+        "utils"
+      ],
+      "Hash": "8d2db1d13f4198a00ebf2f066bf2ab67"
+    },
     "pkgbuild": {
       "Package": "pkgbuild",
       "Version": "1.4.4",
@@ -1339,10 +1400,13 @@
     },
     "renv": {
       "Package": "renv",
-      "Version": "1.0.9",
-      "OS_type": null,
+      "Version": "1.0.7",
+      "Source": "Repository",
       "Repository": "CRAN",
-      "Source": "Repository"
+      "Requirements": [
+        "utils"
+      ],
+      "Hash": "397b7b2a265bc5a7a06852524dabae20"
     },
     "rhub": {
       "Package": "rhub",
@@ -1607,6 +1671,31 @@
         "shiny"
       ],
       "Hash": "802e4786b353a4bb27116957558548d5"
+    },
+    "shinytest2": {
+      "Package": "shinytest2",
+      "Version": "0.3.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R6",
+        "callr",
+        "checkmate",
+        "chromote",
+        "cpp11",
+        "crayon",
+        "fs",
+        "globals",
+        "httr",
+        "jsonlite",
+        "pingr",
+        "rlang",
+        "rmarkdown",
+        "shiny",
+        "testthat",
+        "withr"
+      ],
+      "Hash": "a414c1bb2eb6e2a920742d3ebce84962"
     },
     "sourcetools": {
       "Package": "sourcetools",
@@ -1886,6 +1975,19 @@
       ],
       "Hash": "c7d3fd6d29ab077cbac8f0e2751449e6"
     },
+    "websocket": {
+      "Package": "websocket",
+      "Version": "1.4.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "AsioHeaders",
+        "R6",
+        "cpp11",
+        "later"
+      ],
+      "Hash": "e77c5569354172d0d04d54a9dec89e33"
+    },
     "whisker": {
       "Package": "whisker",
       "Version": "0.4.1",
@@ -1983,8 +2085,8 @@
       "Package": "zuericssstyle",
       "Version": "0.0.1.0003",
       "Source": "GitHub",
-      "RemoteType": "github",
       "Remotes": "github::daqana/dqshiny",
+      "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "zuericssstyle",
       "RemoteUsername": "StatistikStadtZuerich",
