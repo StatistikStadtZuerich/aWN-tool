@@ -108,7 +108,8 @@ get_data <- function() {
       mutate(
         DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
         Adresse = paste(STRNAME, DEINR, sep = " "),
-        # Extract numeric part from WHGNR (apartment number)
+        # Extract numeric part from WHGNR (apartment number),
+        WHGNR = stringr::str_remove(WHGNR, "Wohnung\\s"), 
         whg_num = as.numeric(stringr::str_extract(WHGNR, "[:digit:]{1,}")),
         
         # Correct numbers in the range 9800-9999
