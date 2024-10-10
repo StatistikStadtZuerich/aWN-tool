@@ -3,18 +3,18 @@
 #' @description A shiny Module.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
-#' @noRd 
+#' @noRd
 #'
-#' @importFrom shiny NS tagList 
+#' @importFrom shiny NS tagList
 mod_results_ui <- function(id) {
   ns <- NS(id)
   tagList(
     # Card with Building Infos
     uiOutput(ns("building_info")),
-    
+
     # UI output for multiple entrances (only displayed when applicable)
-    uiOutput(ns("entrance_info")),  # Add this line to include entrance info UI
-    
+    uiOutput(ns("entrance_info")), # Add this line to include entrance info UI
+
     # Reactable Output with Apartment Infos
     uiOutput(ns("id_table"))
   )
@@ -25,11 +25,11 @@ mod_results_ui <- function(id) {
 #' @param entrance_data data frame to be shown in additional reactable, reactive
 #' @param apartment_data data frame to be shown in main reactable, reactive
 #'
-#' @noRd 
+#' @noRd
 mod_results_server <- function(id, building_data, apartment_data) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
+
     # Output for Building Infos
     output$building_info <- renderUI({
       get_building_card(
@@ -39,26 +39,25 @@ mod_results_server <- function(id, building_data, apartment_data) {
         card_width = 1 / 2
       )
     })
-    
+
     # Output for Entrance Infos: Check for multiple entrances (i.e., multiple EDIDs for the same EGID)
     observeEvent(building_data(), {
       req(building_data())
-      
+
       # Get the EGID of the selected building address
       selected_egid <- building_data()$EGID[1]
-      selected_address <- building_data()$Address[1]
-      
+      selected_address <- building_data()$Adresse[1]
+
       # Filter building data to get all entries with the same EGID
-      building_multiple_entries <- df_main[["df_building"]] %>%
+      building_multiple_entries <- df_main[["df_building"]] |>
         filter(EGID == selected_egid)
-      
+
       # Exclude the selected address
-      entrances_to_show <- building_multiple_entries %>%
-        filter(Address != selected_address)
-      
+      entrances_to_show <- building_multiple_entries |>
+        filter(Adresse != selected_address)
+
       # Check if there are multiple entrances (distinct EDIDs)
       if (n_distinct(entrances_to_show$EDID) > 1) {
-        
         # If multiple entrances exist for the building, show the additional card for entrances
         output$entrance_info <- renderUI({
           get_entrance_card(
@@ -72,18 +71,15 @@ mod_results_server <- function(id, building_data, apartment_data) {
         })
       }
     })
-    
+
     # Apartment Infos
     observeEvent(apartment_data(), {
       req(apartment_data())
-      
+
       if (nrow(apartment_data()) > 0) {
         # Sort the apartments by aWN_korrigiert (if necessary)
-        sorted_apartments <- apartment_data() %>%
-          mutate(awn = as.numeric(WHGNR)) %>%
-          mutate(aWN_korrigiert = ifelse(awn >= 9800 & awn <= 9999, awn - 10000, awn)) %>%
-          arrange(aWN_korrigiert)
-        
+        sorted_apartments <- apartment_data()
+
         # Render the table if apartments are present
         output$id_table <- renderUI({
           get_apartment_card(
@@ -93,8 +89,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
       } else {
         # Render a blank table or a message when no apartments are found
         output$id_table <- renderUI({
-          get_na_info(
-          )
+          get_na_info()
         })
       }
     })

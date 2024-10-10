@@ -19,7 +19,7 @@
 ## to change the name in the app_sys() function in app_config.R /!\
 ##
 golem::fill_desc(
-  pkg_name = "awntool", # The Name of the package containing the App
+  pkg_name = "aWNtool", # The Name of the package containing the App
   pkg_title = "aWN-Tool", # The Title of the package containing the App
   pkg_description = "Tool for retrieving official apartment numbers in the city of Zurich.",
   author_first_name = c("Alessandro", "Thamilini"), # Your First Name
