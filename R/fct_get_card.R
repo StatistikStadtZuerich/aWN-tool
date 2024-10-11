@@ -33,8 +33,7 @@ get_building_card <- function(dataset,
           min_height = card_min_height,
           p(HTML(paste("Gebäudetyp:", "<span class='bold-vars'>", dataset$Gebäudetyp, "</span>"))),
           p(HTML(paste("Baujahr:", "<span class='bold-vars'>", dataset$Baujahr, "</span>"))),
-          p(HTML(paste("Oberirdische Geschosse:", "<span class='bold-vars'>", dataset$`Oberirdische Geschosse`, "</span>"))),
-          p(HTML(paste("Unterirdische Geschosse:", "<span class='bold-vars'>", dataset$`Unterirdische Geschosse`, "</span>"))),
+          p(HTML(paste("Geschosse:", "<span class='bold-vars'>", dataset$`Geschosse`, "</span>"))),
           p(HTML(paste("Zivilschutzraum:", "<span class='bold-vars'>", dataset$Zivilschutzraum, "</span>")))
         )
       ),
