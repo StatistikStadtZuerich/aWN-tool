@@ -15,6 +15,7 @@ mod_download_ui <- function(id) {
 
   # Download Buttons
   tagList(
+    h3("Daten herunterladen"),
     tags$div(
       id = ns("downloadWrapperId"),
       class = "downloadWrapperDiv",
