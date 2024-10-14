@@ -109,11 +109,10 @@ get_data <- function() {
         WHGNR = stringr::str_remove(WHGNR, "Wohnung\\s"), 
         whg_num = as.numeric(stringr::str_extract(WHGNR, "[:digit:]{1,}")),
         # Correct aWN values between 9800-9999 by subtracting 10,000
-        aWN_korrigiert = ifelse(!is.na(WHGNR) & whg_num >= 9800 & whg_num <= 9999, whg_num - 10000, WHGNR)
+        aWN_korrigiert = ifelse(!is.na(whg_num) & whg_num >= 9800 & whg_num <= 9999, whg_num - 10000, whg_num)
       ) |>
       # Sort by street, house number, apartment number (whg_num), and aWn korrigiert 
       arrange(  
-        
         STRNAME, 
         DEINR_numeric,
         aWN_korrigiert,
