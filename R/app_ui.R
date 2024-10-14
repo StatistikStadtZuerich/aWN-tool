@@ -35,13 +35,12 @@ app_ui <- function(request) {
             "Abfrage starten"  # Initial label
           ),
           
-          # Downloads (Appears only if both ActionButtonId > 0 and input_module_address is filled)
-          mod_download_ui("download_1")
-          #conditionalPanel(
-          # condition = "input.ActionButtonId > 0 && input['input_module-address'] !== null && input['input_module-address'] !== ''", # Button clicked AND address filled properly
-          #  h3("Daten herunterladen"),
-          #  mod_download_ui("download_1") # Include the download module UI
-          #)
+          # Conditionally show download UI after the action button is clicked and address is selected
+          conditionalPanel(
+            condition = "input.ActionButtonId > 0 && input['input_module-address'] !== null && input['input_module-address'] !== ''",
+            h3("Daten herunterladen"),
+            mod_download_ui("download_1")
+          )
         ),
         
         # Main Panel: Outputs are placed here
