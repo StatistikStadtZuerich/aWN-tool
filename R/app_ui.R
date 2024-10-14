@@ -18,7 +18,7 @@ app_ui <- function(request) {
       tags$div(
         class = "queryDiv",
         h1("Wählen Sie eine Adresse"),
-        p("Mit dieser Applikation können Sie Abfragen zu den amtlichen Wohnungsnummern in der Stadt Zürich machen."),
+        p("Mit dieser Applikation können Sie Abfragen zu Daten im Gebäude- und Wohnungsregister der Stadt Zürich durchführen. Unter anderem finden Sie Angaben zu den amtlichen Wohnungsnummern, Energieträgern und weiteren Informationen."),
         hr()
       ),
 
