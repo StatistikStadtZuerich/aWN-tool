@@ -25,7 +25,7 @@
   font-family: HelveticaNeueLTW05_85Heavy;
 }
 
-#timestamp {
+#results_1-timestamp {
   margin-top: 20px;
 }
 
@@ -141,7 +141,7 @@ h5 {
     margin-top: 30px;
   }
   
-  #timestamp {
+  #results_1-timestamp {
     margin-top: 30px;
   }
 }
