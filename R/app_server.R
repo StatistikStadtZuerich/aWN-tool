@@ -43,11 +43,6 @@ app_server <- function(input, output, session) {
                        "ActionButtonId", 
                        label = "Erneute Abfrage")
     
-    # Render the Timestamp
-    output$timestamp <- renderUI({
-      p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
-    })
-    
     # Results ready
     results_ready(TRUE)
   })
