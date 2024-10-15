@@ -8,18 +8,22 @@
 #' @importFrom shiny NS tagList
 mod_results_ui <- function(id) {
   ns <- NS(id)
-  tagList(
-    # Card with Building Infos
-    uiOutput(ns("building_info")),
-
-    # UI output for multiple entrances (only displayed when applicable)
-    uiOutput(ns("entrance_info")), # Add this line to include entrance info UI
-
-    # Reactable Output with Apartment Infos
-    uiOutput(ns("id_table")),
-    
-    # Time stamp Output
-    uiOutput(ns("timestamp"))
+  withSpinner(
+    tagList(
+      # Card with Building Infos
+      uiOutput(ns("building_info")),
+      
+      # UI output for multiple entrances (only displayed when applicable)
+      uiOutput(ns("entrance_info")), # Add this line to include entrance info UI
+      
+      # Reactable Output with Apartment Infos
+      uiOutput(ns("id_table")),
+      
+      # Time stamp Output
+      uiOutput(ns("timestamp"))
+    ),
+    type = 7,
+    color = "#0F05A0"
   )
 }
 
