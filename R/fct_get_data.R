@@ -97,6 +97,7 @@ get_data <- function() {
         WSTWK,# Floor
         WAZIM, # Number of rooms
         WAREA, # Living space in m2
+        WMEHRGLang, # Maisonette Apartment
         WKCHELang, # is there kitchen facility
         STRNAME, # Street Name
         DEINR, # House Number
@@ -126,6 +127,7 @@ get_data <- function() {
         `Lage Wohnung` = WBEZ,
         `Zimmer` = WAZIM,
         `Wohnfläche (m2)` = WAREA,
+        `Maisonette` = WMEHRGLang,
         `Küche` = WKCHELang
       )
     
