@@ -41,7 +41,8 @@ app_ui <- function(request) {
         
         # Main Panel: Outputs are placed here
         mainPanel(
-          mod_results_ui("results_1")
+          mod_results_ui("results_1"),
+          htmlOutput("timestamp")
         )
       )
     )
