@@ -96,6 +96,11 @@ h5 {
   margin-top: 20px;
 }
 
+.ReactTable .rt-tr:hover .rt-td {
+  background: white;
+  cursor: auto;
+}
+
 /********************************
 * Media Queries for Mobile Devices
 *******************************/
