@@ -42,7 +42,7 @@ ssz_download_excel <- function(file, data_for_download) {
       mutate(
         Date = case_when(
           is.na(Date) ~ NA,
-          TRUE ~ format(Sys.Date(), "%d.%m.%Y")
+          TRUE ~ df_main[["df_time_stamp"]]
         ),
         Titel = case_when(
           is.na(Titel) ~ NA,
@@ -120,7 +120,7 @@ ssz_download_excel <- function(file, data_for_download) {
     setColWidths(wb, sheet = 1, cols = "A", widths = 1)
     setColWidths(wb, sheet = 1, cols = "B", widths = 4)
     setColWidths(wb, sheet = 1, cols = "D", widths = 40)
-    setColWidths(wb, sheet = 1, cols = "E", widths = 10)
+    setColWidths(wb, sheet = 1, cols = "E", widths = 18)
 
     # Save Excel
     saveWorkbook(wb, file, overwrite = TRUE) ## save to working directory
@@ -133,7 +133,7 @@ ssz_download_excel <- function(file, data_for_download) {
       mutate(
         Date = case_when(
           is.na(Date) ~ NA,
-          TRUE ~ format(Sys.Date(), "%d.%m.%Y")
+          TRUE ~ df_main[["df_time_stamp"]]
         ),
         Titel = case_when(
           is.na(Titel) ~ NA,
@@ -245,7 +245,7 @@ ssz_download_excel <- function(file, data_for_download) {
     setColWidths(wb, sheet = 1, cols = "A", widths = 1)
     setColWidths(wb, sheet = 1, cols = "B", widths = 4)
     setColWidths(wb, sheet = 1, cols = "D", widths = 40)
-    setColWidths(wb, sheet = 1, cols = "E", widths = 10)
+    setColWidths(wb, sheet = 1, cols = "E", widths = 18)
 
     # Save Excel
     saveWorkbook(wb, file, overwrite = TRUE) ## save to working directory
