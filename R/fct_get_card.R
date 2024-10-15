@@ -47,18 +47,18 @@ get_building_card <- function(dataset,
           p(HTML(paste("Wärmeerzeuger Heizung 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 1`, "</span>"))),
           p(HTML(paste("Energiequelle Heizung 1:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 1`, "</span>"))),
           if (!is.na(dataset$`Wärmeerzeuger Heizung 2`) && dataset$`Wärmeerzeuger Heizung 2` != "") {
-            p(HTML(paste("Wärmeerzeuger Heizung 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 2`, "</span>")))
+            NULL
           },
           if (!is.na(dataset$`Energiequelle Heizung 2`) && dataset$`Energiequelle Heizung 2` != "") {
-            p(HTML(paste("Energiequelle Heizung 2:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 2`, "</span>")))
+            NULL
           },
           p(HTML(paste("Wärmeerzeuger Warmwasser 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 1`, "</span>"))),
           p(HTML(paste("Energiequelle Warmwasser 1:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 1`, "</span>"))),
           if (!is.na(dataset$`Wärmeerzeuger Warmwasser 2`) && dataset$`Wärmeerzeuger Warmwasser 2` != "") {
-            p(HTML(paste("Wärmeerzeuger Warmwasser 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 2`, "</span>")))
+            NULL
           },
           if (!is.na(dataset$`Energiequelle Warmwasser 2`) && dataset$`Energiequelle Warmwasser 2` != "") {
-            p(HTML(paste("Energiequelle Warmwasser 2:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 2`, "</span>")))
+            NULL
           }
         )
       )
