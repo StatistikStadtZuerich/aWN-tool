@@ -27,6 +27,7 @@ get_data <- function() {
     gebaeude <- data[[1]]
     eingang <- data[[2]]
     wohnung <- data[[3]]
+    time <- format(Sys.time(), "%d.%m.%Y")
     
     # Filter based on yellow-highlighted variables
     filtered_gebaeude <- gebaeude |>
@@ -136,7 +137,8 @@ get_data <- function() {
     return(list(
       df_building = building_with_address,
       df_apartment = transformed_apartments,
-      df_unique_addresses = unique_addresses
+      df_unique_addresses = unique_addresses,
+      df_time_stamp = time
     ))
   }
 }
