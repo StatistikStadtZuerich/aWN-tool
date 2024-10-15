@@ -17,7 +17,7 @@ get_building_card <- function(dataset,
                               card_min_height,
                               card_width,
                               title_1 = "Allgemeine Informationen",
-                              title_2 = "Heizung & Wasser") {
+                              title_2 = "Informationen zur Energie") {
   tagList(
     h2(paste0(dataset$Adresse, " (EGID ", dataset$EGID, ")")),
 
@@ -126,15 +126,16 @@ get_apartment_card <- function(dataset = sorted_apartments,
       bslib::card_header(h2(title)),
       reactable(
         dataset %>%
-          select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Küche),
+          select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Maisonette, Küche),
         columns = list(
-          aWN = colDef(name = "aWN", minWidth = 50),
-          EWID = colDef(minWidth = 50),
-          Stockwerk = colDef(name = "Stockwerk", minWidth = 100),
-          `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 80),
+          aWN = colDef(name = "aWN", minWidth = 45),          
+          EWID = colDef(minWidth = 50, align = "left"),                       
+          Stockwerk = colDef(name = "Stockwerk", minWidth = 75),
+          `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 67),
           Zimmer = colDef(name = "Zimmer", minWidth = 60),
-          `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)"),
-          Küche = colDef(name = "Küche")
+          `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)", minWidth = 85),
+          Maisonette = colDef(name = "Maisonette", minWidth = 85),
+          Küche = colDef(name = "Küche", minWidth = 52)
         ),
         paginationType = "simple",
         language = reactableLang(
@@ -152,7 +153,7 @@ get_apartment_card <- function(dataset = sorted_apartments,
     ),
     tags$div(
       class = "infoDiv",
-      h5("Erklärungen"),
+      h5("Erläuterungen"),
       p("aWN = amtliche Wohnungsnummer"),
       p("EGID = Eidgenössischer Gebäudeidentifikator"),
       p("EWID = Eidgenössischer Wohnungsidentifikator")
