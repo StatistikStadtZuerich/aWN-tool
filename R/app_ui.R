@@ -41,8 +41,11 @@ app_ui <- function(request) {
         
         # Main Panel: Outputs are placed here
         mainPanel(
-          mod_results_ui("results_1"),
-          htmlOutput("timestamp")
+          withSpinner(
+            mod_results_ui("results_1"),
+            type = 7,
+            color = "#0F05A0"
+          )
         )
       )
     )
