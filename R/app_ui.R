@@ -41,11 +41,7 @@ app_ui <- function(request) {
         
         # Main Panel: Outputs are placed here
         mainPanel(
-          withSpinner(
-            mod_results_ui("results_1"),
-            type = 7,
-            color = "#0F05A0"
-          )
+          uiOutput("results_ui")
         )
       )
     )
