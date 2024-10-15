@@ -9,12 +9,13 @@ app_server <- function(input, output, session) {
   # Input Module returns filtered Data
   filtered_input <- mod_input_server("input_module")
   
-  # Reactive to track whether results are ready
-  results_ready <- reactiveVal(FALSE) 
+  # Reactive to control spinner visibility
+  show_spinner <- reactiveVal(TRUE)  # Initially show the spinner
   
   # Reactive expression to hold filtered data, triggered by action button
   filtered_building_event <- eventReactive(input$ActionButtonId, {
     req(filtered_input$filtered_building())
+    show_spinner(TRUE)  # Show the spinner when the action button is clicked
     filtered_input$filtered_building()
   })
   
@@ -23,14 +24,18 @@ app_server <- function(input, output, session) {
     filtered_input$filtered_apartment()
   })
   
-  # Conditionally render the results module when the button is clicked
+  # Conditionally render the results module and hide the spinner
   observe({
     req(filtered_building_event(), filtered_apartment_event())  # Ensure both events have been triggered
+    
+    # Render results server only when data is available
     mod_results_server(
       "results_1",
       building_data = filtered_building_event,
-      apartment_data = filtered_apartment_event 
+      apartment_data = filtered_apartment_event
     )
+    
+    # Download module rendering
     mod_download_server(
       "download_1",
       building_data = filtered_input$filtered_building,
@@ -38,34 +43,36 @@ app_server <- function(input, output, session) {
       fct_create_excel = ssz_download_excel
     )
     
+    # Hide spinner after modules are rendered
+    show_spinner(FALSE)
+    
     # Update the Action Button
     updateActionButton(session, 
                        "ActionButtonId", 
                        label = "Erneute Abfrage")
-    
-    # Results ready
-    results_ready(TRUE)
+  })
+  
+  # Render the UI conditionally based on the spinner's state
+  output$results_ui <- renderUI({
+    if (show_spinner()) {
+      # Show the spinner while results are being processed
+      shinycssloaders::withSpinner(
+        tagList(),
+        type = 7,
+        color = "#0F05A0"
+      )
+    } else {
+      # Show the actual results UI when the spinner is hidden
+      mod_results_ui("results_1")
+    }
   })
   
   # Conditionally render the download module when the results are ready
   output$download_ui <- renderUI({
-    if (results_ready()) {
-      mod_download_ui("download_1")  # Display the download module UI
+    if (!show_spinner()) {
+      mod_download_ui("download_1")
     } else {
       NULL  # Do not display anything until results are ready
     }
   })
-  
-  # Initialize the download server module when results are ready
-  observeEvent(results_ready(), {
-    if (results_ready()) {
-      mod_download_server(
-        "download_1",
-        building_data = filtered_input$filtered_building,
-        apartment_data = filtered_input$filtered_apartment,
-        fct_create_excel = ssz_download_excel
-      )
-    }
-  })
-
 }
