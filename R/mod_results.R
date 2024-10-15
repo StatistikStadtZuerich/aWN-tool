@@ -64,7 +64,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
         filter(Adresse != selected_address)
 
       # Check if there are multiple entrances (distinct EDIDs)
-      if (n_distinct(entrances_to_show$EDID) > 1) {
+      if (n_distinct(entrances_to_show$EDID) >= 1) {
         # If multiple entrances exist for the building, show the additional card for entrances
         output$entrance_info <- renderUI({
           get_entrance_card(
