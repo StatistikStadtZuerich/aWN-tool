@@ -19,6 +19,9 @@ mod_results_ui <- function(id) {
       # Reactable Output with Apartment Infos
       uiOutput(ns("id_table")),
       
+      # Infos output
+      uiOutput(ns("info")),
+      
       # Time stamp Output
       uiOutput(ns("timestamp"))
     ),
@@ -72,6 +75,18 @@ mod_results_server <- function(id, building_data, apartment_data) {
           )
         })
         
+        # Render additional Infos
+        output$info <- renderUI({
+          tags$div(
+            class = "infoDiv",
+            h5("Erläuterungen"),
+            p("aWN = amtliche Wohnungsnummer"),
+            p("EGID = Eidgenössischer Gebäudeidentifikator"),
+            p("EWID = Eidgenössischer Wohnungsidentifikator"),
+            p("Anzahl Zimmer = Halbe Zimmer werden abgerundet")
+          )
+        })
+        
         # Render the Timestamp
         output$timestamp <- renderUI({
           p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
@@ -99,6 +114,18 @@ mod_results_server <- function(id, building_data, apartment_data) {
           )
         })
         
+        # Render additional Infos
+        output$info <- renderUI({
+          tags$div(
+            class = "infoDiv",
+            h5("Erläuterungen"),
+            p("aWN = amtliche Wohnungsnummer"),
+            p("EGID = Eidgenössischer Gebäudeidentifikator"),
+            p("EWID = Eidgenössischer Wohnungsidentifikator"),
+            p("Anzahl Zimmer = Halbe Zimmer werden abgerundet")
+          )
+        })
+        
         # Render the Timestamp
         output$timestamp <- renderUI({
           p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
@@ -108,6 +135,15 @@ mod_results_server <- function(id, building_data, apartment_data) {
         # Render a blank table or a message when no apartments are found
         output$id_table <- renderUI({
           get_na_info()
+        })
+        
+        # Render additional Infos
+        output$info <- renderUI({
+          tags$div(
+            class = "infoDiv",
+            h5("Erläuterungen"),
+            p("EGID = Eidgenössischer Gebäudeidentifikator")
+          )
         })
         
         # Render the Timestamp
