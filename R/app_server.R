@@ -10,7 +10,7 @@ app_server <- function(input, output, session) {
   filtered_input <- mod_input_server("input_module")
   
   # Reactive to control spinner visibility
-  show_spinner <- reactiveVal(TRUE)  # Initially show the spinner
+  show_spinner <- reactiveVal(TRUE) 
   
   # Reactive expression to hold filtered data, triggered by action button
   filtered_building_event <- eventReactive(input$ActionButtonId, {
@@ -54,23 +54,19 @@ app_server <- function(input, output, session) {
   
   # Render the UI conditionally based on the spinner's state
   output$results_ui <- renderUI({
-    if (show_spinner()) {
-      # Show the spinner while results are being processed
-      shinycssloaders::withSpinner(
-        tagList(),
-        type = 7,
-        color = "#0F05A0"
-      )
+    if (!show_spinner()) {
+      # Show the spinner while results are being processed (Spinner is in mod_result_ui)
+      mod_results_ui("results_1")
     } else {
       # Show the actual results UI when the spinner is hidden
-      mod_results_ui("results_1")
+      NULL
     }
   })
   
-  # Conditionally render the download module when the results are ready
+  # Conditionally render the download module when the results are ready / spinner is off
   output$download_ui <- renderUI({
     if (!show_spinner()) {
-      mod_download_ui("download_1")
+      mod_download_ui("download_1")  # Display the download module UI
     } else {
       NULL  # Do not display anything until results are ready
     }
