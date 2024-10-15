@@ -16,7 +16,10 @@ mod_results_ui <- function(id) {
     uiOutput(ns("entrance_info")), # Add this line to include entrance info UI
 
     # Reactable Output with Apartment Infos
-    uiOutput(ns("id_table"))
+    uiOutput(ns("id_table")),
+    
+    # Time stamp Output
+    uiOutput(ns("timestamp"))
   )
 }
 
@@ -64,6 +67,11 @@ mod_results_server <- function(id, building_data, apartment_data) {
             dataset = entrances_to_show
           )
         })
+        
+        # Render the Timestamp
+        output$timestamp <- renderUI({
+          p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
+        })
       } else {
         # If no multiple entrances, clear the entrance info UI
         output$entrance_info <- renderUI({
@@ -86,10 +94,21 @@ mod_results_server <- function(id, building_data, apartment_data) {
             dataset = sorted_apartments
           )
         })
+        
+        # Render the Timestamp
+        output$timestamp <- renderUI({
+          p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
+        })
+        
       } else {
         # Render a blank table or a message when no apartments are found
         output$id_table <- renderUI({
           get_na_info()
+        })
+        
+        # Render the Timestamp
+        output$timestamp <- renderUI({
+          p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
         })
       }
     })
