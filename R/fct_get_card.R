@@ -150,13 +150,6 @@ get_apartment_card <- function(dataset = sorted_apartments,
         defaultPageSize = 10,
         fullWidth = TRUE
       )
-    ),
-    tags$div(
-      class = "infoDiv",
-      h5("Erläuterungen"),
-      p("aWN = amtliche Wohnungsnummer"),
-      p("EGID = Eidgenössischer Gebäudeidentifikator"),
-      p("EWID = Eidgenössischer Wohnungsidentifikator")
     )
   )
 }
