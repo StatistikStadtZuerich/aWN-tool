@@ -39,7 +39,7 @@ get_data <- function() {
       )
     
     filtered_wohnungen <- wohnung |>
-      filter(WSTAT == 3004)
+      filter(WSTAT == 3004 | WSTAT == 3003)
     
     # Select and transform the data needed for building infroamtion
     building_with_address <- filtered_gebaeude |>
