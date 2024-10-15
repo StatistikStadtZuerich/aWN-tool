@@ -39,7 +39,7 @@ mod_results_ui <- function(id) {
 mod_results_server <- function(id, building_data, apartment_data) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-
+    
     # Output for Building Infos
     output$building_info <- renderUI({
       get_building_card(
@@ -105,15 +105,30 @@ mod_results_server <- function(id, building_data, apartment_data) {
       req(apartment_data())
 
       if (nrow(apartment_data()) > 0) {
+        
         # Sort the apartments by aWN_korrigiert (if necessary)
         sorted_apartments <- apartment_data()
-
-        # Render the table if apartments are present
-        output$id_table <- renderUI({
-          get_apartment_card(
-            dataset = sorted_apartments
-          )
-        })
+        
+        # Check if there is aparments in building progress
+        aparments_progress <- sorted_apartments |> 
+          filter(WSTAT == 3003)
+        
+        # Conditional Ouput for aparments in progress
+        if (nrow(aparments_progress) > 0) {
+          output$id_table <- renderUI({
+            get_apartment_card(
+              dataset = sorted_apartments,
+              progress = 1
+            )
+          })
+        } else {
+          output$id_table <- renderUI({
+            get_apartment_card(
+              dataset = sorted_apartments,
+              progress = 0
+            )
+          })
+        }
         
         # Render additional Infos
         output$info <- renderUI({
