@@ -122,14 +122,13 @@ get_entrance_card <- function(dataset,
 get_apartment_card <- function(dataset = sorted_apartments,
                                progress = 0,
                                title = "Informationen zu den Wohnungen") {
-  
   # Info Text
   info_text <- if (progress == 0) {
     NULL
   } else if (progress == 1) {
     p("Gebäude enthält auch neue Wohnungen, die noch im Bau sind.")
   }
-  
+
   # Make the card
   tagList(
     bslib::card(
@@ -139,8 +138,8 @@ get_apartment_card <- function(dataset = sorted_apartments,
         dataset %>%
           select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Maisonette, Küche),
         columns = list(
-          aWN = colDef(name = "aWN", minWidth = 45),          
-          EWID = colDef(minWidth = 50, align = "left"),                       
+          aWN = colDef(name = "aWN", minWidth = 45),
+          EWID = colDef(minWidth = 50, align = "left"),
           Stockwerk = colDef(name = "Stockwerk", minWidth = 75),
           `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 67),
           Zimmer = colDef(name = "Zimmer", minWidth = 60),
