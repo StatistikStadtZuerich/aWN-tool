@@ -80,11 +80,11 @@ mod_results_server <- function(id, building_data, apartment_data) {
           tags$div(
             class = "infoDiv",
             h5("Erläuterungen"),
+            p("Anzahl Zimmer = halbe Zimmer werden abgerundet"),
             p("aWN = amtliche Wohnungsnummer"),
             p("EGID = Eidgenössischer Gebäudeidentifikator"),
-            p("Geschosse = umfasst unter- und oberirdische Geschosse"),
             p("EWID = Eidgenössischer Wohnungsidentifikator"),
-            p("Anzahl Zimmer = Halbe Zimmer werden abgerundet")
+            p("Geschosse = umfasst unter- und oberirdische Geschosse")
           )
         })
         
@@ -135,11 +135,11 @@ mod_results_server <- function(id, building_data, apartment_data) {
           tags$div(
             class = "infoDiv",
             h5("Erläuterungen"),
+            p("Anzahl Zimmer = halbe Zimmer werden abgerundet"),
             p("aWN = amtliche Wohnungsnummer"),
             p("EGID = Eidgenössischer Gebäudeidentifikator"),
-            p("Geschosse = umfasst unter- und oberirdische Geschosse"),
             p("EWID = Eidgenössischer Wohnungsidentifikator"),
-            p("Anzahl Zimmer = Halbe Zimmer werden abgerundet")
+            p("Geschosse = umfasst unter- und oberirdische Geschosse")
           )
         })
         
