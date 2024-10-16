@@ -79,7 +79,7 @@ get_building_card <- function(dataset,
 #' @noRd
 get_entrance_card <- function(dataset,
                               title = "Info",
-                              text = "Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen. Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingängen suchen, geben Sie diese Adresse ins Suchfeld links ein.") {
+                              text = "Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen. Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingänge suchen, geben Sie diese Adresse ins Suchfeld links ein.") {
   ssz_icons <- icons::icon_set("inst/app/www/icons/")
   tagList(
     tags$div(
