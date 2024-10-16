@@ -234,8 +234,8 @@ ssz_download_excel <- function(file, data_for_download) {
     )
 
     # Set Column Width for Sheet 3 (only for 8 columns)
-    column_names_2 <- LETTERS[1:8] # Adjusted to match the number of widths
-    widths_2 <- c(30, 12, 12, 20, 20, 20, 20, 20)
+    column_names_2 <- LETTERS[1:9] # Adjusted to match the number of widths
+    widths_2 <- c(30, 12, 12, 20, 20, 20, 20, 20, 20)
     purrr::map2(
       column_names_2, widths_2,
       \(x, y) setColWidths(wb, sheet = 4, cols = x, widths = y)
