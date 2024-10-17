@@ -29,8 +29,10 @@ The aWN Tool is built using several modular components and helper functions such
 Below is a visual representation of the application's architecture:
 
 ``` mermaid
-flowchart LR;
-  mod_input-- address -->app_server
-  app_server-- filtered_building, filtered_apartment -->mod_results -->Results in App
-  app_server-- filtered_building, filtered_apartment -->mod_download -->Excel
+flowchart LR
+  mod_input -- "address" --> app_server
+  app_server -- "filtered_building, filtered_apartment" --> mod_results
+  mod_results --> "Results in App"
+  app_server -- "filtered_building, filtered_apartment" --> mod_download
+  mod_download --> "Excel"
 ```
