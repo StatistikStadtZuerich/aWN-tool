@@ -32,7 +32,7 @@ Below is a visual representation of the application's architecture:
 flowchart LR
   mod_input -->|address| app_server
   app_server -->|filtered_building, filtered_apartment| mod_results
-  mod_results -->|Results in App| Results
+  mod_results -->|Result| App
   app_server -->|filtered_building, filtered_apartment| mod_download
-  mod_download -->|Excel| Download
+  mod_download -->|Result| Excel Download
 ```
