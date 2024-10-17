@@ -9,25 +9,26 @@
 get_data <- function() {
   # By default data is empty
   data <- NULL
-  
+
   # Specify URLS
   URLs <- c(
     "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeude.csv",
     "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeudeeingaenge.csv",
     "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_wohnungen.csv"
   )
-  
+
   # Parallelisation
   data <- furrr::future_map(URLs, \(x) data.table::fread(x, encoding = "UTF-8"))
-  
+
   if (!is.null(data)) {
     ### Data Transformation
-    
+
     # Assuming the structure of data corresponds to the downloaded datasets
     gebaeude <- data[[1]]
     eingang <- data[[2]]
     wohnung <- data[[3]]
-    
+    time <- format(Sys.time(), "%d.%m.%Y")
+
     # Filter based on yellow-highlighted variables
     filtered_gebaeude <- gebaeude |>
       filter(
@@ -36,10 +37,10 @@ get_data <- function() {
         GGDENAME == "Zürich",
         GSTAT == 1004
       )
-    
+
     filtered_wohnungen <- wohnung |>
-      filter(WSTAT == 3004)
-    
+      filter(WSTAT == 3004 | WSTAT == 3003)
+
     # Select and transform the data needed for building infroamtion
     building_with_address <- filtered_gebaeude |>
       left_join(eingang, by = "EGID") |>
@@ -83,7 +84,7 @@ get_data <- function() {
         `Wärmeerzeuger Warmwasser 2` = GWAERZW2Lang,
         `Energiequelle Warmwasser 2` = GENW2Lang
       )
-    
+
     # Select and transform the data for apartments
     transformed_apartments <- filtered_wohnungen |>
       select(
@@ -93,9 +94,10 @@ get_data <- function() {
         WSTAT,
         WBEZ, # location of the apartment
         WSTWKLang,
-        WSTWK,# Floor
+        WSTWK, # Floor
         WAZIM, # Number of rooms
         WAREA, # Living space in m2
+        WMEHRGLang, # Maisonette Apartment
         WKCHELang, # is there kitchen facility
         STRNAME, # Street Name
         DEINR, # House Number
@@ -106,14 +108,14 @@ get_data <- function() {
         DEINR_numeric = as.numeric(gsub("\\D", "", DEINR)),
         Adresse = paste(STRNAME, DEINR, sep = " "),
         # Extract numeric part from WHGNR (apartment number),
-        WHGNR = stringr::str_remove(WHGNR, "Wohnung\\s"), 
+        WHGNR = stringr::str_remove(WHGNR, "Wohnung\\s"),
         whg_num = as.numeric(stringr::str_extract(WHGNR, "[:digit:]{1,}")),
         # Correct aWN values between 9800-9999 by subtracting 10,000
         aWN_korrigiert = ifelse(!is.na(whg_num) & whg_num >= 9800 & whg_num <= 9999, whg_num - 10000, whg_num)
       ) |>
-      # Sort by street, house number, apartment number (whg_num), and aWn korrigiert 
-      arrange(  
-        STRNAME, 
+      # Sort by street, house number, apartment number (whg_num), and aWn korrigiert
+      arrange(
+        STRNAME,
         DEINR_numeric,
         aWN_korrigiert,
         whg_num
@@ -125,20 +127,20 @@ get_data <- function() {
         `Lage Wohnung` = WBEZ,
         `Zimmer` = WAZIM,
         `Wohnfläche (m2)` = WAREA,
+        `Maisonette` = WMEHRGLang,
         `Küche` = WKCHELang
       )
-    
-   
+
+
     # Select unique addresses
     unique_addresses <- unique(building_with_address$Adresse)
-    
+
     # Return the final transformed data
     return(list(
       df_building = building_with_address,
       df_apartment = transformed_apartments,
-      df_unique_addresses = unique_addresses
+      df_unique_addresses = unique_addresses,
+      df_time_stamp = time
     ))
   }
 }
-
- 

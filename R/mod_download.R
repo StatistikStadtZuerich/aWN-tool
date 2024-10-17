@@ -42,41 +42,43 @@ mod_download_ui <- function(id) {
 mod_download_server <- function(id, building_data, apartment_data, fct_create_excel) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    
+    # Call Data to make it static
+    building_data <- building_data()
+    apartment_data <- apartment_data()
 
     # Prepare the data for download, filtering based on the displayed content
-    data_for_download <- reactive({
       # Data with Building Infos
-      building_info <- building_data() |>
-        select(Adresse, EGID, Gebäudetyp, Baujahr, Geschosse,  `Zivilschutzraum`, `Wärmeerzeuger Heizung 1`, `Energiequelle Heizung 1`, `Wärmeerzeuger Warmwasser 1`, `Energiequelle Warmwasser 1`)
+      building_info <- building_data |>
+        select(Adresse, EGID, Gebäudetyp, Baujahr, Geschosse, `Zivilschutzraum`, `Wärmeerzeuger Heizung 1`, `Energiequelle Heizung 1`, `Wärmeerzeuger Warmwasser 1`, `Energiequelle Warmwasser 1`)
 
       # Data with Aparment Infos
-      apartment_info <- apartment_data() |>
-        select(Adresse, aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Küche)
+      apartment_info <- apartment_data |>
+        select(Adresse, aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Maisonette, Küche)
 
       # Number of Aparments
       number_aparments <- nrow(apartment_info)
 
       # Address
-      address <- building_data()$Adresse[1]
+      address <- building_data$Adresse[1]
 
       # Combine the building and apartment data
-      list(
+      data_for_download <- list(
         Building_Info = building_info,
         Apartment_Info = apartment_info,
         Address = address,
         Number_Aparments = number_aparments
       )
-    })
 
     # Excel Download
     output$excel_download <- downloadHandler(
       filename = function() {
         # Use the address from data_for_download() and replace spaces with underscores
-        address <- gsub(" ", "_", data_for_download()$Address)
+        address <- gsub(" ", "_", data_for_download$Address)
         paste0("Gebäude_und_Wohnungsinformationen_", address, "_", Sys.Date(), ".xlsx")
       },
       content = function(file) {
-        fct_create_excel(file, data_for_download())
+        fct_create_excel(file, data_for_download)
       }
     )
   })

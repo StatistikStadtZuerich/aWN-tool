@@ -8,40 +8,35 @@ app_ui <- function(request) {
   tagList(
     # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
-    
+
     # Page layout
     fluidPage(
-      
+
       # TEMPORARY: until golem_add_external_resources() works
       includeCSS("inst/app/www/sszThemeShiny.css"),
       includeCSS("inst/app/www/aWNTheme.css"),
-      tags$div(
-        class = "queryDiv",
-        h1("Wählen Sie eine Adresse"),
-        p("Mit dieser Applikation können Sie Abfragen zu Daten im Gebäude- und Wohnungsregister der Stadt Zürich durchführen. Unter anderem finden Sie Angaben zu den amtlichen Wohnungsnummern, Energieträgern und weiteren Informationen."),
-        hr()
-      ),
-      
+
       # Sidebar: Input widgets are placed here
       sidebarLayout(
         sidebarPanel(
-          
+
           # Input Module
           mod_input_ui("input_module"),
-          
+
           # Action Button
           sszActionButton(
             "ActionButtonId",
-            "Abfrage starten"  # Initial label
+            "Abfrage starten" # Initial label
           ),
-          
+
           # Conditionally show download UI after the action button is clicked and address is selected
-          uiOutput("download_ui")  
+          uiOutput("download_ui")
         ),
-        
+
         # Main Panel: Outputs are placed here
         mainPanel(
-          mod_results_ui("results_1")
+          uiOutput("results_ui"),
+          uiOutput("warning")
         )
       )
     )

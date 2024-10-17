@@ -6,7 +6,7 @@
 \alias{aWNtool-package}
 \title{aWNtool: Shiny App for querying official apartment numbers in the city of Zurich}
 \description{
-What the package does (one paragraph).
+Shiny App aWN-Tool that shows official aparment numbers for all the addresses in the city of Zurich.
 }
 \author{
 \strong{Maintainer}: Thamilini Easwaralingam \email{thamilini.easwaralingam@zuerich.ch}

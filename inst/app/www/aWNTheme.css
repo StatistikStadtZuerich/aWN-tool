@@ -25,6 +25,10 @@
   font-family: HelveticaNeueLTW05_85Heavy;
 }
 
+#results_1-timestamp {
+  margin-top: 20px;
+}
+
 h6 {
   font-family: HelveticaNeueLTW05_85Heavy;
   color: #4D4D4D;
@@ -89,7 +93,12 @@ h5 {
 }
 
 .Reactable {
-  margin-top: 20px;
+  margin-top: 5px;
+}
+
+.ReactTable .rt-tr:hover .rt-td {
+  background: white;
+  cursor: auto;
 }
 
 /********************************
@@ -134,6 +143,10 @@ h5 {
   }
   
   .infoDiv {
+    margin-top: 30px;
+  }
+  
+  #results_1-timestamp {
     margin-top: 30px;
   }
 }

@@ -17,7 +17,7 @@ get_building_card <- function(dataset,
                               card_min_height,
                               card_width,
                               title_1 = "Allgemeine Informationen",
-                              title_2 = "Heizung & Wasser") {
+                              title_2 = "Informationen zur Energie") {
   tagList(
     h2(paste0(dataset$Adresse, " (EGID ", dataset$EGID, ")")),
 
@@ -79,7 +79,7 @@ get_building_card <- function(dataset,
 #' @noRd
 get_entrance_card <- function(dataset,
                               title = "Info",
-                              text = "Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen. Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingängen suchen, geben Sie diese Adresse ins Suchfeld links ein.") {
+                              text = "Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen. Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingänge suchen, geben Sie diese Adresse ins Suchfeld links ein.") {
   ssz_icons <- icons::icon_set("inst/app/www/icons/")
   tagList(
     tags$div(
@@ -120,21 +120,32 @@ get_entrance_card <- function(dataset,
 #'
 #' @noRd
 get_apartment_card <- function(dataset = sorted_apartments,
+                               progress = 0,
                                title = "Informationen zu den Wohnungen") {
+  # Info Text
+  info_text <- if (progress == 0) {
+    NULL
+  } else if (progress == 1) {
+    p("Gebäude enthält auch neue Wohnungen, die noch im Bau sind.")
+  }
+
+  # Make the card
   tagList(
     bslib::card(
       bslib::card_header(h2(title)),
+      info_text,
       reactable(
         dataset %>%
-          select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Küche),
+          select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Maisonette, Küche),
         columns = list(
-          aWN = colDef(name = "aWN", minWidth = 50),
-          EWID = colDef(minWidth = 50),
-          Stockwerk = colDef(name = "Stockwerk", minWidth = 100),
-          `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 80),
+          aWN = colDef(name = "aWN", minWidth = 45),
+          EWID = colDef(minWidth = 50, align = "left"),
+          Stockwerk = colDef(name = "Stockwerk", minWidth = 75),
+          `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 67),
           Zimmer = colDef(name = "Zimmer", minWidth = 60),
-          `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)"),
-          Küche = colDef(name = "Küche")
+          `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)", minWidth = 85),
+          Maisonette = colDef(name = "Maisonette", minWidth = 85),
+          Küche = colDef(name = "Küche", minWidth = 52)
         ),
         paginationType = "simple",
         language = reactableLang(
@@ -149,13 +160,6 @@ get_apartment_card <- function(dataset = sorted_apartments,
         defaultPageSize = 10,
         fullWidth = TRUE
       )
-    ),
-    tags$div(
-      class = "infoDiv",
-      h5("Erklärungen"),
-      p("aWN = amtliche Wohnungsnummer"),
-      p("EGID = Eidgenössischer Gebäudeidentifikator"),
-      p("EWID = Eidgenössischer Wohnungsidentifikator")
     )
   )
 }
