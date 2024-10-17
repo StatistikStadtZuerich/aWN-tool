@@ -54,7 +54,6 @@ get_data <- function() {
         GBAUJ, # Building year
         GKLASLang, # Building class
         GASTW, # Number of floors
-        GAZZI, # Underground floors
         GSCHUTZRLang, # Civil protection room
         GWAERZH1Lang, # Heating system 1
         GENH1Lang, # Energy source 1
@@ -73,8 +72,7 @@ get_data <- function() {
       rename(
         `Gebäudetyp` = GKLASLang,
         `Baujahr` = GBAUJ,
-        `Oberirdische Geschosse` = GASTW,
-        `Unterirdische Geschosse` = GAZZI,
+        `Geschosse` = GASTW,
         `Zivilschutzraum` = GSCHUTZRLang,
         `Wärmeerzeuger Heizung 1` = GWAERZH1Lang,
         `Energiequelle Heizung 1` = GENH1Lang,
@@ -110,16 +108,15 @@ get_data <- function() {
         # Extract numeric part from WHGNR (apartment number),
         WHGNR = stringr::str_remove(WHGNR, "Wohnung\\s"), 
         whg_num = as.numeric(stringr::str_extract(WHGNR, "[:digit:]{1,}")),
-        
-        # Correct numbers in the range 9800-9999
+        # Correct aWN values between 9800-9999 by subtracting 10,000
         aWN_korrigiert = ifelse(!is.na(whg_num) & whg_num >= 9800 & whg_num <= 9999, whg_num - 10000, whg_num)
       ) |>
       # Sort by street, house number, apartment number (whg_num), and aWn korrigiert 
-      arrange(
+      arrange(  
         STRNAME, 
-        DEINR_numeric,  
-        whg_num,
-        aWN_korrigiert
+        DEINR_numeric,
+        aWN_korrigiert,
+        whg_num
       ) |>
       rename(
         `aWN` = WHGNR,
@@ -131,6 +128,7 @@ get_data <- function() {
         `Küche` = WKCHELang
       )
     
+   
     # Select unique addresses
     unique_addresses <- unique(building_with_address$Adresse)
     
@@ -143,3 +141,4 @@ get_data <- function() {
   }
 }
 
+ 

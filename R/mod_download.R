@@ -15,6 +15,7 @@ mod_download_ui <- function(id) {
 
   # Download Buttons
   tagList(
+    h3("Daten herunterladen"),
     tags$div(
       id = ns("downloadWrapperId"),
       class = "downloadWrapperDiv",
@@ -46,7 +47,7 @@ mod_download_server <- function(id, building_data, apartment_data, fct_create_ex
     data_for_download <- reactive({
       # Data with Building Infos
       building_info <- building_data() |>
-        select(Adresse, EGID, Gebäudetyp, Baujahr, `Oberirdische Geschosse`, `Unterirdische Geschosse`, `Zivilschutzraum`, `Wärmeerzeuger Heizung 1`, `Energiequelle Heizung 1`, `Wärmeerzeuger Warmwasser 1`, `Energiequelle Warmwasser 1`)
+        select(Adresse, EGID, Gebäudetyp, Baujahr, Geschosse,  `Zivilschutzraum`, `Wärmeerzeuger Heizung 1`, `Energiequelle Heizung 1`, `Wärmeerzeuger Warmwasser 1`, `Energiequelle Warmwasser 1`)
 
       # Data with Aparment Infos
       apartment_info <- apartment_data() |>

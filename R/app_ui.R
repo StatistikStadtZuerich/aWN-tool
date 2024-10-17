@@ -8,50 +8,40 @@ app_ui <- function(request) {
   tagList(
     # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
-
+    
     # Page layout
     fluidPage(
-
+      
       # TEMPORARY: until golem_add_external_resources() works
       includeCSS("inst/app/www/sszThemeShiny.css"),
       includeCSS("inst/app/www/aWNTheme.css"),
       tags$div(
         class = "queryDiv",
         h1("Wählen Sie eine Adresse"),
-        p("Mit dieser Applikation können Sie Abfragen zu den amtlichen Wohnungsnummern in der Stadt Zürich machen."),
+        p("Mit dieser Applikation können Sie Abfragen zu Daten im Gebäude- und Wohnungsregister der Stadt Zürich durchführen. Unter anderem finden Sie Angaben zu den amtlichen Wohnungsnummern, Energieträgern und weiteren Informationen."),
         hr()
       ),
-
+      
       # Sidebar: Input widgets are placed here
       sidebarLayout(
         sidebarPanel(
-
+          
           # Input Module
           mod_input_ui("input_module"),
-
+          
           # Action Button
-          conditionalPanel(
-            condition = "input['input_module-address'] == '' || input.ActionButtonId == 0", # Show button if address is empty or ActionButtonId is 0
-            sszActionButton(
-              "ActionButtonId",
-              "Abfrage starten"
-            )
+          sszActionButton(
+            "ActionButtonId",
+            "Abfrage starten"  # Initial label
           ),
-
-          # Downloads (Appears only if both ActionButtonId > 0 and input_module_address is filled)
-          conditionalPanel(
-            condition = "input.ActionButtonId > 0 && input['input_module-address'] !== null && input['input_module-address'] !== ''", # Button clicked AND address filled properly
-            h3("Daten herunterladen"),
-            mod_download_ui("download_1") # Include the download module UI
-          )
+          
+          # Conditionally show download UI after the action button is clicked and address is selected
+          uiOutput("download_ui")  
         ),
-
+        
         # Main Panel: Outputs are placed here
         mainPanel(
-          conditionalPanel(
-            condition = "input.ActionButtonId > 0", # Show results if ActionButtonId > 0
-            mod_results_ui("results_1")
-          )
+          mod_results_ui("results_1")
         )
       )
     )
