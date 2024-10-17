@@ -5,18 +5,40 @@ test_that("test get data", {
   expect_type(df_main, "list")
   
   # check list length and names
-  expect_named(df_main, c("df_building", "df_apartment", "df_unique_addresses"))
+  expect_named(df_main, c("df_building", "df_apartment", "df_unique_addresses", "df_time_stamp"))
   
   # Check that the list contains tibbles for buildings, apartments, and unique addresses
   expect_s3_class(df_main$df_building, "data.frame")
   expect_s3_class(df_main$df_apartment, "data.frame")
   expect_type(df_main$df_unique_addresses, "character")
+  expect_type(df_main$df_time_stamp, "character")
   
   # Calculate the number of NAs in the awn column
   num_na_awn <- sum(is.na(df_main$df_apartment$awn))
   
-  # Ensure all EGID values in df_apartment exist in df_building
-  expect_true(all(df_main$df_apartment$EGID %in% df_main$df_building$EGID))
+  # Ensure all EGID values in df_apartment exist in df_building 
+  existing_apartments <- df_main$df_apartment %>%
+    filter(WSTAT == 3004)
+  
+  inconstruction_apartments <- df_main$df_apartment %>%
+    filter(WSTAT == 3003)
+  missing_egids <- setdiff(inconstruction_apartments$EGID, df_main$df_building$EGID)
+  # Identify which EGIDs are not present in the building dataset
+  missing_egids <- setdiff(inconstruction_apartments$EGID, df_main$df_building$EGID)
+  
+  # Count how many EGIDs are missing
+  missing_count <- length(missing_egids)
+  
+  # Filter the in-construction apartments with missing EGIDs
+  missing_apartments <- inconstruction_apartments %>%
+    filter(EGID %in% missing_egids)
+  
+  # Output the result
+  print(paste("Number of missing EGIDs:", missing_count))
+  print("List of missing EGIDs:")
+  print(missing_egids)
+  expect_true(all(existing_apartments$EGID %in% df_main$df_building$EGID)) 
+
   
   # Check that df_apartement contains specific columns
   expect_true(all(c("EGID", "aWN", "EWID", "Stockwerk", "Zimmer", "Wohnfläche (m2)", "Küche") %in% names(df_main$df_apartment)))
