@@ -1,6 +1,6 @@
 # aWN Tool - Amtliche Wohnungsnummer Tool
 
-Shiny app for querying official apartment numbers (aWN - Amtliche Wohnungsnummern) and other related information such as energy sources, building details, and apartment sizes from the City of Zurich's Building and Apartment Registry. The data is obtained from the Open Data portal of the city of Zurich and is available here:
+Shiny app for querying official apartment numbers (aWN - amtliche WohnungsNummern) and other information such as energy sources, building details, and apartment sizes from the City of Zurich's Building and Apartment Registry. The data is obtained from the [Open Data Catalogue](https://data.stadt-zuerich.ch/) of the city of Zurich and is
 
 -   [building data](https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/resource/0dc7e4f2-09dd-4054-a14f-9ee8e6d5b2bb)
 -   [entrance data](https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/resource/22094869-a3f4-44a1-a49d-a9d7dc80253a)
@@ -8,25 +8,29 @@ Shiny app for querying official apartment numbers (aWN - Amtliche Wohnungsnummer
 
 ## Architecture
 
-The aWN Tool is built using several modular components and helper functions such as **fct_get_data.R**, fct_get_card.R, fct_ssz_download_excel.R, and fct_get_infos.R. The main modules are as follows:
+The aWN Tool is built using several modular components and helper functions such as fct_get_card.R, fct_ssz_download_excel.R, and fct_get_infos.R. The main modules are as follows:
 
--   **Input Module (mod_input)**: This module contains all input widgets, such as address selection and filtering options. It returns data filtered according to the selected inputs (Address) and also passes the current inputs for the download functionality, ensuring that the Excel file is named with the correct address.
+-   `app_ui` sets up the UI layout, including the `mod_input_ui`, results (`mod_results_ui`), and download buttons (`mod_download_ui`).
 
--   **Results Module (mod_results)**: This module is responsible for showing the main results to the user. It takes the filtered data from the input module and displays it using a reactable table.
+-   `mod_input_ui` handles address input. Its server function, `mod_input_server`, return filtered data based on the selected address.
 
--   **Download Module (mod_download)**: Handles the download functionality and gathers inputs from the results module, along with some static inputs (like the filename and Excel arguments), which are prepared in the main server logic.
+-   `app_server` reacts to the action button click:
 
-Below is a visual represenation of the application's architecture:
+    -   Filtered input: The `mod_input_server` module filters building and apartment data.
+
+    -   Result display: Depending on valid input, it shows the `mod_result_ui` and `mod_download_ui`.
+
+    -   Warning: If the address is not found, a warning UI is rendered.
+
+-   `mod_result_server` renders the building and apartment based on filtered input.
+
+-   `mod_download_server` enables downloading filtered data (building and apartment).
+
+Below is a visual representation of the application's architecture:
 
 ``` mermaid
 flowchart LR;
-  mod_input-- filtered_building, filtered_apartment -->mod_results
-  mod_input-- current_inputs -->main_server
-  main_server-- filtered_building, filtered_apartment -->mod_results
-  main_server-- download_ready_data -->mod_download
-  subgraph mod_results
-    mod_details
-  end
-  mod_input-- df_details_prefiltered -->mod_details
-  mod_input-- filtered_building, filtered_apartment -->mod_download
+  mod_input-- address -->app_server
+  app_server-- filtered_building, filtered_apartment -->mod_results -->Results in App
+  app_server-- filtered_building, filtered_apartment -->mod_download -->Excel
 ```
