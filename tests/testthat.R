@@ -10,3 +10,4 @@ library(testthat)
 library(aWNtool)
 
 test_check("aWNtool")
+#testthat::test_dir("tests")
