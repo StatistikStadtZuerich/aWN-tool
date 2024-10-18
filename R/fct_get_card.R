@@ -111,7 +111,7 @@ get_entrance_card <- function(dataset,
       class = "info_na_div",
       tags$div(
         class = "info_na_icon",
-        img(ssz_icons$`warning`)
+        img(ssz_icons$`info-help`)
       ),
       tags$div(
         class = "info_na_text",
