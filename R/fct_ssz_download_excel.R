@@ -57,6 +57,7 @@ ssz_download_excel <- function(file, data_for_download) {
     )) |>
       as.data.frame()
 
+    # Read sheet for Definitions
     definitions <- read_excel(path_title_page, sheet = 3)
 
     # Add Sheets
@@ -104,7 +105,7 @@ ssz_download_excel <- function(file, data_for_download) {
     # Add Styling
     addStyle(wb, 1, style = sty, row = 1:19, cols = 1:6, gridExpand = TRUE)
     addStyle(wb, 1, style = styTitle, row = 14, cols = 2, gridExpand = TRUE)
-    addStyle(wb, 2, style = styConcept, row = 1:3, cols = 1, gridExpand = TRUE)
+    addStyle(wb, 2, style = styConcept, row = 1:5, cols = 1, gridExpand = TRUE)
     addStyle(wb, 3, style = styConcept, row = 9, cols = 1:50, gridExpand = TRUE)
     modifyBaseFont(wb, fontSize = 8, fontName = "Arial")
 
@@ -121,6 +122,10 @@ ssz_download_excel <- function(file, data_for_download) {
     setColWidths(wb, sheet = 1, cols = "B", widths = 4)
     setColWidths(wb, sheet = 1, cols = "D", widths = 40)
     setColWidths(wb, sheet = 1, cols = "E", widths = 18)
+    
+    # Set Column Width for definition sheet
+    setColWidths(wb, sheet = 2, cols = "A", widths = 18)
+    setColWidths(wb, sheet = 2, cols = "B", widths = 40)
 
     # Save Excel
     saveWorkbook(wb, file, overwrite = TRUE) ## save to working directory
@@ -156,6 +161,7 @@ ssz_download_excel <- function(file, data_for_download) {
     )) |>
       as.data.frame()
 
+    # Read sheet for Definitions
     definitions <- read_excel(path_title_page, sheet = 3)
 
     # Add Sheets
@@ -220,7 +226,7 @@ ssz_download_excel <- function(file, data_for_download) {
     # Add Styling
     addStyle(wb, 1, style = sty, row = 1:19, cols = 1:6, gridExpand = TRUE)
     addStyle(wb, 1, style = styTitle, row = 14, cols = 2, gridExpand = TRUE)
-    addStyle(wb, 2, style = styConcept, row = 1:3, cols = 1, gridExpand = TRUE)
+    addStyle(wb, 2, style = styConcept, row = 1:5, cols = 1, gridExpand = TRUE)
     addStyle(wb, 3, style = styConcept, row = 9, cols = 1:50, gridExpand = TRUE)
     addStyle(wb, 4, style = styConcept, row = 9, cols = 1:50, gridExpand = TRUE)
     modifyBaseFont(wb, fontSize = 8, fontName = "Arial")
@@ -246,6 +252,10 @@ ssz_download_excel <- function(file, data_for_download) {
     setColWidths(wb, sheet = 1, cols = "B", widths = 4)
     setColWidths(wb, sheet = 1, cols = "D", widths = 40)
     setColWidths(wb, sheet = 1, cols = "E", widths = 18)
+    
+    # Set Column Width for definition sheet
+    setColWidths(wb, sheet = 2, cols = "A", widths = 18)
+    setColWidths(wb, sheet = 2, cols = "B", widths = 40)
 
     # Save Excel
     saveWorkbook(wb, file, overwrite = TRUE) ## save to working directory
