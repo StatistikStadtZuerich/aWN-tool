@@ -9,7 +9,12 @@
 Shiny App aWN-Tool that shows official aparment numbers for all the addresses in the city of Zurich.
 }
 \author{
-\strong{Maintainer}: Thamilini Easwaralingam \email{thamilini.easwaralingam@zuerich.ch}
+\strong{Maintainer}: Alessandro Feller \email{alessandro.feller@zuerich.ch}
+
+Authors:
+\itemize{
+  \item Thamilini Easwaralingam \email{thamilini.easwaralingam@zuerich.ch}
+}
 
 }
 \keyword{internal}
