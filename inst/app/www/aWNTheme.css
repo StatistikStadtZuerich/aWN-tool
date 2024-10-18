@@ -108,8 +108,8 @@ h5 {
 /* For screens 480px or smaller (small phones) */
 @media (max-width: 480px) {
   .bslib-card {
-    padding-left: 10px; 
-    padding-right: 10px;
+    padding-left: 15px; 
+    padding-right: 15px;
     margin-top: 20px;  /* Adjust top margin for small devices */
   }
   
@@ -124,6 +124,19 @@ h5 {
   .infoDiv {
     margin-top: 20px;
   }
+  
+  h2 {
+    font-size: 20px;
+  }
+  
+  h3 {
+    font-size: 16px;
+  }
+  
+  div#download_ui {
+    margin-bottom: 50px;
+  }
+  
 }
 
 /* For screens between 481px and 768px (larger phones and small tablets) */
@@ -131,7 +144,7 @@ h5 {
   .bslib-card {
     padding-left: 15px; 
     padding-right: 15px;
-    margin-top: 30px;  /* Adjust top margin for medium devices */
+    margin-top: 20px;  /* Adjust top margin for medium devices */
   }
   
   .bslib-grid {
@@ -139,16 +152,29 @@ h5 {
   }
   
   .info_na_div {
-    margin-top: 30px;
+    margin-top: 20px;
   }
   
   .infoDiv {
-    margin-top: 30px;
+    margin-top: 20px;
   }
   
   #results_1-timestamp {
     margin-top: 30px;
   }
+  
+  h2 {
+    font-size: 20px;
+  }
+  
+  h3 {
+    font-size: 16px;
+  }
+  
+  div#download_ui {
+    margin-bottom: 50px;
+  }
+  
 }
 
 /* For screens 768px and larger (tablets and above) */
