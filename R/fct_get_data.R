@@ -133,7 +133,7 @@ get_data <- function() {
 
 
     # Select unique addresses
-    unique_addresses <- NULL #unique(building_with_address$Adresse)
+    unique_addresses <- unique(building_with_address$Adresse)
 
     # Return the final transformed data
     return(list(
