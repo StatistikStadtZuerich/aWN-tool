@@ -17,21 +17,23 @@ test_that("test get data", {
   num_na_awn <- sum(is.na(df_main$df_apartment$awn))
   
   # Ensure all EGID values in df_apartment exist in df_building 
-  existing_apartments <- df_main$df_apartment %>%
+  existing_apartments <- df_main$df_apartment |>
     filter(WSTAT == 3004)
   
-  inconstruction_apartments <- df_main$df_apartment %>%
+  inconstruction_apartments <- df_main$df_apartment |>
     filter(WSTAT == 3003)
   missing_egids <- setdiff(inconstruction_apartments$EGID, df_main$df_building$EGID)
+  
   # Identify which EGIDs are not present in the building dataset
   missing_egids <- setdiff(inconstruction_apartments$EGID, df_main$df_building$EGID)
   
   # Count how many EGIDs are missing
   missing_count <- length(missing_egids)
   
-  # Filter the in-construction apartments with missing EGIDs
-  missing_apartments <- inconstruction_apartments %>%
+  # Filter the in-construction apartments with missing EGIDs --> reason: gstat is 1004
+  missing_apartments <- inconstruction_apartments |>
     filter(EGID %in% missing_egids)
+  
   
   # Output the result
   print(paste("Number of missing EGIDs:", missing_count))
