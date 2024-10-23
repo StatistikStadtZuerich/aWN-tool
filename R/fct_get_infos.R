@@ -15,7 +15,7 @@ get_na_info <- function(title = "Info",
     class = "info_na_div",
     tags$div(
       class = "info_na_icon",
-      img(ssz_icons$`warning`)
+      img(ssz_icons$`info-help`)
     ),
     tags$div(
       class = "info_na_text",
@@ -29,25 +29,26 @@ get_na_info <- function(title = "Info",
 #'
 #' @description Function to create a Warning div
 #'
+#' @param dataset Dataset with address from input that is invalid
 #' @param title Title that should appear in the block
-#' @param text Text that should appear in the block
 #'
 #' @return Div
 #'
 #' @noRd
-get_warning <- function(title = "Warnung",
-                        text = "Die eingegebene Adresse existiert nicht.") {
+get_warning <- function(dataset,
+                        title = "Ungültige Adresseingabe") {
   ssz_icons <- icons::icon_set("inst/app/www/icons/")
+  invalid_address <- dataset
   tags$div(
     class = "info_na_div",
     tags$div(
       class = "info_na_icon",
-      img(ssz_icons$`warning`)
+      img(ssz_icons$`info-help`)
     ),
     tags$div(
       class = "info_na_text",
       h6(title),
-      p(text)
+      p(HTML(paste0("Die Adresse ", "<span class='bold-vars'>«", invalid_address, "»</span>", " existiert nicht.")))
     )
   )
 }

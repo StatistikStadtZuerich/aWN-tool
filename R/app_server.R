@@ -44,11 +44,12 @@ app_server <- function(input, output, session) {
         fct_create_excel = ssz_download_excel
       )
     } else {
-      print(paste0("Ungültige Adresse: ", filtered_input$selected_address()))
+      invalid_address <- filtered_input$selected_address()
+      print(paste0("Ungültige Adresse: ", invalid_address))
 
       # Render a warning message when address is invalid
       output$warning <- renderUI({
-        get_warning()
+        get_warning(dataset = invalid_address)
       })
 
       # Hide results and download modules

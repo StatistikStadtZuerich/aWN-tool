@@ -29,7 +29,7 @@ app_ui <- function(request) {
             "Abfrage starten" # Initial label
           ),
 
-          # Conditionally show download UI after the action button is clicked and address is selected
+          # Download Module
           uiOutput("download_ui")
         ),
 

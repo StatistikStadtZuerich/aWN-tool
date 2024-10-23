@@ -9,42 +9,35 @@ test_that("UI: mod_input_ui creates correct input fields", {
   expect_true(any(grepl("address", as.character(ui))))
 })
 
-test_that("Server: mod_input_server filters data correctly", {
-  # Load dataset
-  df_main <- get_data()  
+test_that("UI: mod_input_ui has correct label for address input", {
+  ui <- mod_input_ui("input_module")
   
+  # Check that the input label is correct
+  expect_true(any(grepl("Geben Sie eine Adresse ein", as.character(ui))))
+})
+
+
+test_that("Server: mod_input_server filters data correctly", {
+
   test_address <- df_main$df_unique_addresses[1]  # Take the first address for the test
   
   # Mock session for testing the module server
   testServer(mod_input_server, args = list(id = "input_module"), {
     # Set the address input to the test address
     session$setInputs(address = test_address)
-    
-    # Test reactive filtering logic for buildings
-    filtered_building <- filtered_building()  # Reactive output
-    filtered_apartment <- filtered_apartment()  # Reactive output
-    
-    # Print the filtered results for debugging purposes
-    print("Filtered Building Data:")
-    print(filtered_building)
-    
-    print("Filtered Apartment Data:")
-    print(filtered_apartment)
-    
+
     # Check that the filtering is correct for the selected address (case insensitive)
     test_address_lower <- tolower(test_address)
-    expect_equal(nrow(filtered_building), sum(tolower(df_main$df_building$Adresse) == test_address_lower))
-    expect_equal(tolower(filtered_building$Adresse), rep(test_address_lower, nrow(filtered_building)))
+    expect_equal(nrow(filtered_building()), sum(tolower(df_main$df_building$Adresse) == test_address_lower))
+    expect_equal(tolower(filtered_building()$Adresse), rep(test_address_lower, nrow(filtered_building())))
     
-    expect_equal(nrow(filtered_apartment), sum(tolower(df_main$df_apartment$Adresse) == test_address_lower))
-    expect_equal(tolower(filtered_apartment$Adresse), rep(test_address_lower, nrow(filtered_apartment)))
+    expect_equal(nrow(filtered_apartment()), sum(tolower(df_main$df_apartment$Adresse) == test_address_lower))
+    expect_equal(tolower(filtered_apartment()$Adresse), rep(test_address_lower, nrow(filtered_apartment())))
   })
 })
 
 test_that("Server: mod_input_server handles case insensitivity in address input", {
-  # Load dataset
-  df_main <- get_data()  
-  
+
   test_address <- df_main$df_unique_addresses[22]  # Take the 22. address for the test
   
   # Mock session for testing the module server
@@ -52,24 +45,18 @@ test_that("Server: mod_input_server handles case insensitivity in address input"
     # Set the address input to an uppercase version of the test address
     session$setInputs(address = toupper(test_address))
     
-    # Test reactive filtering logic for buildings
-    filtered_building <- filtered_building()  # Reactive output
-    filtered_apartment <- filtered_apartment()  # Reactive output
-    
     # Check that the filtering is correct for the selected address (case insensitive)
     test_address_lower <- tolower(test_address)
-    expect_equal(nrow(filtered_building), sum(tolower(df_main$df_building$Adresse) == test_address_lower))
-    expect_equal(tolower(filtered_building$Adresse), rep(test_address_lower, nrow(filtered_building)))
+    expect_equal(nrow(filtered_building()), sum(tolower(df_main$df_building$Adresse) == test_address_lower))
+    expect_equal(tolower(filtered_building()$Adresse), rep(test_address_lower, nrow(filtered_building())))
     
-    expect_equal(nrow(filtered_apartment), sum(tolower(df_main$df_apartment$Adresse) == test_address_lower))
-    expect_equal(tolower(filtered_apartment$Adresse), rep(test_address_lower, nrow(filtered_apartment)))
+    expect_equal(nrow(filtered_apartment()), sum(tolower(df_main$df_apartment$Adresse) == test_address_lower))
+    expect_equal(tolower(filtered_apartment()$Adresse), rep(test_address_lower, nrow(filtered_apartment())))
   })
 })
 
 test_that("Server: mod_input_server handles non-existent address input", {
-  # Load dataset
-  df_main <- get_data()  
-  
+
   non_existent_address <- "gugusstrasse 23"
   
   # Mock session for testing the module server
@@ -77,12 +64,10 @@ test_that("Server: mod_input_server handles non-existent address input", {
     # Set the address input to a non-existent address
     session$setInputs(address = non_existent_address)
     
-    # Test reactive filtering logic for buildings
-    filtered_building <- filtered_building()  # Reactive output
-    filtered_apartment <- filtered_apartment()  # Reactive output
+    
     
     # Check that no rows are returned for a non-existent address
-    expect_equal(nrow(filtered_building), 0)
-    expect_equal(nrow(filtered_apartment), 0)
+    expect_equal(nrow(filtered_building()), 0)
+    expect_equal(nrow(filtered_apartment()), 0)
   })
 })

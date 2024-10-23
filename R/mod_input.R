@@ -28,11 +28,11 @@ mod_input_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    # Make reactive value for address (debugging)
+    # Make reactive value for selected address (debugging)
     selected_address <- reactive({
-      tolower(input$address)
+      input$address
     })
-
+    
     # Filter Data
     filtered_building <- reactive({
       req(input$address) # Ensure address is selected

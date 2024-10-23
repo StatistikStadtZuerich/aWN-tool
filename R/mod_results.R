@@ -80,11 +80,11 @@ mod_results_server <- function(id, building_data, apartment_data) {
         tags$div(
           class = "infoDiv",
           h5("Erläuterungen"),
+          p("Anzahl Geschosse = umfasst unter- und oberirdische Geschosse"),
           p("Anzahl Zimmer = halbe Zimmer werden abgerundet"),
           p("aWN = amtliche Wohnungsnummer"),
           p("EGID = Eidgenössischer Gebäudeidentifikator"),
           p("EWID = Eidgenössischer Wohnungsidentifikator"),
-          p("Geschosse = umfasst unter- und oberirdische Geschosse")
         )
       })
 
@@ -129,11 +129,11 @@ mod_results_server <- function(id, building_data, apartment_data) {
         tags$div(
           class = "infoDiv",
           h5("Erläuterungen"),
+          p("Anzahl Geschosse = umfasst unter- und oberirdische Geschosse"),
           p("Anzahl Zimmer = halbe Zimmer werden abgerundet"),
           p("aWN = amtliche Wohnungsnummer"),
           p("EGID = Eidgenössischer Gebäudeidentifikator"),
           p("EWID = Eidgenössischer Wohnungsidentifikator"),
-          p("Geschosse = umfasst unter- und oberirdische Geschosse")
         )
       })
 
@@ -152,8 +152,9 @@ mod_results_server <- function(id, building_data, apartment_data) {
         tags$div(
           class = "infoDiv",
           h5("Erläuterungen"),
-          p("EGID = Eidgenössischer Gebäudeidentifikator"),
-          p("Geschosse = umfasst unter- und oberirdische Geschosse"),
+          p("Anzahl Geschosse = umfasst unter- und oberirdische Geschosse"),
+          p("EGID = Eidgenössischer Gebäudeidentifikator")
+          
         )
       })
 

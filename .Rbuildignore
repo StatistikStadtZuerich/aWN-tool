@@ -9,3 +9,4 @@ $run_dev.*
 ^.here$
 ^app\.R$
 ^rsconnect$
+_\.new\.png$

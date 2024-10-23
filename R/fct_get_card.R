@@ -18,6 +18,14 @@ get_building_card <- function(dataset,
                               card_width,
                               title_1 = "Allgemeine Informationen",
                               title_2 = "Informationen zur Energie") {
+  
+  # Define the unwanted values for each variable
+  unwanted_GWAERZH2Lang <- c("Kein Wärmeerzeuger (nicht beheiztes Gebäude)", "Keine Angabe", "")
+  unwanted_GENH2Lang <- c("Kein Energieträger", "Keine Angabe", "")
+  unwanted_GWAERZW2Lang <- c("Keine Angabe", "Kein Wärmeerzeuger (nicht beheiztes Gebäude)", "")
+  unwanted_GENW2Lang <- c("Kein Energieträger", "Keine Angabe", "")
+  
+  # Make the card
   tagList(
     h2(paste0(dataset$Adresse, " (EGID ", dataset$EGID, ")")),
 
@@ -33,7 +41,7 @@ get_building_card <- function(dataset,
           min_height = card_min_height,
           p(HTML(paste("Gebäudetyp:", "<span class='bold-vars'>", dataset$Gebäudetyp, "</span>"))),
           p(HTML(paste("Baujahr:", "<span class='bold-vars'>", dataset$Baujahr, "</span>"))),
-          p(HTML(paste("Geschosse:", "<span class='bold-vars'>", dataset$`Geschosse`, "</span>"))),
+          p(HTML(paste("Anzahl Geschosse:", "<span class='bold-vars'>", dataset$`Geschosse`, "</span>"))),
           p(HTML(paste("Zivilschutzraum:", "<span class='bold-vars'>", dataset$Zivilschutzraum, "</span>")))
         )
       ),
@@ -44,22 +52,39 @@ get_building_card <- function(dataset,
         bslib::card_header(h2(title_2)),
         card_body(
           min_height = card_min_height,
+          
+          # Display Heizung 1
           p(HTML(paste("Wärmeerzeuger Heizung 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 1`, "</span>"))),
           p(HTML(paste("Energiequelle Heizung 1:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 1`, "</span>"))),
-          if (!is.na(dataset$`Wärmeerzeuger Heizung 2`) && dataset$`Wärmeerzeuger Heizung 2` != "") {
+          
+          # Display Heizung 2 only if it's not an unwanted value
+          if (!is.na(dataset$`Wärmeerzeuger Heizung 2`) && 
+              !(dataset$`Wärmeerzeuger Heizung 2` %in% unwanted_GWAERZH2Lang)) {
             p(HTML(paste("Wärmeerzeuger Heizung 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 2`, "</span>")))
           },
-          if (!is.na(dataset$`Energiequelle Heizung 2`) && dataset$`Energiequelle Heizung 2` != "") {
+          
+          # Display Energiequelle Heizung 2 only if it's not an unwanted value
+          if (!is.na(dataset$`Energiequelle Heizung 2`) && 
+              !(dataset$`Energiequelle Heizung 2` %in% unwanted_GENH2Lang)) {
             p(HTML(paste("Energiequelle Heizung 2:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 2`, "</span>")))
           },
+          
+          # Display Warmwasser 1
           p(HTML(paste("Wärmeerzeuger Warmwasser 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 1`, "</span>"))),
           p(HTML(paste("Energiequelle Warmwasser 1:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 1`, "</span>"))),
-          if (!is.na(dataset$`Wärmeerzeuger Warmwasser 2`) && dataset$`Wärmeerzeuger Warmwasser 2` != "") {
+          
+          # Display Warmwasser 2 only if it's not an unwanted value
+          if (!is.na(dataset$`Wärmeerzeuger Warmwasser 2`) && 
+              !(dataset$`Wärmeerzeuger Warmwasser 2` %in% unwanted_GWAERZW2Lang)) {
             p(HTML(paste("Wärmeerzeuger Warmwasser 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 2`, "</span>")))
           },
-          if (!is.na(dataset$`Energiequelle Warmwasser 2`) && dataset$`Energiequelle Warmwasser 2` != "") {
+          
+          # Display Energiequelle Warmwasser 2 only if it's not an unwanted value
+          if (!is.na(dataset$`Energiequelle Warmwasser 2`) && 
+              !(dataset$`Energiequelle Warmwasser 2` %in% unwanted_GENW2Lang)) {
             p(HTML(paste("Energiequelle Warmwasser 2:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 2`, "</span>")))
           }
+          
         )
       )
     )
@@ -86,7 +111,7 @@ get_entrance_card <- function(dataset,
       class = "info_na_div",
       tags$div(
         class = "info_na_icon",
-        img(ssz_icons$`warning`)
+        img(ssz_icons$`info-help`)
       ),
       tags$div(
         class = "info_na_text",
@@ -141,10 +166,10 @@ get_apartment_card <- function(dataset = sorted_apartments,
           aWN = colDef(name = "aWN", minWidth = 45),
           EWID = colDef(minWidth = 50, align = "left"),
           Stockwerk = colDef(name = "Stockwerk", minWidth = 75),
-          `Lage Wohnung` = colDef(name = "Lage Wohnung", minWidth = 67),
+          `Lage Wohnung` = colDef(name = "Lage", minWidth = 50),
           Zimmer = colDef(name = "Zimmer", minWidth = 60),
           `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)", minWidth = 85),
-          Maisonette = colDef(name = "Maisonette", minWidth = 85),
+          Maisonette = colDef(name = "Maisonette", minWidth = 79),
           Küche = colDef(name = "Küche", minWidth = 52)
         ),
         paginationType = "simple",
