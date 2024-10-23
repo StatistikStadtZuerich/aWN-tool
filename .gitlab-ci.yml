@@ -31,10 +31,11 @@ deploy-job-test:
   before_script:
     - Rscript -e "renv::restore()"
   script:
-    - Rscript -e "renv::status()"
-    - Rscript -e "source('data-raw/create_latest_data.R')"
-    - Rscript -e "devtools::test()"
-    - Rscript -e "source('dev/deploy.R')"
+    - |
+      Rscript -e "renv::status()"
+      "source('data-raw/create_latest_data.R')"
+      "devtools::test()"
+      "source('dev/deploy.R')"
 
 deploy-job-prod:
   # ausgeführt wenn Push auf Main branch
@@ -47,7 +48,8 @@ deploy-job-prod:
   before_script:
     - Rscript -e "renv::restore()"
   script:
-    - Rscript -e "renv::status()"
-    - Rscript -e "source('data-raw/create_latest_data.R')"
-    - Rscript -e "devtools::test()"
-    - Rscript -e "source('dev/deploy.R')"a
+    - |
+      Rscript -e "renv::status()"
+      "source('data-raw/create_latest_data.R')"
+      "devtools::test()"
+      "source('dev/deploy.R')"
