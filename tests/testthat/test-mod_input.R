@@ -9,6 +9,14 @@ test_that("UI: mod_input_ui creates correct input fields", {
   expect_true(any(grepl("address", as.character(ui))))
 })
 
+test_that("UI: mod_input_ui has correct label for address input", {
+  ui <- mod_input_ui("input_module")
+  
+  # Check that the input label is correct
+  expect_true(any(grepl("Geben Sie eine Adresse ein", as.character(ui))))
+})
+
+
 test_that("Server: mod_input_server filters data correctly", {
 
   test_address <- df_main$df_unique_addresses[1]  # Take the first address for the test
@@ -29,7 +37,6 @@ test_that("Server: mod_input_server filters data correctly", {
 })
 
 test_that("Server: mod_input_server handles case insensitivity in address input", {
-  # Load dataset
 
   test_address <- df_main$df_unique_addresses[22]  # Take the 22. address for the test
   
@@ -49,7 +56,6 @@ test_that("Server: mod_input_server handles case insensitivity in address input"
 })
 
 test_that("Server: mod_input_server handles non-existent address input", {
-  # Load dataset
 
   non_existent_address <- "gugusstrasse 23"
   
