@@ -1,47 +1,31 @@
-default:
-  image: $CI_REGISTRY/docker-hub-proxy/rocker/tidyverse:4.3.2
-
-variables:
-  CONTAINER_REGISTRY: $CI_REGISTRY
-  CONTAINER_REGISTRY_USERNAME: $CI_REGISTRY_USER
-  CONTAINER_REGISTRY_PASSWORD: $CI_REGISTRY_PASSWORD
-  CONTAINER_REPOSITORY: $SWID
-  CONTAINER_IMAGE_NAME: $CI_PROJECT_NAME # used for container image name
-  COMPONENT_NAME: $CI_PROJECT_NAME # used for component name (alias name) in umbrella chart
-  GIT_STRATEGY: fetch
-  RENV_PATHS_CACHE: ${CI_PROJECT_DIR}/renv/cache
-
-
-cache:
-  key: ${CI_PROJECT_NAME}
-  paths:
-    - ${RENV_PATHS_CACHE}
-
 stages:
-  - deploy_test
-  - deploy_prod
+  - deploy-test
+  - deploy-prod
+
+include:
+  # use template for gitlab pipeline to deploy to shinyapps.io
+  - project: "OE-7035/ssz-da/templates/pipeline-templates"
+    ref: "feature-extend"
+    file: "deploy-to-shinyapps.yml"
+  # use template for gitlab pipeline to push main to github 
+  - project: "OE-7035/ssz-da/templates/pipeline-templates"
+    ref: "feature-extend"
+    file: "publish-to-github.yml"
 
 deploy-job-test:
-  # ausgeführt wenn push in merge request
-  stage: deploy_test
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-  variables:
-    APP_NAME: $TEST_NAME
-  before_script:
-    - Rscript -e "renv::restore()"
+  extends:
+    - .deploy-job-test
   script:
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
 deploy-job-prod:
-  # ausgeführt wenn Push auf Main branch
-  stage: deploy_prod
-  rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  extends:
+    - .deploy-job-prod 
+  rules: # check if this is merged or overwritten
     - if: $CI_PIPELINE_SOURCE == "schedule"
-  variables:
-    APP_NAME: $PROD_NAME
-  before_script:
-    - Rscript -e "renv::restore()"
   script:
     - Rscript -e "source('dev/run_in_pipeline.R')"
+
+publish-main-to-github:
+  extends:
+    - .publish-main-to-github
