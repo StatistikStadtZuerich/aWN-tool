@@ -5,32 +5,32 @@ stages:
 include:
   # use template for gitlab pipeline to deploy to shinyapps.io
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
-    ref: "feature-extend"
+    ref: "main"
     file: "deploy-to-shinyapps.yml"
   # use template for gitlab pipeline to push main to github 
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
-    ref: "feature-extend"
+    ref: "main"
     file: "publish-to-github.yml"
 
 deploy-job-int:
   extends:
     - .deploy-job-int
   script:
+    # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
 deploy-job-prod:
   extends:
     - .deploy-job-prod 
   rules: 
-    # keep old rules
+    # keep inherited rules
     - !reference [.deploy-job-prod , rules]
     # add additional rule to run on schedule
     - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
+    # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
 publish-main-to-github:
   extends:
     - .publish-main-to-github
-
-    # dummy change
