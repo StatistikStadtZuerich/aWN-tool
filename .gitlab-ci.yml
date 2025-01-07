@@ -1,5 +1,5 @@
 stages:
-  - deploy-test
+  - deploy-int
   - deploy-prod
 
 include:
@@ -12,9 +12,9 @@ include:
     ref: "feature-extend"
     file: "publish-to-github.yml"
 
-deploy-job-test:
+deploy-job-int:
   extends:
-    - .deploy-job-test
+    - .deploy-job-int
   script:
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
