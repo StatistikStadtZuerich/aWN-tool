@@ -21,7 +21,10 @@ deploy-job-test:
 deploy-job-prod:
   extends:
     - .deploy-job-prod 
-  rules: # check if this is merged or overwritten
+  rules: 
+    # keep old rules
+    - !reference [.deploy-job-prod , rules]
+    # add additional rule to run on schedule
     - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
     - Rscript -e "source('dev/run_in_pipeline.R')"
