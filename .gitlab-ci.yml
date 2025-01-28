@@ -12,16 +12,16 @@ include:
     ref: "main"
     file: "publish-to-github.yml"
 
-deploy-job-int:
+shiny-deploy-int:
   extends:
-    - .deploy-job-int
+    - .shiny-deploy-int
   script:
     # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
-deploy-job-prod:
+shiny-deploy-prod:
   extends:
-    - .deploy-job-prod 
+    - .shiny-deploy-prod 
   rules: 
     # keep inherited rules
     - !reference [.deploy-job-prod , rules]
