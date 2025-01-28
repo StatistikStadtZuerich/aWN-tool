@@ -24,7 +24,7 @@ shiny-deploy-prod:
     - .shiny-deploy-prod 
   rules: 
     # keep inherited rules
-    - !reference [.deploy-job-prod , rules]
+    - !reference [.shiny-deploy-prod , rules]
     # add additional rule to run on schedule
     - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
