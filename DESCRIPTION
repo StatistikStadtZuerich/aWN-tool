@@ -14,6 +14,7 @@ Description: Shiny App aWN-Tool that shows official aparment numbers for all the
 License: What license is it under?
 Imports: 
     bslib,
+    chromote,
     config (>= 0.3.2),
     data.table,
     dplyr,
@@ -33,6 +34,7 @@ Imports:
     shinycssloaders,
     shinyjs,
     shinytest2,
+    stringr,
     tidyr,
     zuericssstyle
 Encoding: UTF-8
