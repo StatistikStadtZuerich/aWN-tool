@@ -11,7 +11,7 @@ Authors@R:
                role = c("aut", "cre"))
     )
 Description: Shiny App aWN-Tool that shows official aparment numbers for all the addresses in the city of Zurich.
-License: What license is it under?
+License: BSD-3-Clause + file LICENSE
 Imports: 
     bslib,
     chromote,
