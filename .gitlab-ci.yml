@@ -34,3 +34,4 @@ shiny-deploy-prod:
 publish-main-to-github:
   extends:
     - .publish-main-to-github
+
