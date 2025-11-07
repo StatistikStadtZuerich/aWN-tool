@@ -1,7 +1,9 @@
 {
   "bioconductor.version": null,
   "external.libraries": [],
-  "ignored.packages": ["aWNtool"],
+  "ignored.packages": [
+    "aWNtool"
+  ],
   "package.dependency.fields": [
     "Imports",
     "Depends",
