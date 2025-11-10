@@ -12,9 +12,9 @@ get_data <- function() {
 
   # Specify URLS
   URLs <- c(
-    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeude.csv",
-    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_gebaeudeeingaenge.csv",
-    "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/download/gwr_stzh_wohnungen.csv"
+    "https://data.stadt-zuerich.ch/dataset/bau_gwr_gebaeude_best_od5501/download/BAU550OD5501.csv",
+    "https://data.stadt-zuerich.ch/dataset/bau_gwr_gebeingaenge_best_od5502/download/BAU550OD5502.csv",
+    "https://data.stadt-zuerich.ch/dataset/bau_gwr_wohnungen_best_od5503/download/BAU550OD5503.csv"
   )
 
   # Parallelisation
