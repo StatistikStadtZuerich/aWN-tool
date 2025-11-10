@@ -13,6 +13,7 @@ include:
     file: "publish-to-github.yml"
 
 shiny-deploy-int:
+  image: $CI_REGISTRY/docker-hub-proxy/rocker/tidyverse:4.5.1
   extends:
     - .shiny-deploy-int
   script:
@@ -20,6 +21,7 @@ shiny-deploy-int:
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
 shiny-deploy-prod:
+  image: $CI_REGISTRY/docker-hub-proxy/rocker/tidyverse:4.5.1
   extends:
     - .shiny-deploy-prod 
   rules: 
@@ -34,4 +36,3 @@ shiny-deploy-prod:
 publish-main-to-github:
   extends:
     - .publish-main-to-github
-
