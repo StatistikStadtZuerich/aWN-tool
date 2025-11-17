@@ -1,15 +1,15 @@
 include:
   # use template for all stages 
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
-    ref: v1.1.0
+    ref: "v1.1.0"
     file: "stages.yml"
   # use template for gitlab pipeline to deploy to shinyapps.io
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
-    ref: v1.1.0
+    ref: "v1.1.0"
     file: "deploy-to-shinyapps.yml"
   # use template for gitlab pipeline to push main to github 
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
-    ref: v1.1.0
+    ref: "v1.1.0"
     file: "publish-to-github.yml"
 
 shiny-deploy-int:
