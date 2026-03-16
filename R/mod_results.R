@@ -55,113 +55,72 @@ mod_results_server <- function(id, building_data, apartment_data) {
       )
     })
 
-    # Output for Entrance Infos: Check for multiple entrances (i.e., multiple EDIDs for the same EGID)
+    # Entrance Infos
     selected_egid <- building_data$EGID[1]
     selected_address <- building_data$Adresse[1]
 
-    # Filter building data to get all entries with the same EGID
-    building_multiple_entries <- df_main[["df_building"]] |>
-      filter(EGID == selected_egid)
+    entrances_to_show <- df_main[["df_building"]] |>
+      filter(EGID == selected_egid, Adresse != selected_address)
 
-    # Exclude the selected address
-    entrances_to_show <- building_multiple_entries |>
-      filter(Adresse != selected_address)
-
-    # Check if there are multiple entrances (distinct EDIDs)
-    if (n_distinct(entrances_to_show$EDID) >= 1) {
+    # Check if there are multiple entrances (distinct EGIDs)
+    if (nrow(entrances_to_show) > 0) {
       output$entrance_info <- renderUI({
-        get_entrance_card(
-          dataset = entrances_to_show
-        )
-      })
-
-      # Render additional Infos
-      output$info <- renderUI({
-        tags$div(
-          class = "infoDiv",
-          h5("Erläuterungen"),
-          p("Anzahl Geschosse = umfasst unter- und oberirdische Geschosse"),
-          p("Anzahl Zimmer = halbe Zimmer werden abgerundet"),
-          p("aWN = amtliche Wohnungsnummer"),
-          p("EGID = Eidgenössischer Gebäudeidentifikator"),
-          p("EWID = Eidgenössischer Wohnungsidentifikator"),
-        )
-      })
-
-      # Render the Timestamp
-      output$timestamp <- renderUI({
-        p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
+        get_entrance_card(dataset = entrances_to_show)
       })
     } else {
-      output$entrance_info <- renderUI({
-        NULL
-      })
+      output$entrance_info <- renderUI(NULL)
     }
 
     # Apartment Infos
     if (nrow(apartment_data) > 0) {
-      # Sort the apartments by aWN_korrigiert (if necessary)
-      sorted_apartments <- apartment_data
+      has_progress <- any(apartment_data$WSTAT == 3003)
 
-      # Check if there is aparments in building progress
-      aparments_progress <- sorted_apartments |>
-        filter(WSTAT == 3003)
-
-      # Conditional Ouput for aparments in progress
-      if (nrow(aparments_progress) > 0) {
-        output$apartment_infos <- renderUI({
-          get_apartment_card(
-            dataset = sorted_apartments,
-            progress = 1
-          )
-        })
-      } else {
-        output$apartment_infos <- renderUI({
-          get_apartment_card(
-            dataset = sorted_apartments,
-            progress = 0
-          )
-        })
-      }
-
-      # Render additional Infos
-      output$info <- renderUI({
-        tags$div(
-          class = "infoDiv",
-          h5("Erläuterungen"),
-          p("Anzahl Geschosse = umfasst unter- und oberirdische Geschosse"),
-          p("Anzahl Zimmer = halbe Zimmer werden abgerundet"),
-          p("aWN = amtliche Wohnungsnummer"),
-          p("EGID = Eidgenössischer Gebäudeidentifikator"),
-          p("EWID = Eidgenössischer Wohnungsidentifikator"),
-        )
-      })
-
-      # Render the Timestamp
-      output$timestamp <- renderUI({
-        p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
-      })
-    } else {
-      # Render a blank table or a message when no apartments are found
       output$apartment_infos <- renderUI({
-        get_na_info()
-      })
-
-      # Render additional Infos
-      output$info <- renderUI({
-        tags$div(
-          class = "infoDiv",
-          h5("Erläuterungen"),
-          p("Anzahl Geschosse = umfasst unter- und oberirdische Geschosse"),
-          p("EGID = Eidgenössischer Gebäudeidentifikator")
-          
+        get_apartment_card(
+          dataset = apartment_data,
+          progress = as.integer(has_progress)
         )
       })
 
-      # Render the Timestamp
-      output$timestamp <- renderUI({
-        p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
+      # Info text includes apartment-specific explanations
+      info_items <- HTML(paste(
+        "- Anzahl Geschosse = umfasst unter- und oberirdische Geschosse",
+        "- Anzahl Zimmer = halbe Zimmer werden abgerundet",
+        "- aWN = amtliche Wohnungsnummer",
+        "- EGID = Eidgenössischer Gebäudeidentifikator",
+        "- EWID = Eidgenössischer Wohnungsidentifikator",
+        sep = "<br>"
+      ))
+    } else {
+      output$apartment_infos <- renderUI({
+        sszInfoBox(
+          title = "Info",
+          text = "In diesem Gebäude gibt es keine Wohnungen.",
+          icon = ssz_icons()("info-help-filled")
+        )
       })
+
+      # Info text for buildings without apartments (fewer items)
+      info_items <- HTML(paste(
+        "- Anzahl Geschosse = umfasst unter- und oberirdische Geschosse",
+        "- EGID = Eidgenössischer Gebäudeidentifikator",
+        sep = "<br>"
+      ))
     }
+
+    # Info & Timestamp
+    output$info <- renderUI({
+      sszContextBox(
+        title = "Erläuterungen",
+        text = info_items
+      )
+    })
+
+    output$timestamp <- renderUI({
+      tagList(
+        br(),
+        tags$p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
+      )
+    })
   })
 }

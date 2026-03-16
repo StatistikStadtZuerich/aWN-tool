@@ -9,24 +9,21 @@
 #' @importFrom shiny NS tagList
 mod_download_ui <- function(id) {
   ns <- NS(id)
-
-  # Icons
-  ssz_icons <- icons::icon_set("inst/app/www/icons/")
-
+  
   # Download Buttons
   tagList(
-    h3("Daten herunterladen"),
     tags$div(
       id = ns("downloadWrapperId"),
       class = "downloadWrapperDiv",
       sszDownloadButton(
         outputId = ns("excel_download"),
-        label = "xlsx",
-        image = img(ssz_icons$download)
+        label = "XLSX",
+        image = ssz_icons()("download")
       ),
       sszOgdDownload(
         outputId = ns("ogd_download"),
         label = "OGD",
+        image = ssz_icons()("external-link"),
         href = "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell"
       )
     )
