@@ -27,6 +27,7 @@ get_building_card <- function(dataset,
   
   # Make the card
   tagList(
+    br(),
     h2(paste0(dataset$Adresse, " (EGID ", dataset$EGID, ")")),
 
     # Wrap the cards in a two-column layout
@@ -36,7 +37,7 @@ get_building_card <- function(dataset,
       # Card for "Allgemeine Informationen"
       bslib::card(
         height = "auto",
-        bslib::card_header(h2(title_1)),
+        bslib::card_header(h3(title_1)),
         card_body(
           min_height = card_min_height,
           p(HTML(paste("Gebäudetyp:", "<span class='bold-vars'>", dataset$Gebäudetyp, "</span>"))),
@@ -49,7 +50,7 @@ get_building_card <- function(dataset,
       # Card for "Heizung & Wasser"
       bslib::card(
         height = "auto",
-        bslib::card_header(h2(title_2)),
+        bslib::card_header(h3(title_2)),
         card_body(
           min_height = card_min_height,
           
@@ -91,57 +92,47 @@ get_building_card <- function(dataset,
   )
 }
 
-#' Building Infos in BsLib two row Card
+#' Entrance Info Box
 #'
-#' @description Function to make a BsLib Card with Building Infos
+#' @description Renders an info box for buildings with multiple entrances,
+#'   including a reactable listing the other addresses.
 #'
-#' @param dataset Data Frame with Building Infos
-#' @param title Title of the Info
-#' @param text Text of the Info
+#' @param dataset Data Frame with Building Infos (filtered to other entrances)
+#' @param title Title of the Info Box
+#' @param text Text of the Info Box
 #'
-#' @return BsLib Card Object
+#' @return tagList with sszInfoBox and reactable
 #'
 #' @noRd
-get_entrance_card <- function(dataset,
-                              title = "Info",
+get_entrance_card <- function(dataset, title = "Info", 
                               text = "Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen. Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingänge suchen, geben Sie diese Adresse ins Suchfeld links ein.") {
-  ssz_icons <- icons::icon_set("inst/app/www/icons/")
-  tagList(
-    tags$div(
-      class = "info_na_div",
-      tags$div(
-        class = "info_na_icon",
-        img(ssz_icons$`info-help`)
-      ),
-      tags$div(
-        class = "info_na_text",
-        h6(title),
-        p(text),
-        reactable(
-          dataset %>%
-            select(Adresse),
-          columns = list(
-            `Adresse` = colDef(name = "Weitere Eingänge")
-          ),
-          highlight = FALSE,
-          bordered = FALSE,
-          striped = FALSE,
-          resizable = FALSE
-        )
+  sszInfoBox(
+    title = title,
+    text = tagList(
+      p(text),
+      reactable(
+        dataset |> select(Adresse),
+        columns = list(Adresse = colDef(name = "Weitere Eingänge")),
+        highlight = FALSE,
+        bordered = FALSE,
+        striped = FALSE,
+        resizable = FALSE
       )
-    )
+    ),
+    icon = ssz_icons()("info-help-filled")
   )
 }
 
 
-#' Appartment Infos in BsLib Card
+#' Apartment Infos as Reactable
 #'
-#' @description Function to make a BsLib Card with Apparment Infos
+#' @description Function to render apartment infos as a reactable table
 #'
-#' @param dataset Data Frame with Building Infos
-#' @param title Title of the Card
+#' @param dataset Data Frame with Apartment Infos
+#' @param progress Integer flag: 1 if apartments under construction exist, 0 otherwise
+#' @param title Title displayed above the table
 #'
-#' @return BsLib Card Object
+#' @return tagList with heading and reactable
 #'
 #' @noRd
 get_apartment_card <- function(dataset = sorted_apartments,
@@ -154,37 +145,35 @@ get_apartment_card <- function(dataset = sorted_apartments,
     p("Gebäude enthält auch neue Wohnungen, die noch im Bau sind.")
   }
 
-  # Make the card
   tagList(
-    bslib::card(
-      bslib::card_header(h2(title)),
-      info_text,
-      reactable(
-        dataset %>%
-          select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Maisonette, Küche),
-        columns = list(
-          aWN = colDef(name = "aWN", minWidth = 45),
-          EWID = colDef(minWidth = 50, align = "left"),
-          Stockwerk = colDef(name = "Stockwerk", minWidth = 75),
-          `Lage Wohnung` = colDef(name = "Lage", minWidth = 50),
-          Zimmer = colDef(name = "Zimmer", minWidth = 60),
-          `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)", minWidth = 85),
-          Maisonette = colDef(name = "Maisonette", minWidth = 79),
-          Küche = colDef(name = "Küche", minWidth = 52)
-        ),
-        paginationType = "simple",
-        language = reactableLang(
-          noData = "Keine Einträge gefunden",
-          pageNumbers = "{page} von {pages}",
-          pageInfo = "{rowStart} bis {rowEnd} von {rows} Einträgen",
-          pagePrevious = "\u276e",
-          pageNext = "\u276f",
-          pagePreviousLabel = "Vorherige Seite",
-          pageNextLabel = "Nächste Seite"
-        ),
-        defaultPageSize = 10,
-        fullWidth = TRUE
-      )
+    br(),
+    h3(title),
+    info_text,
+    reactable(
+      dataset |> 
+        select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Maisonette, Küche),
+      columns = list(
+        aWN = colDef(name = "aWN", minWidth = 45),
+        EWID = colDef(minWidth = 50, align = "left"),
+        Stockwerk = colDef(name = "Stockwerk", minWidth = 75),
+        `Lage Wohnung` = colDef(name = "Lage", minWidth = 50),
+        Zimmer = colDef(name = "Zimmer", minWidth = 50),
+        `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)", minWidth = 85),
+        Maisonette = colDef(name = "Maisonette", minWidth = 79),
+        Küche = colDef(name = "Küche", minWidth = 52)
+      ),
+      paginationType = "simple",
+      language = reactableLang(
+        noData = "Keine Einträge gefunden",
+        pageNumbers = "{page} von {pages}",
+        pageInfo = "{rowStart} bis {rowEnd} von {rows} Einträgen",
+        pagePrevious = "\u276e",
+        pageNext = "\u276f",
+        pagePreviousLabel = "Vorherige Seite",
+        pageNextLabel = "Nächste Seite"
+      ),
+      defaultPageSize = 10,
+      fullWidth = TRUE
     )
   )
 }
