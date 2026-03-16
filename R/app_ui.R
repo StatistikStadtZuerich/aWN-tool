@@ -5,39 +5,34 @@
 #' @import shiny
 #' @noRd
 app_ui <- function(request) {
+  
   tagList(
     # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
 
     # Page layout
-    fluidPage(
+    ssz_page(
 
-      # TEMPORARY: until golem_add_external_resources() works
-      includeCSS("inst/app/www/sszThemeShiny.css"),
-      includeCSS("inst/app/www/aWNTheme.css"),
+      # Input Module
+      mod_input_ui("input_module"),
 
-      # Sidebar: Input widgets are placed here
-      sidebarLayout(
-        sidebarPanel(
+      # Action Button
+      sszActionButton(
+        "ActionButtonId",
+        "Abfrage starten"
+      ),
 
-          # Input Module
-          mod_input_ui("input_module"),
+      # Results (shown only when server confirms valid results)
+      conditionalPanel(
+        condition = "output.show_results == true",
+        mod_results_ui("results_1")
+      ),
+      uiOutput("warning"),
 
-          # Action Button
-          sszActionButton(
-            "ActionButtonId",
-            "Abfrage starten" # Initial label
-          ),
-
-          # Download Module
-          uiOutput("download_ui")
-        ),
-
-        # Main Panel: Outputs are placed here
-        mainPanel(
-          uiOutput("results_ui"),
-          uiOutput("warning")
-        )
+      # Download Module (shown after results; on mobile appears at the end)
+      conditionalPanel(
+        condition = "output.show_results == true",
+        mod_download_ui("download_1")
       )
     )
   )
@@ -63,7 +58,7 @@ golem_add_external_resources <- function() {
       path = app_sys("app/www"),
       app_title = "aWNtool"
     ),
-    # Example for adding ShinyJS (if needed)
-    shinyjs::useShinyjs(debug = TRUE)
+    # ShinyJS for conditional UI
+    shinyjs::useShinyjs()
   )
 }
