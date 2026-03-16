@@ -59,6 +59,15 @@ golem_add_external_resources <- function() {
       app_title = "aWNtool"
     ),
     # ShinyJS for conditional UI
-    shinyjs::useShinyjs()
+    shinyjs::useShinyjs(),
+    # Trigger action button on Enter key in autocomplete input
+    tags$script(HTML("
+      $(document).on('keydown', '#input_module-address', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          $('#ActionButtonId').click();
+        }
+      });
+    "))
   )
 }
