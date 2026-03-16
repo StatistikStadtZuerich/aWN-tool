@@ -8,18 +8,13 @@ app_server <- function(input, output, session) {
   # Input Module returns filtered Data
   filtered_input <- mod_input_server("input_module")
 
-  # Reactive to control spinner visibility
-  show_spinner <- reactiveVal(TRUE)
-
-  # Reactive value to control visibility of results
+  # Reactive value to control visibility of results and download
   show_results <- reactiveVal(FALSE)
 
-  # Conditionally render the results module and hide the spinner
+  # Conditionally render the results and download modules
   observeEvent(input$ActionButtonId, {
-    # req(filtered_building_event(), filtered_apartment_event())  # Ensure both events have been triggered
 
     if (nrow(filtered_input$filtered_building()) > 0) {
-      print(paste0("Gültige Adresse: ", filtered_input$filtered_building()$Adresse))
 
       # Hide warning message when address is valid
       output$warning <- renderUI({
@@ -45,19 +40,19 @@ app_server <- function(input, output, session) {
       )
     } else {
       invalid_address <- filtered_input$selected_address()
-      print(paste0("Ungültige Adresse: ", invalid_address))
 
       # Render a warning message when address is invalid
       output$warning <- renderUI({
-        get_warning(dataset = invalid_address)
+        sszWarningBox(
+          title = "Ungültige Adresseingabe",
+          text = paste0("Die Adresse «", invalid_address, "» existiert nicht."),
+          icon = ssz_icons()("important-warning-filled")
+        )
       })
 
       # Hide results and download modules
-      show_results(FALSE) # Set reactive value to hide results
+      show_results(FALSE)
     }
-
-    # Hide spinner after modules are rendered
-    show_spinner(FALSE)
 
     # Update the Action Button
     updateActionButton(session,
@@ -66,22 +61,9 @@ app_server <- function(input, output, session) {
     )
   })
 
-  # Render the UI conditionally based on the spinner's state
-  output$results_ui <- renderUI({
-    if (!show_spinner() && show_results()) {
-      # Show the actual results UI when spinner is hidden and results are available
-      mod_results_ui("results_1")
-    } else {
-      NULL # Do not render results if no data or spinner is active
-    }
+  # Expose show_results to the client so conditionalPanel can react to it
+  output$show_results <- reactive({
+    show_results()
   })
-
-  # Conditionally render the download module when the results are ready / spinner is off
-  output$download_ui <- renderUI({
-    if (!show_spinner() && show_results()) {
-      mod_download_ui("download_1") # Display the download module UI when results are shown
-    } else {
-      NULL # Do not display download UI when no results
-    }
-  })
+  outputOptions(output, "show_results", suspendWhenHidden = FALSE)
 }
