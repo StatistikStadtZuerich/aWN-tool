@@ -9,6 +9,7 @@ app_ui <- function(request) {
   tagList(
     # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
+    #includeCSS("inst/app/www/aWNTheme.css"),
 
     # Page layout
     ssz_page(
@@ -22,18 +23,13 @@ app_ui <- function(request) {
         "Abfrage starten"
       ),
 
-      # Results (shown only when server confirms valid results)
+      # Results and Download (shown only when server confirms valid results)
       conditionalPanel(
         condition = "output.show_results == true",
-        mod_results_ui("results_1")
-      ),
-      uiOutput("warning"),
-
-      # Download Module (shown after results; on mobile appears at the end)
-      conditionalPanel(
-        condition = "output.show_results == true",
+        mod_results_ui("results_1"),
         mod_download_ui("download_1")
-      )
+      ),
+      uiOutput("warning")
     )
   )
 }
@@ -56,18 +52,15 @@ golem_add_external_resources <- function() {
     favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "aWNtool"
+      app_title = "awntool"
     ),
     # ShinyJS for conditional UI
-    shinyjs::useShinyjs(),
+    shinyjs::useShinyjs(debug = TRUE),
+    
     # Trigger action button on Enter key in autocomplete input
-    tags$script(HTML("
-      $(document).on('keydown', '#input_module-address', function(e) {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          $('#ActionButtonId').click();
-        }
-      });
-    "))
+    js_trigger_on_enter("input_module-address", "ActionButtonId"),
+    
+    # Explicitly include aWNTheme.css
+    tags$link(rel = "stylesheet", type = "text/css", href = "www/awntheme.css")
   )
 }
