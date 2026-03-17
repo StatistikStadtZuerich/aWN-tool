@@ -15,7 +15,7 @@ mod_input_ui <- function(id) {
     sszAutocompleteInput(
       ns("address"),
       "Geben Sie eine Adresse ein",
-      df_main$df_unique_addresses,
+      data_main$df_unique_addresses,
       create = TRUE
     )
   )
@@ -36,13 +36,13 @@ mod_input_server <- function(id) {
     # Filter Data
     filtered_building <- reactive({
       req(input$address) # Ensure address is selected
-      df_main[["df_building"]] |>
+      data_main[["df_building"]] |>
         filter(tolower(Adresse) == tolower(input$address))
     })
 
     filtered_apartment <- reactive({
       req(input$address) # Ensure address is selected
-      df_main[["df_apartment"]] |>
+      data_main[["df_apartment"]] |>
         filter(tolower(Adresse) == tolower(input$address))
     })
 
