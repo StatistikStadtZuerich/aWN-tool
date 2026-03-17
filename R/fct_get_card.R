@@ -1,3 +1,30 @@
+#' Build Stadtplan URL for Zurich map
+#'
+#' @param data A data frame with columns lokalisationsname, hausnummer, gebaeudeeingangnummer (single row)
+#' @return A character string with the constructed URL
+#' @noRd
+#' Render dashed info list for context box
+#'
+#' @param items Character vector of info lines
+#' @return HTML ul with dashed-list class
+#' @noRd
+get_info_items <- function(type = c("apartment", "building")) {
+  type <- match.arg(type)
+  items <- switch(type,
+    apartment = c(
+      paste0("<span class='bold-vars'>Anzahl Geschosse</span>: umfasst unter- und oberirdische Geschosse"),
+      paste0("<span class='bold-vars'>Anzahl Zimmer</span>: halbe Zimmer werden abgerundet"),
+      paste0("<span class='bold-vars'>aWN</span>: amtliche Wohnungsnummer"),
+      paste0("<span class='bold-vars'>EGID</span>: Eidgenössischer Gebäudeidentifikator"),
+      paste0("<span class='bold-vars'>EWID</span>: Eidgenössischer Wohnungsidentifikator")
+    ),
+    building = c(
+      paste0("<span class='bold-vars'>Anzahl Geschosse</span>: umfasst unter- und oberirdische Geschosse"),
+      paste0("<span class='bold-vars'>EGID</span>: Eidgenössischer Gebäudeidentifikator")
+    )
+  )
+  HTML(paste(items, collapse = "<br>"))
+}
 #' Building Infos in BsLib two row Card
 #'
 #' @description Function to make a BsLib Card with Building Infos
@@ -17,7 +44,8 @@ get_building_card <- function(dataset,
                               card_min_height,
                               card_width,
                               title_1 = "Allgemeine Informationen",
-                              title_2 = "Informationen zur Energie") {
+                              title_2 = "Informationen zur Energie",
+                              stadtplan_url = NULL) {
   
   # Define the unwanted values for each variable
   unwanted_GWAERZH2Lang <- c("Kein Wärmeerzeuger (nicht beheiztes Gebäude)", "Keine Angabe", "")
@@ -29,6 +57,14 @@ get_building_card <- function(dataset,
   tagList(
     br(),
     h2(paste0(dataset$Adresse, " (EGID ", dataset$EGID, ")")),
+    if (!is.null(stadtplan_url)) {tags$p(
+      tags$a(
+        href = stadtplan_url,
+        target = "_blank",
+        "Stadtplan öffnen ",
+        ssz_icons()("external-link") # Replace with your desired icon name
+      )
+    )},
 
     # Wrap the cards in a two-column layout
     layout_column_wrap(
@@ -40,10 +76,18 @@ get_building_card <- function(dataset,
         bslib::card_header(h3(title_1)),
         card_body(
           min_height = card_min_height,
-          p(HTML(paste("Gebäudetyp:", "<span class='bold-vars'>", dataset$Gebäudetyp, "</span>"))),
-          p(HTML(paste("Baujahr:", "<span class='bold-vars'>", dataset$Baujahr, "</span>"))),
-          p(HTML(paste("Anzahl Geschosse:", "<span class='bold-vars'>", dataset$`Geschosse`, "</span>"))),
-          p(HTML(paste("Zivilschutzraum:", "<span class='bold-vars'>", dataset$Zivilschutzraum, "</span>")))
+          tags$ul(class = "dashed-list",
+            HTML(paste("Gebäudetyp:", "<span class='bold-vars'>", dataset$Gebäudetyp, "</span>")),
+          ),
+          tags$ul(class = "dashed-list",
+            HTML(paste("Baujahr:", "<span class='bold-vars'>", dataset$Baujahr, "</span>"))
+          ),
+          tags$ul(class = "dashed-list",
+            HTML(paste("Anzahl Geschosse:", "<span class='bold-vars'>", dataset$`Geschosse`, "</span>"))
+          ),
+          tags$ul(class = "dashed-list",
+            HTML(paste("Zivilschutzraum:", "<span class='bold-vars'>", dataset$Zivilschutzraum, "</span>"))
+          )
         )
       ),
 
@@ -53,39 +97,34 @@ get_building_card <- function(dataset,
         bslib::card_header(h3(title_2)),
         card_body(
           min_height = card_min_height,
-          
-          # Display Heizung 1
-          p(HTML(paste("Wärmeerzeuger Heizung 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 1`, "</span>"))),
-          p(HTML(paste("Energiequelle Heizung 1:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 1`, "</span>"))),
-          
-          # Display Heizung 2 only if it's not an unwanted value
-          if (!is.na(dataset$`Wärmeerzeuger Heizung 2`) && 
-              !(dataset$`Wärmeerzeuger Heizung 2` %in% unwanted_GWAERZH2Lang)) {
-            p(HTML(paste("Wärmeerzeuger Heizung 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 2`, "</span>")))
-          },
-          
-          # Display Energiequelle Heizung 2 only if it's not an unwanted value
-          if (!is.na(dataset$`Energiequelle Heizung 2`) && 
-              !(dataset$`Energiequelle Heizung 2` %in% unwanted_GENH2Lang)) {
-            p(HTML(paste("Energiequelle Heizung 2:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 2`, "</span>")))
-          },
-          
-          # Display Warmwasser 1
-          p(HTML(paste("Wärmeerzeuger Warmwasser 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 1`, "</span>"))),
-          p(HTML(paste("Energiequelle Warmwasser 1:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 1`, "</span>"))),
-          
-          # Display Warmwasser 2 only if it's not an unwanted value
-          if (!is.na(dataset$`Wärmeerzeuger Warmwasser 2`) && 
-              !(dataset$`Wärmeerzeuger Warmwasser 2` %in% unwanted_GWAERZW2Lang)) {
-            p(HTML(paste("Wärmeerzeuger Warmwasser 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 2`, "</span>")))
-          },
-          
-          # Display Energiequelle Warmwasser 2 only if it's not an unwanted value
-          if (!is.na(dataset$`Energiequelle Warmwasser 2`) && 
-              !(dataset$`Energiequelle Warmwasser 2` %in% unwanted_GENW2Lang)) {
-            p(HTML(paste("Energiequelle Warmwasser 2:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 2`, "</span>")))
-          }
-          
+            tags$ul(class = "dashed-list",
+                    HTML(paste("Wärmeerzeuger Heizung 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 1`, "</span>"))),
+            tags$ul(class = "dashed-list",
+                    HTML(paste("Energiequelle Heizung 1:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 1`, "</span>"))),
+            if (!is.na(dataset$`Wärmeerzeuger Heizung 2`) && 
+                !(dataset$`Wärmeerzeuger Heizung 2` %in% unwanted_GWAERZH2Lang)) {
+              tags$ul(class = "dashed-list",
+                      HTML(paste("Wärmeerzeuger Heizung 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 2`, "</span>")))
+            },
+            if (!is.na(dataset$`Energiequelle Heizung 2`) && 
+                !(dataset$`Energiequelle Heizung 2` %in% unwanted_GENH2Lang)) {
+              tags$ul(class = "dashed-list",
+                      HTML(paste("Energiequelle Heizung 2:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 2`, "</span>")))
+            },
+            tags$ul(class = "dashed-list",
+                    HTML(paste("Wärmeerzeuger Warmwasser 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 1`, "</span>"))),
+            tags$ul(class = "dashed-list",
+                    HTML(paste("Energiequelle Warmwasser 1:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 1`, "</span>"))),
+            if (!is.na(dataset$`Wärmeerzeuger Warmwasser 2`) && 
+                !(dataset$`Wärmeerzeuger Warmwasser 2` %in% unwanted_GWAERZW2Lang)) {
+              tags$ul(class = "dashed-list",
+                      HTML(paste("Wärmeerzeuger Warmwasser 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 2`, "</span>")))
+            },
+            if (!is.na(dataset$`Energiequelle Warmwasser 2`) && 
+                !(dataset$`Energiequelle Warmwasser 2` %in% unwanted_GENW2Lang)) {
+              tags$ul(class = "dashed-list",
+                      HTML(paste("Energiequelle Warmwasser 2:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 2`, "</span>")))
+            }
         )
       )
     )
@@ -105,18 +144,13 @@ get_building_card <- function(dataset,
 #'
 #' @noRd
 get_entrance_card <- function(dataset, title = "Info", 
-                              text = "Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen. Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingänge suchen, geben Sie diese Adresse ins Suchfeld links ein.") {
+                              text = "Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen. Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingänge suchen, geben Sie diese Adresse ins Suchfeld ein.") {
   sszInfoBox(
     title = title,
     text = tagList(
       p(text),
-      reactable(
-        dataset |> select(Adresse),
-        columns = list(Adresse = colDef(name = "Weitere Eingänge")),
-        highlight = FALSE,
-        bordered = FALSE,
-        striped = FALSE,
-        resizable = FALSE
+      tags$ul(class = "entrance-list",
+        lapply(dataset$Adresse, function(addr) tags$li(HTML(paste0("&ndash; ", addr))))
       )
     ),
     icon = ssz_icons()("info-help-filled")
