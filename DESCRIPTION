@@ -30,6 +30,7 @@ Imports:
     purrr,
     reactable,
     readxl,
+    sf,
     shiny (>= 1.8.0),
     shinycssloaders,
     shinyjs,
