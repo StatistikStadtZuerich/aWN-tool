@@ -9,7 +9,6 @@ app_ui <- function(request) {
   tagList(
     # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
-    #includeCSS("inst/app/www/aWNTheme.css"),
 
     # Page layout
     ssz_page(
