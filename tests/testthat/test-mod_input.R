@@ -19,7 +19,7 @@ test_that("UI: mod_input_ui has correct label for address input", {
 
 test_that("Server: mod_input_server filters data correctly", {
 
-  test_address <- df_main$df_unique_addresses[1]  # Take the first address for the test
+  test_address <- data_main$df_unique_addresses[1]  # Take the first address for the test
   
   # Mock session for testing the module server
   testServer(mod_input_server, args = list(id = "input_module"), {
@@ -28,17 +28,17 @@ test_that("Server: mod_input_server filters data correctly", {
 
     # Check that the filtering is correct for the selected address (case insensitive)
     test_address_lower <- tolower(test_address)
-    expect_equal(nrow(filtered_building()), sum(tolower(df_main$df_building$Adresse) == test_address_lower))
+    expect_equal(nrow(filtered_building()), sum(tolower(data_main$df_building$Adresse) == test_address_lower))
     expect_equal(tolower(filtered_building()$Adresse), rep(test_address_lower, nrow(filtered_building())))
     
-    expect_equal(nrow(filtered_apartment()), sum(tolower(df_main$df_apartment$Adresse) == test_address_lower))
+    expect_equal(nrow(filtered_apartment()), sum(tolower(data_main$df_apartment$Adresse) == test_address_lower))
     expect_equal(tolower(filtered_apartment()$Adresse), rep(test_address_lower, nrow(filtered_apartment())))
   })
 })
 
 test_that("Server: mod_input_server handles case insensitivity in address input", {
 
-  test_address <- df_main$df_unique_addresses[22]  # Take the 22. address for the test
+  test_address <- data_main$df_unique_addresses[22]  # Take the 22. address for the test
   
   # Mock session for testing the module server
   testServer(mod_input_server, args = list(id = "input_module"), {
@@ -47,10 +47,10 @@ test_that("Server: mod_input_server handles case insensitivity in address input"
     
     # Check that the filtering is correct for the selected address (case insensitive)
     test_address_lower <- tolower(test_address)
-    expect_equal(nrow(filtered_building()), sum(tolower(df_main$df_building$Adresse) == test_address_lower))
+    expect_equal(nrow(filtered_building()), sum(tolower(data_main$df_building$Adresse) == test_address_lower))
     expect_equal(tolower(filtered_building()$Adresse), rep(test_address_lower, nrow(filtered_building())))
     
-    expect_equal(nrow(filtered_apartment()), sum(tolower(df_main$df_apartment$Adresse) == test_address_lower))
+    expect_equal(nrow(filtered_apartment()), sum(tolower(data_main$df_apartment$Adresse) == test_address_lower))
     expect_equal(tolower(filtered_apartment()$Adresse), rep(test_address_lower, nrow(filtered_apartment())))
   })
 })
