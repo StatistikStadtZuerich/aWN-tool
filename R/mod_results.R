@@ -20,11 +20,12 @@ mod_results_ui <- function(id) {
       # Reactable Output with Apartment Infos
       uiOutput(ns("apartment_infos")),
 
-      # Infos output
-      uiOutput(ns("info")),
-
       # Time stamp Output
-      uiOutput(ns("timestamp"))
+      uiOutput(ns("timestamp")),
+
+      # Infos output
+      uiOutput(ns("info"))
+
     ),
     type = 7,
     color = "#0F05A0"
@@ -45,22 +46,28 @@ mod_results_server <- function(id, building_data, apartment_data) {
     building_data <- building_data()
     apartment_data <- apartment_data()
 
+    # Entrance Infos
+    selected_egid <- building_data$EGID[1]
+    selected_address <- building_data$Adresse[1]
+
+    entrances_to_show <- data_main[["df_building"]] |>
+      filter(EGID == selected_egid, Adresse != selected_address)
+
+    url_to_show <- data_main[["df_building"]] |>
+      filter(EGID == selected_egid, Adresse == selected_address)
+    
+    stadtplan_url <- build_stadtplan_url(url_to_show)
+
     # Output for Building Infos
     output$building_info <- renderUI({
       get_building_card(
         dataset = building_data,
         height = "auto",
         card_min_height = "auto",
-        card_width = 1 / 2
+        card_width = 1 / 2,
+        stadtplan_url = stadtplan_url
       )
     })
-
-    # Entrance Infos
-    selected_egid <- building_data$EGID[1]
-    selected_address <- building_data$Adresse[1]
-
-    entrances_to_show <- df_main[["df_building"]] |>
-      filter(EGID == selected_egid, Adresse != selected_address)
 
     # Check if there are multiple entrances (distinct EGIDs)
     if (nrow(entrances_to_show) > 0) {
@@ -83,14 +90,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
       })
 
       # Info text includes apartment-specific explanations
-      info_items <- HTML(paste(
-        "- Anzahl Geschosse = umfasst unter- und oberirdische Geschosse",
-        "- Anzahl Zimmer = halbe Zimmer werden abgerundet",
-        "- aWN = amtliche Wohnungsnummer",
-        "- EGID = Eidgenössischer Gebäudeidentifikator",
-        "- EWID = Eidgenössischer Wohnungsidentifikator",
-        sep = "<br>"
-      ))
+      info_items <- get_info_items("apartment")
     } else {
       output$apartment_infos <- renderUI({
         sszInfoBox(
@@ -101,11 +101,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
       })
 
       # Info text for buildings without apartments (fewer items)
-      info_items <- HTML(paste(
-        "- Anzahl Geschosse = umfasst unter- und oberirdische Geschosse",
-        "- EGID = Eidgenössischer Gebäudeidentifikator",
-        sep = "<br>"
-      ))
+      info_items <- get_info_items("building")
     }
 
     # Info & Timestamp
@@ -119,7 +115,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
     output$timestamp <- renderUI({
       tagList(
         br(),
-        tags$p(paste("Stand der letzten Datenaktualisierung:", df_main[["df_time_stamp"]]))
+        tags$p(paste("Stand der letzten Datenaktualisierung:", data_main[["df_time_stamp"]]))
       )
     })
   })
