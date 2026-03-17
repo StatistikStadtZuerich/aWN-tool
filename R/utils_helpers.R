@@ -1,3 +1,25 @@
+#' Build Stadtplan URL for Zurich map
+#'
+#' @param data A data frame with columns lokalisationsname, hausnummer, gebaeudeeingangnummer (single row)
+#' @return A character string with the constructed URL
+#' @noRd
+build_stadtplan_url <- function(data) {
+  #stopifnot(nrow(data) == 1)
+  
+  # Extract values safely
+  lok <- data$STRNAME
+  hnr <- data$DEINR
+  eingang <- data$gebaeudeeingangnummer
+  
+  # Construct the full URL
+  paste0(
+    "https://www.maps.stadt-zuerich.ch/zueriplan3/Stadtplan.aspx?adresse=",
+    lok, "%20", hnr,
+    "&selectedObject=adr", eingang,
+    "&toggleScreen=1"
+  )
+}
+
 #' Load SSZ icons
 #'
 #' Loads the SSZ icon set from the inst/app/www/icons/ directory.
