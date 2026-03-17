@@ -4,3 +4,23 @@
 .bold-vars {
   font-family: HelveticaNeueLTW05_85Heavy;
 }
+
+.bslib-grid {
+  gap: 3rem !important;
+}
+
+ul.dashed-list {
+  list-style-type: none;
+  margin-left: -2.2em;
+}
+
+ul.entrance-list {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+#results_1-timestamp p {
+  text-align: right;
+  font-size: 0.875rem;
+}
