@@ -12,12 +12,6 @@ app_sys <- function(...) {
   system.file(..., package = "awntool")
 }
 
-#' Load SSZ icons
-#' @noRd
-ssz_icons <- function() {
-  icons::icon_set(here::here("inst/app/www/icons/"))
-}
-
 
 #' Read App Config
 #'
