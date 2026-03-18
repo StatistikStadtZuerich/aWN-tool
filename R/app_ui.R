@@ -16,17 +16,25 @@ app_ui <- function(request) {
       # Input Module
       mod_input_ui("input_module"),
 
-      # Action Button
-      sszActionButton(
-        "ActionButtonId",
-        "Abfrage starten"
+      # Action Button and Download grouped inside .button-div
+      tags$div(class = "button-div",
+        # Action Button
+        sszActionButton(
+          "ActionButtonId",
+          "Abfrage starten"
+        ),
+
+        # Download UI: only shown when server sets output.show_results == true
+        conditionalPanel(
+          condition = "output.show_results == true",
+          mod_download_ui("download_1")
+        )
       ),
 
-      # Results and Download (shown only when server confirms valid results)
+      # Results (shown only when server confirms valid results)
       conditionalPanel(
         condition = "output.show_results == true",
-        mod_results_ui("results_1"),
-        mod_download_ui("download_1")
+        mod_results_ui("results_1")
       ),
       uiOutput("warning")
     )
