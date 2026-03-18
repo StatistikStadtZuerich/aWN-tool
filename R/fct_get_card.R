@@ -197,6 +197,7 @@ get_apartment_card <- function(dataset = sorted_apartments,
         Küche = colDef(name = "Küche", minWidth = 52)
       ),
       paginationType = "simple",
+      class = "table-striped",
       language = reactableLang(
         noData = "Keine Einträge gefunden",
         pageNumbers = "{page} von {pages}",
