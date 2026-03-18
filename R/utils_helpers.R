@@ -27,7 +27,7 @@ build_stadtplan_url <- function(data) {
 #' @return An icon set object from the \code{icons} package.
 #' @noRd
 ssz_icons <- function() {
-  icons::icon_set(here::here("inst/app/www/icons/"))
+  icons::icon_set(system.file("icons", package = "zuericssstyle"))
 }
 
 #' Trigger a button click on Enter keypress in an input
