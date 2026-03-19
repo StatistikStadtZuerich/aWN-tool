@@ -6031,8 +6031,7 @@
       "Config/testthat/edition": "3",
       "RemoteType": "xgit",
       "RemoteUrl": "https://cmp-sdlc.stzh.ch/OE-7035/ssz-da/libraries/zueriverse/zuericssstyle",
-      "RemoteRef": "bugfix-finaladjustments",
-      "RemoteSha": "5f9472d8d6c44ea9042e368f28636bc3c42e2269",
+      "RemoteSha": "67c28fbf5826e19602e41377b207c299ce072f62",
       "NeedsCompilation": "no",
       "Author": "Sara Hänzi [aut, cre], Alessandro Feller [aut], Statistik Stadt Zürich (SSZ) [cph, fnd]",
       "Maintainer": "Sara Hänzi <sara.haenzi@zuerich.ch>"
