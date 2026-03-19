@@ -62,7 +62,7 @@ get_building_card <- function(dataset,
         href = stadtplan_url,
         target = "_blank",
         "Stadtplan öffnen ",
-        ssz_icons()("external-link") # Replace with your desired icon name
+        ssz_icons()("external-link")
       )
     )},
 
