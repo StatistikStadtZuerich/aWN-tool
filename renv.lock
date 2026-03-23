@@ -6003,7 +6003,7 @@
     "zuericssstyle": {
       "Package": "zuericssstyle",
       "Version": "2.0.2",
-      "Source": "Git",
+      "Source": "GitHub",
       "Title": "Statistik Stadt Zürich CSS styling for shiny apps and html",
       "Authors@R": "c( person(\"Sara\", \"Hänzi\", role = c(\"aut\", \"cre\"), email = \"sara.haenzi@zuerich.ch\"), person(\"Alessandro\", \"Feller\", role = c(\"aut\"), email = \"alessandro.feller@zuerich.ch\" ), person(\"Statistik Stadt Zürich (SSZ)\", email = \"statistik@zuerich.ch\", role = c(\"cph\", \"fnd\") ) )",
       "Description": "Style shiny apps according to the city of Zurich's corporate design.",
@@ -6029,9 +6029,12 @@
         "testthat (>= 3.0.0)"
       ],
       "Config/testthat/edition": "3",
-      "RemoteType": "xgit",
-      "RemoteUrl": "https://cmp-sdlc.stzh.ch/OE-7035/ssz-da/libraries/zueriverse/zuericssstyle",
-      "RemoteSha": "67c28fbf5826e19602e41377b207c299ce072f62",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "zuericssstyle",
+      "RemoteUsername": "StatistikStadtZuerich",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "d1d527fce2c52e615b15e8b949acfeb9f092a23e",
       "NeedsCompilation": "no",
       "Author": "Sara Hänzi [aut, cre], Alessandro Feller [aut], Statistik Stadt Zürich (SSZ) [cph, fnd]",
       "Maintainer": "Sara Hänzi <sara.haenzi@zuerich.ch>"
