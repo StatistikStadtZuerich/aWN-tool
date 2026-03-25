@@ -1,10 +1,6 @@
 /********************************
 * aWN CSS settings
 *******************************/
-.bold-vars {
-  font-family: HelveticaNeueLTW05_85Heavy;
-}
-
 .bslib-grid {
   gap: 3rem !important;
 }
