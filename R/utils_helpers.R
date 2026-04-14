@@ -20,16 +20,6 @@ build_stadtplan_url <- function(data) {
   )
 }
 
-#' Load SSZ icons
-#'
-#' Loads the SSZ icon set from the inst/app/www/icons/ directory.
-#'
-#' @return An icon set object from the \code{icons} package.
-#' @noRd
-ssz_icons <- function() {
-  icons::icon_set(system.file("icons", package = "zuericssstyle"))
-}
-
 #' Trigger a button click on Enter keypress in an input
 #'
 #' Generates a \code{<script>} tag that listens for the Enter key

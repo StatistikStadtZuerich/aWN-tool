@@ -18,12 +18,12 @@ mod_download_ui <- function(id) {
       sszDownloadButton(
         outputId = ns("excel_download"),
         label = "XLSX",
-        image = ssz_icons()("download")
+        image = icons_stzh()("download")
       ),
       sszOgdDownload(
         outputId = ns("ogd_download"),
         label = "OGD",
-        image = ssz_icons()("external-link"),
+        image = icons_stzh()("external-link"),
         href = "https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell"
       )
     )

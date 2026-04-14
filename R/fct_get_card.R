@@ -62,7 +62,7 @@ get_building_card <- function(dataset,
         href = stadtplan_url,
         target = "_blank",
         "Stadtplan öffnen ",
-        ssz_icons()("external-link")
+        icons_stzh()("external-link")
       )
     )},
 
@@ -153,7 +153,7 @@ get_entrance_card <- function(dataset, title = "Info",
         lapply(dataset$Adresse, function(addr) tags$li(HTML(addr)))
       )
     ),
-    icon = ssz_icons()("info-help-filled")
+    icon = icons_stzh()("info-help-filled")
   )
 }
 
