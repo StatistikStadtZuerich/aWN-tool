@@ -96,7 +96,7 @@ mod_results_server <- function(id, building_data, apartment_data) {
         sszInfoBox(
           title = "Info",
           text = "In diesem Gebäude gibt es keine Wohnungen.",
-          icon = ssz_icons()("info-help-filled")
+          icon = icons_stzh()("info-help-filled")
         )
       })
 
