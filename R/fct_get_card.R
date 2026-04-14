@@ -1,30 +1,34 @@
-#' Build Stadtplan URL for Zurich map
+#' Render info items for context box
 #'
-#' @param data A data frame with columns lokalisationsname, hausnummer, gebaeudeeingangnummer (single row)
-#' @return A character string with the constructed URL
-#' @noRd
-#' Render dashed info list for context box
+#' @description Generates a formatted HTML string containing explanatory information
+#' for either apartments or buildings. The content is returned as a single
+#' HTML string with line breaks, suitable for display in UI elements such
+#' as context boxes.
 #'
-#' @param items Character vector of info lines
-#' @return HTML ul with dashed-list class
+#' @param type Character string indicating which set of information to return.
+#'   Must be one of `"apartment"` or `"building"`. Defaults to `"apartment"`.
+#'
+#' @return An HTML string (via \code{HTML()}) containing formatted info lines.
+#'
 #' @noRd
 get_info_items <- function(type = c("apartment", "building")) {
   type <- match.arg(type)
   items <- switch(type,
     apartment = c(
-      paste0("<span class='bold-vars'>Anzahl Geschosse</span>: umfasst unter- und oberirdische Geschosse"),
-      paste0("<span class='bold-vars'>Anzahl Zimmer</span>: halbe Zimmer werden abgerundet"),
-      paste0("<span class='bold-vars'>aWN</span>: amtliche Wohnungsnummer"),
-      paste0("<span class='bold-vars'>EGID</span>: Eidgenössischer Gebäudeidentifikator"),
-      paste0("<span class='bold-vars'>EWID</span>: Eidgenössischer Wohnungsidentifikator")
+      paste0("<span class='bold-text'>Anzahl Geschosse</span>: umfasst unter- und oberirdische Geschosse"),
+      paste0("<span class='bold-text'>Anzahl Zimmer</span>: halbe Zimmer werden abgerundet"),
+      paste0("<span class='bold-text'>aWN</span>: amtliche Wohnungsnummer"),
+      paste0("<span class='bold-text'>EGID</span>: Eidgenössischer Gebäudeidentifikator"),
+      paste0("<span class='bold-text'>EWID</span>: Eidgenössischer Wohnungsidentifikator")
     ),
     building = c(
-      paste0("<span class='bold-vars'>Anzahl Geschosse</span>: umfasst unter- und oberirdische Geschosse"),
-      paste0("<span class='bold-vars'>EGID</span>: Eidgenössischer Gebäudeidentifikator")
+      paste0("<span class='bold-text'>Anzahl Geschosse</span>: umfasst unter- und oberirdische Geschosse"),
+      paste0("<span class='bold-text'>EGID</span>: Eidgenössischer Gebäudeidentifikator")
     )
   )
   HTML(paste(items, collapse = "<br>"))
 }
+
 #' Building Infos in BsLib two row Card
 #'
 #' @description Function to make a BsLib Card with Building Infos
