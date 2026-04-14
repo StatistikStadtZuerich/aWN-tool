@@ -115,7 +115,9 @@ mod_results_server <- function(id, building_data, apartment_data) {
     output$timestamp <- renderUI({
       tagList(
         br(),
-        tags$p(paste("Stand der letzten Datenaktualisierung:", data_main[["df_time_stamp"]]))
+        tags$p(
+          paste("Stand der letzten Datenaktualisierung:", data_main[["df_time_stamp"]]),
+          style = "text-align: right;font-size: 0.875rem;")
       )
     })
   })
