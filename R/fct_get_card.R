@@ -77,16 +77,16 @@ get_building_card <- function(dataset,
         card_body(
           min_height = card_min_height,
           tags$ul(class = "dashed-list",
-            HTML(paste("Gebäudetyp:", "<span class='bold-vars'>", dataset$Gebäudetyp, "</span>")),
+            HTML(paste("Gebäudetyp:", "<span class='bold-text'>", dataset$Gebäudetyp, "</span>")),
           ),
           tags$ul(class = "dashed-list",
-            HTML(paste("Baujahr:", "<span class='bold-vars'>", dataset$Baujahr, "</span>"))
+            HTML(paste("Baujahr:", "<span class='bold-text'>", dataset$Baujahr, "</span>"))
           ),
           tags$ul(class = "dashed-list",
-            HTML(paste("Anzahl Geschosse:", "<span class='bold-vars'>", dataset$`Geschosse`, "</span>"))
+            HTML(paste("Anzahl Geschosse:", "<span class='bold-text'>", dataset$`Geschosse`, "</span>"))
           ),
           tags$ul(class = "dashed-list",
-            HTML(paste("Zivilschutzraum:", "<span class='bold-vars'>", dataset$Zivilschutzraum, "</span>"))
+            HTML(paste("Zivilschutzraum:", "<span class='bold-text'>", dataset$Zivilschutzraum, "</span>"))
           )
         )
       ),
@@ -98,32 +98,32 @@ get_building_card <- function(dataset,
         card_body(
           min_height = card_min_height,
             tags$ul(class = "dashed-list",
-                    HTML(paste("Wärmeerzeuger Heizung 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 1`, "</span>"))),
+                    HTML(paste("Wärmeerzeuger Heizung 1:", "<span class='bold-text'>", dataset$`Wärmeerzeuger Heizung 1`, "</span>"))),
             tags$ul(class = "dashed-list",
-                    HTML(paste("Energiequelle Heizung 1:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 1`, "</span>"))),
+                    HTML(paste("Energiequelle Heizung 1:", "<span class='bold-text'>", dataset$`Energiequelle Heizung 1`, "</span>"))),
             if (!is.na(dataset$`Wärmeerzeuger Heizung 2`) && 
                 !(dataset$`Wärmeerzeuger Heizung 2` %in% unwanted_GWAERZH2Lang)) {
               tags$ul(class = "dashed-list",
-                      HTML(paste("Wärmeerzeuger Heizung 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Heizung 2`, "</span>")))
+                      HTML(paste("Wärmeerzeuger Heizung 2:", "<span class='bold-text'>", dataset$`Wärmeerzeuger Heizung 2`, "</span>")))
             },
             if (!is.na(dataset$`Energiequelle Heizung 2`) && 
                 !(dataset$`Energiequelle Heizung 2` %in% unwanted_GENH2Lang)) {
               tags$ul(class = "dashed-list",
-                      HTML(paste("Energiequelle Heizung 2:", "<span class='bold-vars'>", dataset$`Energiequelle Heizung 2`, "</span>")))
+                      HTML(paste("Energiequelle Heizung 2:", "<span class='bold-text'>", dataset$`Energiequelle Heizung 2`, "</span>")))
             },
             tags$ul(class = "dashed-list",
-                    HTML(paste("Wärmeerzeuger Warmwasser 1:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 1`, "</span>"))),
+                    HTML(paste("Wärmeerzeuger Warmwasser 1:", "<span class='bold-text'>", dataset$`Wärmeerzeuger Warmwasser 1`, "</span>"))),
             tags$ul(class = "dashed-list",
-                    HTML(paste("Energiequelle Warmwasser 1:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 1`, "</span>"))),
+                    HTML(paste("Energiequelle Warmwasser 1:", "<span class='bold-text'>", dataset$`Energiequelle Warmwasser 1`, "</span>"))),
             if (!is.na(dataset$`Wärmeerzeuger Warmwasser 2`) && 
                 !(dataset$`Wärmeerzeuger Warmwasser 2` %in% unwanted_GWAERZW2Lang)) {
               tags$ul(class = "dashed-list",
-                      HTML(paste("Wärmeerzeuger Warmwasser 2:", "<span class='bold-vars'>", dataset$`Wärmeerzeuger Warmwasser 2`, "</span>")))
+                      HTML(paste("Wärmeerzeuger Warmwasser 2:", "<span class='bold-text'>", dataset$`Wärmeerzeuger Warmwasser 2`, "</span>")))
             },
             if (!is.na(dataset$`Energiequelle Warmwasser 2`) && 
                 !(dataset$`Energiequelle Warmwasser 2` %in% unwanted_GENW2Lang)) {
               tags$ul(class = "dashed-list",
-                      HTML(paste("Energiequelle Warmwasser 2:", "<span class='bold-vars'>", dataset$`Energiequelle Warmwasser 2`, "</span>")))
+                      HTML(paste("Energiequelle Warmwasser 2:", "<span class='bold-text'>", dataset$`Energiequelle Warmwasser 2`, "</span>")))
             }
         )
       )
@@ -149,8 +149,8 @@ get_entrance_card <- function(dataset, title = "Info",
     title = title,
     text = tagList(
       p(text),
-      tags$ul(class = "entrance-list",
-        lapply(dataset$Adresse, function(addr) tags$li(HTML(paste0("&ndash; ", addr))))
+      tags$ul(class = "dashed-list",
+        lapply(dataset$Adresse, function(addr) tags$li(HTML(addr)))
       )
     ),
     icon = ssz_icons()("info-help-filled")
