@@ -3,6 +3,7 @@
 #' @param input, output, session Internal parameters for {shiny}.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import shinyjs
 #' @noRd
 app_server <- function(input, output, session) {
   # Input Module returns filtered Data
@@ -15,8 +16,8 @@ app_server <- function(input, output, session) {
 
       # Hide warning, show results and download
       output$warning <- renderUI(NULL)
-      shinyjs::show("results_wrapper")
-      shinyjs::show("download_wrapper")
+      show("results_wrapper")
+      show("download_wrapper")
 
       # Render results server only when data is available
       mod_results_server(
@@ -45,8 +46,8 @@ app_server <- function(input, output, session) {
       })
 
       # Hide results and download
-      shinyjs::hide("results_wrapper")
-      shinyjs::hide("download_wrapper")
+      hide("results_wrapper")
+      hide("download_wrapper")
     }
 
     # Update the Action Button

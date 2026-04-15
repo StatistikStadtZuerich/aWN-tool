@@ -3,6 +3,7 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import shinyjs
 #' @noRd
 app_ui <- function(request) {
   
@@ -24,16 +25,16 @@ app_ui <- function(request) {
           "Abfrage starten"
         ),
 
-        # Download UI: hidden on load, shown by shinyjs::show() after valid query
-        shinyjs::hidden(
+        # Download UI: hidden on load, shown by show() after valid query
+        hidden(
           tags$div(id = "download_wrapper",
             mod_download_ui("download_1")
           )
         )
       ),
 
-      # Results: hidden on load, shown by shinyjs::show() after valid query
-      shinyjs::hidden(
+      # Results: hidden on load, shown by show() after valid query
+      hidden(
         tags$div(id = "results_wrapper",
           mod_results_ui("results_1")
         )
@@ -63,7 +64,7 @@ golem_add_external_resources <- function() {
       app_title = "awntool"
     ),
     # ShinyJS for conditional UI
-    shinyjs::useShinyjs(debug = TRUE),
+    useShinyjs(debug = TRUE),
     
     # Trigger action button on Enter key in autocomplete input
     js_trigger_on_enter("input_module-address", "ActionButtonId"),
