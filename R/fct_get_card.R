@@ -87,7 +87,7 @@ get_building_card <- function(dataset,
             HTML(paste("Baujahr:", "<span class='bold-text'>", dataset$Baujahr, "</span>"))
           ),
           tags$ul(class = "dashed-list",
-            HTML(paste("Anzahl Geschosse:", "<span class='bold-text'>", dataset$`Geschosse`, "</span>"))
+            HTML(paste("Anzahl Geschosse:", "<span class='bold-text'>", dataset$Geschosse, "</span>"))
           ),
           tags$ul(class = "dashed-list",
             HTML(paste("Zivilschutzraum:", "<span class='bold-text'>", dataset$Zivilschutzraum, "</span>"))
