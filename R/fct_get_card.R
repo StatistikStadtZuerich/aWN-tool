@@ -75,9 +75,9 @@ get_building_card <- function(dataset,
       width = 1 / 2,
 
       # Card for "Allgemeine Informationen"
-      bslib::card(
+      card(
         height = "auto",
-        bslib::card_header(h3(title_1)),
+        card_header(h3(title_1)),
         card_body(
           min_height = card_min_height,
           tags$ul(class = "dashed-list",
@@ -96,9 +96,9 @@ get_building_card <- function(dataset,
       ),
 
       # Card for "Heizung & Wasser"
-      bslib::card(
+      card(
         height = "auto",
-        bslib::card_header(h3(title_2)),
+        card_header(h3(title_2)),
         card_body(
           min_height = card_min_height,
             tags$ul(class = "dashed-list",
