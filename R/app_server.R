@@ -8,21 +8,15 @@ app_server <- function(input, output, session) {
   # Input Module returns filtered Data
   filtered_input <- mod_input_server("input_module")
 
-  # Reactive value to control visibility of results and download
-  show_results <- reactiveVal(FALSE)
-
   # Conditionally render the results and download modules
   observeEvent(input$ActionButtonId, {
 
     if (nrow(filtered_input$filtered_building()) > 0) {
 
-      # Hide warning message when address is valid
-      output$warning <- renderUI({
-        NULL
-      })
-
-      # Set reactive value to show results
-      show_results(TRUE)
+      # Hide warning, show results and download
+      output$warning <- renderUI(NULL)
+      shinyjs::show("results_wrapper")
+      shinyjs::show("download_wrapper")
 
       # Render results server only when data is available
       mod_results_server(
@@ -50,8 +44,9 @@ app_server <- function(input, output, session) {
         )
       })
 
-      # Hide results and download modules
-      show_results(FALSE)
+      # Hide results and download
+      shinyjs::hide("results_wrapper")
+      shinyjs::hide("download_wrapper")
     }
 
     # Update the Action Button
@@ -60,10 +55,4 @@ app_server <- function(input, output, session) {
       label = "Erneute Abfrage"
     )
   })
-
-  # Expose show_results to the client so conditionalPanel can react to it
-  output$show_results <- reactive({
-    show_results()
-  })
-  outputOptions(output, "show_results", suspendWhenHidden = FALSE)
 }

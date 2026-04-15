@@ -24,17 +24,19 @@ app_ui <- function(request) {
           "Abfrage starten"
         ),
 
-        # Download UI: only shown when server sets output.show_results == true
-        conditionalPanel(
-          condition = "output.show_results == true",
-          mod_download_ui("download_1")
+        # Download UI: hidden on load, shown by shinyjs::show() after valid query
+        shinyjs::hidden(
+          tags$div(id = "download_wrapper",
+            mod_download_ui("download_1")
+          )
         )
       ),
 
-      # Results (shown only when server confirms valid results)
-      conditionalPanel(
-        condition = "output.show_results == true",
-        mod_results_ui("results_1")
+      # Results: hidden on load, shown by shinyjs::show() after valid query
+      shinyjs::hidden(
+        tags$div(id = "results_wrapper",
+          mod_results_ui("results_1")
+        )
       ),
       uiOutput("warning")
     )
