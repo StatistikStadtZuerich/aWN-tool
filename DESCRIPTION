@@ -8,10 +8,12 @@ Authors@R:
                role = c("aut")),
         person("Alessandro", "Feller", 
                email = "alessandro.feller@zuerich.ch", 
-               role = c("aut", "cre"))
+               role = c("aut", "cre")),
+        person("Statistik Stadt Zürich",
+               role = "fnd")
     )
 Description: Shiny App aWN-Tool that shows official aparment numbers for all the addresses in the city of Zurich.
-License: BSD-3-Clause + file LICENSE
+License: MIT + file LICENSE
 Imports: 
     bslib,
     chromote,
@@ -21,7 +23,6 @@ Imports:
     furrr,
     golem (>= 0.4.1),
     gtools,
-    icons (>= 0.2.0),
     jpeg,
     kableExtra,
     knitr,
@@ -43,8 +44,6 @@ LazyData: true
 RoxygenNote: 7.3.3
 Depends: 
     R (>= 3.5)
-Remotes: 
-    github::mitchelloharawild/icons
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
