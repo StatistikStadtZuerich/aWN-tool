@@ -46,7 +46,7 @@ app_server <- function(input, output, session) {
         sszWarningBox(
           title = "Ungültige Adresseingabe",
           text = paste0("Die Adresse «", invalid_address, "» existiert nicht."),
-          icon = ssz_icons()("important-warning-filled")
+          icon = icons_stzh()("important-warning-filled")
         )
       })
 
