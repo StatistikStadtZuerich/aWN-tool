@@ -180,7 +180,7 @@ get_apartment_card <- function(dataset = sorted_apartments,
   info_text <- if (progress == 0) {
     NULL
   } else if (progress == 1) {
-    p("Gebäude enthält auch neue Wohnungen, die noch im Bau sind.")
+    p("Das Gebäude enthält auch neue Wohnungen, die noch im Bau sind.")
   }
 
   tagList(
