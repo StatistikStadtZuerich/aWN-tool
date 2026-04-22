@@ -9,7 +9,7 @@ include:
     file: "deploy-to-shinyapps.yml"
   # use template for gitlab pipeline to push main to github 
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
-    ref: v1.1.0
+    ref: v1.1.4
     file: "publish-to-github.yml"
 
 shiny-deploy-int:
