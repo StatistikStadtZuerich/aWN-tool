@@ -20,6 +20,19 @@ get_data <- function() {
   # Parallelisation
   data <- furrr::future_map(URLs, \(x) data.table::fread(x, encoding = "UTF-8"))
 
+  # Read GeoJSON for gebaeudeeingangnummer
+  geojson_url <- "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Adressen_Stadt_Zuerich?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adrstzh_adressen_stzh_p"
+  geojson_data <- sf::st_read(geojson_url, quiet = TRUE)
+  
+  # Extract EGID and gebaeudeeingangnummer
+  geojson_df <- geojson_data |>
+    select(gwr_egid, gebaeudeeingangnummer, adresse) |>
+    as_tibble() |>
+    mutate(gwr_egid = as.numeric(gwr_egid),
+    gebaeudeeingangnummer = as.numeric(gebaeudeeingangnummer)) |>
+    rename(EGID = gwr_egid,
+           Adresse = adresse)
+
   if (!is.null(data)) {
     ### Data Transformation
 
@@ -83,7 +96,8 @@ get_data <- function() {
         `Energiequelle Heizung 2` = GENH2Lang,
         `Wärmeerzeuger Warmwasser 2` = GWAERZW2Lang,
         `Energiequelle Warmwasser 2` = GENW2Lang
-      )
+      ) |> 
+      left_join(geojson_df, by = c("EGID", "Adresse"))
 
     # Select and transform the data for apartments
     transformed_apartments <- filtered_wohnungen |>
@@ -134,7 +148,7 @@ get_data <- function() {
 
     # Select unique addresses
     unique_addresses <- unique(building_with_address$Adresse)
-
+    
     # Return the final transformed data
     return(list(
       df_building = building_with_address,

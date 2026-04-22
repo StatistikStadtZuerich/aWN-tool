@@ -3,42 +3,43 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import shinyjs
 #' @noRd
 app_ui <- function(request) {
+  
   tagList(
     # External resources (e.g., CSS, JS)
     golem_add_external_resources(),
 
     # Page layout
-    fluidPage(
+    ssz_page(
 
-      # TEMPORARY: until golem_add_external_resources() works
-      includeCSS("inst/app/www/sszThemeShiny.css"),
-      includeCSS("inst/app/www/aWNTheme.css"),
+      # Input Module
+      mod_input_ui("input_module"),
 
-      # Sidebar: Input widgets are placed here
-      sidebarLayout(
-        sidebarPanel(
-
-          # Input Module
-          mod_input_ui("input_module"),
-
-          # Action Button
-          sszActionButton(
-            "ActionButtonId",
-            "Abfrage starten" # Initial label
-          ),
-
-          # Download Module
-          uiOutput("download_ui")
+      # Action Button and Download grouped inside .button-div
+      tags$div(class = "button-div",
+        # Action Button
+        sszActionButton(
+          "ActionButtonId",
+          "Abfrage starten"
         ),
 
-        # Main Panel: Outputs are placed here
-        mainPanel(
-          uiOutput("results_ui"),
-          uiOutput("warning")
+        # Download UI: hidden on load, shown by show() after valid query
+        hidden(
+          tags$div(id = "download_wrapper",
+            mod_download_ui("download_1")
+          )
         )
-      )
+      ),
+
+      # Results: hidden on load, shown by show() after valid query
+      hidden(
+        tags$div(id = "results_wrapper",
+          mod_results_ui("results_1")
+        )
+      ),
+      uiOutput("warning")
     )
   )
 }
@@ -49,7 +50,7 @@ app_ui <- function(request) {
 #' resources inside the Shiny application.
 #'
 #' @import shiny
-#' @importFrom golem add_resource_path activate_js favicon bundle_resources
+#' @importFrom golem add_resource_path activate_js bundle_resources
 #' @noRd
 golem_add_external_resources <- function() {
   add_resource_path(
@@ -58,12 +59,14 @@ golem_add_external_resources <- function() {
   )
 
   tags$head(
-    favicon(),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "aWNtool"
+      app_title = "awntool"
     ),
-    # Example for adding ShinyJS (if needed)
-    shinyjs::useShinyjs(debug = TRUE)
+    # ShinyJS for conditional UI
+    useShinyjs(debug = TRUE),
+    
+    # Trigger action button on Enter key in autocomplete input
+    js_trigger_on_enter("input_module-address", "ActionButtonId"),
   )
 }

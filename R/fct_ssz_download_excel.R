@@ -42,7 +42,7 @@ ssz_download_excel <- function(file, data_for_download) {
       mutate(
         Date = case_when(
           is.na(Date) ~ NA,
-          TRUE ~ df_main[["df_time_stamp"]]
+          TRUE ~ data_main[["df_time_stamp"]]
         ),
         Titel = case_when(
           is.na(Titel) ~ NA,
@@ -138,7 +138,7 @@ ssz_download_excel <- function(file, data_for_download) {
       mutate(
         Date = case_when(
           is.na(Date) ~ NA,
-          TRUE ~ df_main[["df_time_stamp"]]
+          TRUE ~ data_main[["df_time_stamp"]]
         ),
         Titel = case_when(
           is.na(Titel) ~ NA,
