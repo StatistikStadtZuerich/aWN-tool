@@ -29,7 +29,7 @@ shiny-deploy-prod:
     # add additional rule to run on schedule
     - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
-    - sudo install libabsl-dev
+    - sudo apt install libabsl-dev
     # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
