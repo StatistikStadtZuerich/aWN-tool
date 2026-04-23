@@ -16,7 +16,7 @@ shiny-deploy-int:
   extends:
     - .shiny-deploy-int
   script:
-    - sudo apt install libabsl-dev
+    - sudo DEBIAN_FRONTEND=noninteractive apt install -y libabsl-dev
     - Rscript -e "renv::restore()"
     # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
@@ -30,7 +30,7 @@ shiny-deploy-prod:
     # add additional rule to run on schedule
     - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
-    - sudo apt install libabsl-dev
+    - sudo DEBIAN_FRONTEND=noninteractive apt install -y libabsl-dev
     - Rscript -e "renv::restore()"
     # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
