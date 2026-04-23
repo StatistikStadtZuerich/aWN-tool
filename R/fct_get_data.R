@@ -21,7 +21,7 @@ get_data <- function() {
   data <- furrr::future_map(URLs, \(x) data.table::fread(x, encoding = "UTF-8"))
 
   # Read GeoJSON for gebaeudeeingangnummer
-  geojson_url <- "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Adressen_Stadt_Zuerich?service=WFS&version=1.1.0&request=GetFeature&outputFormat=GeoJSON&typename=adrstzh_adressen_stzh_p"
+  geojson_url <- "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Adressen_Stadt_Zuerich?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typename=adrstzh_adressen_stzh_p"
   geojson_data <- sf::st_read(geojson_url, quiet = TRUE)
   
   # Extract EGID and gebaeudeeingangnummer
