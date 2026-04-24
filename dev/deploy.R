@@ -12,5 +12,6 @@ rsconnect::deployApp(forceUpdate = TRUE,
                        "NAMESPACE",
                        "DESCRIPTION",
                        "app.R",
-                       ".Rbuildignore"
+                       ".Rbuildignore",
+                       "renv.lock"
                      ))
