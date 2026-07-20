@@ -16,7 +16,7 @@ include:
   before_script:
     - echo "$KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY"
     # curl & Kerberos Tools installieren
-    - apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl krb5-user libabsl-dev
+    - apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl krb5-user libabsl-dev cmake
 
     # Base64-Keytab aus GitLab Variable in Datei decodieren
     # Wichtig: KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY muss in GitLab CI/CD Settings existieren
