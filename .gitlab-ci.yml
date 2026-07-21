@@ -12,26 +12,44 @@ include:
     ref: v1.1.4
     file: "publish-to-github.yml"
 
+.before-script-with-abseil:
+  before_script:
+    - echo "$KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY"
+    # curl & Kerberos Tools installieren
+    - apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl krb5-user libabsl-dev cmake
+
+    # Base64-Keytab aus GitLab Variable in Datei decodieren
+    # Wichtig: KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY muss in GitLab CI/CD Settings existieren
+    - echo "$KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY" | base64 -d > "$KRB5_KTNAME"
+    - chmod 600 "$KRB5_KTNAME"
+
+    # Kerberos-Login über Keytab
+    - kinit -k -t "$KRB5_KTNAME" "$KRB5_PRINCIPAL"
+    - klist  # Kontrolle: Ticket vorhanden?
+    - Rscript -e "renv::restore()"
+
 shiny-deploy-int:
   extends:
     - .shiny-deploy-int
+    - .before-script-with-abseil
+  before_script:
+    - !reference [.before-script-with-abseil, before_script]
   script:
-    - apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libabsl-dev
-    - Rscript -e "renv::restore()"
     # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
 shiny-deploy-prod:
   extends:
     - .shiny-deploy-prod 
+    - .before-script-with-abseil
+  before_script:
+    - !reference [.before-script-with-abseil, before_script]
   rules: 
     # keep inherited rules
     - !reference [.shiny-deploy-prod , rules]
     # add additional rule to run on schedule
     - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
-    - apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libabsl-dev
-    - Rscript -e "renv::restore()"
     # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
 
