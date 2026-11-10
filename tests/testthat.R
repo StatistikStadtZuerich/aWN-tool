@@ -1,5 +1,5 @@
 library(testthat)
-library(sszGolemTemplate)
+library(awntool)
 
 test_check("awntool")
 # shinytest2::test_app()
