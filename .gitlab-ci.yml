@@ -36,9 +36,12 @@ include:
 r-testthat-test:
   extends: .r-testthat-test
 
-# run cmd check
+# run cmd check without tests (tests already exist in r-testthat-test)
 r-devtools-check:
   extends: .r-devtools-check
+  script:
+    - Rscript -e "renv::status()"
+    - Rscript -e "devtools::check(args = '--no-tests', error_on = 'error')"
 
 shiny-deploy-int:
   extends:
