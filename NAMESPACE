@@ -11,21 +11,27 @@ import(shiny)
 import(zuericssstyle)
 importFrom(data.table,fread)
 importFrom(furrr,future_map)
-importFrom(golem,activate_js)
-importFrom(golem,add_resource_path)
-importFrom(golem,bundle_resources)
-importFrom(golem,favicon)
-importFrom(golem,with_golem_options)
+importFrom(golem,
+  activate_js,
+  add_resource_path,
+  bundle_resources,
+  favicon,
+  with_golem_options
+)
 importFrom(gtools,mixedsort)
 importFrom(kableExtra,kable_styling)
 importFrom(knitr,kable)
 importFrom(readxl,read_excel)
-importFrom(shiny,NS)
-importFrom(shiny,shinyApp)
-importFrom(shiny,tagList)
+importFrom(shiny,
+  NS,
+  shinyApp,
+  tagList
+)
 importFrom(shinycssloaders,withSpinner)
-importFrom(shinyjs,hidden)
-importFrom(shinyjs,hide)
-importFrom(shinyjs,show)
-importFrom(shinyjs,useShinyjs)
+importFrom(shinyjs,
+  hidden,
+  hide,
+  show,
+  useShinyjs
+)
 importFrom(tidyr,pivot_longer)
