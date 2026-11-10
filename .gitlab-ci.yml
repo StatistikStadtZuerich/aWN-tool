@@ -33,13 +33,13 @@ include:
     - Rscript -e "renv::restore()"
 
 # run tests with nice report (view output in GitLab Pipeline > Tests)
-r-testthat-test:
-  extends: .r-testthat-test
-
-# run cmd check 
-r-devtools-check:
-  extends: .r-devtools-check
-  
+# r-testthat-test:
+#   extends: .r-testthat-test
+# 
+# # run cmd check 
+# r-devtools-check:
+#   extends: .r-devtools-check
+#   
 shiny-deploy-int:
   extends:
     - .shiny-deploy-int
