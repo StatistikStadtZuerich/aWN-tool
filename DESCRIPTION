@@ -16,7 +16,6 @@ Description: Shiny App aWN-Tool that shows official aparment numbers for all the
 License: MIT + file LICENSE
 Imports: 
     bslib,
-    chromote,
     config (>= 0.3.2),
     data.table,
     dplyr,
@@ -27,7 +26,6 @@ Imports:
     kableExtra,
     knitr,
     openxlsx,
-    pkgload,
     purrr,
     reactable,
     readxl,
@@ -35,7 +33,6 @@ Imports:
     shiny (>= 1.8.0),
     shinycssloaders,
     shinyjs,
-    shinytest2,
     stringr,
     tidyr,
     zuericssstyle
@@ -46,6 +43,9 @@ Remotes:
 Depends: 
     R (>= 3.5)
 Suggests: 
+    chromote,
+    pkgload,
+    shinytest2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.1
