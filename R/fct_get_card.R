@@ -191,14 +191,14 @@ get_apartment_card <- function(dataset = sorted_apartments,
       dataset |> 
         select(aWN, EWID, Stockwerk, `Lage Wohnung`, Zimmer, `Wohnfläche (m2)`, Maisonette, Küche),
       columns = list(
-        aWN = colDef(name = "aWN", minWidth = 45),
-        EWID = colDef(minWidth = 50, align = "left"),
-        Stockwerk = colDef(name = "Stockwerk", minWidth = 75),
-        `Lage Wohnung` = colDef(name = "Lage", minWidth = 50),
-        Zimmer = colDef(name = "Zimmer", minWidth = 50),
-        `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)", minWidth = 85),
-        Maisonette = colDef(name = "Maisonette", minWidth = 79),
-        Küche = colDef(name = "Küche", minWidth = 52)
+        aWN = colDef(name = "aWN", minWidth = 50, sticky = "left"),
+        EWID = colDef(minWidth = 55, align = "left", sticky = "left"),
+        Stockwerk = colDef(name = "Stockwerk", minWidth = 100),
+        `Lage Wohnung` = colDef(name = "Lage", minWidth = 60),
+        Zimmer = colDef(name = "Zimmer", minWidth = 70),
+        `Wohnfläche (m2)` = colDef(name = "Wohnfläche (m2)", minWidth = 100),
+        Maisonette = colDef(name = "Maisonette", minWidth = 95),
+        Küche = colDef(name = "Küche", minWidth = 70)
       ),
       paginationType = "simple",
       class = "table-striped",
