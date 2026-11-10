@@ -23,7 +23,6 @@ Imports:
     furrr,
     golem (>= 0.4.1),
     gtools,
-    icons,
     jpeg,
     kableExtra,
     knitr,
@@ -47,6 +46,4 @@ Depends:
     R (>= 3.5)
 Suggests: 
     testthat (>= 3.0.0)
-Remotes: 
-    github::mitchelloharawild/icons
 Config/testthat/edition: 3
