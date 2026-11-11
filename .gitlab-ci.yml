@@ -16,6 +16,10 @@ include:
     ref: v1.1.12
     file: "r-check-and-build-packages.yml"
 
+variables:
+  PKG_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
+  PKG_SYSREQS: "false"
+
 .before-script-with-abseil:
   before_script:
     - echo "$KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY"
