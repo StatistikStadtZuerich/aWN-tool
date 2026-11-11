@@ -51,7 +51,6 @@ r-testthat-test:
         - .apt-cache/
     - key: ${CI_PROJECT_NAME}
       paths:
-        - ${RENV_PATHS_CACHE}
         - ${R_USER_CACHE_DIR}
 
 # run cmd check without tests (tests already exist in r-testthat-test)
@@ -68,7 +67,6 @@ r-devtools-check:
         - .apt-cache/
     - key: ${CI_PROJECT_NAME}
       paths:
-        - ${RENV_PATHS_CACHE}
         - ${R_USER_CACHE_DIR}
 
 shiny-deploy-int:
