@@ -17,7 +17,7 @@ include:
     file: "r-check-and-build-packages.yml"
 
 variables:
-  PKG_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
+  #PKG_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
   PKG_PACKAGE_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
   PKG_SYSREQS: "false"
 
@@ -35,6 +35,7 @@ variables:
     # Kerberos-Login über Keytab
     - kinit -k -t "$KRB5_KTNAME" "$KRB5_PRINCIPAL"
     - klist  # Kontrolle: Ticket vorhanden?
+    - Rscript -e "pak::cache_summary()"
     - Rscript -e "renv::restore()"
 
 # run tests with nice report (view output in GitLab Pipeline > Tests)
