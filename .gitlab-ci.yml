@@ -18,10 +18,10 @@ include:
 
 variables:
   #PKG_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
-  PKG_PACKAGE_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
+  #PKG_PACKAGE_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
   PKG_SYSREQS: "false"
   R_USER_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R"
-  R_PKG_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
+  #R_PKG_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
 
 .before-script-with-abseil:
   before_script:
