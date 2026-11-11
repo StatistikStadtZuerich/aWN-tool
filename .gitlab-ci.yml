@@ -18,7 +18,7 @@ include:
 
 variables:
   #PKG_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
-  PKG_PACKAGE_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
+  PKG_PACKAGE_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
   PKG_SYSREQS: "false"
 
 .before-script-with-abseil:
@@ -51,7 +51,7 @@ r-testthat-test:
     - key: ${CI_PROJECT_NAME}
       paths:
         - ${RENV_PATHS_CACHE}
-        - "/root/.cache/R/pkgcache/pkg"
+        - "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
 
 # run cmd check without tests (tests already exist in r-testthat-test)
 r-devtools-check:
@@ -68,7 +68,7 @@ r-devtools-check:
     - key: ${CI_PROJECT_NAME}
       paths:
         - ${RENV_PATHS_CACHE}
-        - "/root/.cache/R/pkgcache/pkg"
+        - "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
 
 shiny-deploy-int:
   extends:
