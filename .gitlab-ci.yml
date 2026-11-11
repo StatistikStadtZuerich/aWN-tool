@@ -18,6 +18,7 @@ include:
 
 variables:
   PKG_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
+  PKG_PACKAGE_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
   PKG_SYSREQS: "false"
 
 .before-script-with-abseil:
@@ -39,10 +40,14 @@ variables:
 # run tests with nice report (view output in GitLab Pipeline > Tests)
 r-testthat-test:
   extends: .r-testthat-test
+  before_script:
+    - !reference [.before-script-with-abseil, before_script]
 
 # run cmd check without tests (tests already exist in r-testthat-test)
 r-devtools-check:
   extends: .r-devtools-check
+  before_script:
+    - !reference [.before-script-with-abseil, before_script]
   script:
     - Rscript -e "renv::status()"
     - Rscript -e "devtools::check(args = '--no-tests', error_on = 'error')"
