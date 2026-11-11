@@ -20,7 +20,7 @@ variables:
   #PKG_CACHE_DIR: "${CI_PROJECT_DIR}/renv/cache"
   #PKG_PACKAGE_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
   PKG_SYSREQS: "false"
-  R_USER_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R"
+  R_USER_CACHE_DIR: "$CI_PROJECT_DIR/.cache"
   #R_PKG_CACHE_DIR: "$CI_PROJECT_DIR/.cache/R/pkgcache/pkg"
 
 .before-script-with-abseil:
@@ -40,6 +40,7 @@ variables:
     - Rscript -e 'print(Sys.getenv(c("R_USER_CACHE_DIR", "R_PKG_CACHE_DIR", "HOME", "PKG_PACKAGE_CACHE_DIR")))'
     - Rscript -e "renv::restore(packages = 'pak')"
     - Rscript -e "pak::cache_summary()"
+    - Rscript -e ".libPaths()"
     - Rscript -e "renv::restore()"
 
 # run tests with nice report (view output in GitLab Pipeline > Tests)
