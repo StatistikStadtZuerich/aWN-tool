@@ -35,6 +35,7 @@ variables:
     # Kerberos-Login über Keytab
     - kinit -k -t "$KRB5_KTNAME" "$KRB5_PRINCIPAL"
     - klist  # Kontrolle: Ticket vorhanden?
+    - Rscript -e "renv::restore(packages = 'pak')"
     - Rscript -e "pak::cache_summary()"
     - Rscript -e "renv::restore()"
 
