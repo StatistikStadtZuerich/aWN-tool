@@ -3,6 +3,193 @@
     "ActionButtonId": 1,
     "input_module-address": "Verenastrasse 16"
   },
+  "output": {
+    "results_1-apartment_infos": {
+      "html": "<br/>\n<h3>Informationen zu den Wohnungen<\/h3>\n<div class=\"reactable html-widget html-fill-item\" id=\"htmlwidget-9eceb20dc2a931752ae4\" style=\"width:auto;height:auto;\"><\/div>\n<script type=\"application/json\" data-for=\"htmlwidget-9eceb20dc2a931752ae4\">{\"x\":{\"tag\":{\"name\":\"Reactable\",\"attribs\":{\"data\":{\"aWN\":[\"5\",\"6\",\"7\",\"105\",\"106\",\"107\",\"205\",\"206\",\"207\",\"305\",\"306\",\"307\"],\"EWID\":[5,6,7,12,13,14,19,20,21,26,27,28],\"Stockwerk\":[\"Parterre, inkl. Hochparterre\",\"Parterre, inkl. Hochparterre\",\"Parterre, inkl. Hochparterre\",\"1. Stock\",\"1. Stock\",\"1. Stock\",\"2. Stock\",\"2. Stock\",\"2. Stock\",\"3. Stock\",\"3. Stock\",\"3. Stock\"],\"Lage Wohnung\":[\"\",\"\",\"\",\"\",\"\",\"Links\",\"\",\"\",\"\",\"\",\"\",\"\"],\"Zimmer\":[2,4,3,3,4,5,3,4,5,3,4,5],\"Wohnfläche (m2)\":[67,98,67,84,98,114,84,98,114,84,98,114],\"Maisonette\":[\"Nein\",\"Nein\",\"Nein\",\"Nein\",\"Nein\",\"Nein\",\"Nein\",\"Nein\",\"Nein\",\"Nein\",\"Nein\",\"Nein\"],\"Küche\":[\"Ja\",\"Ja\",\"Ja\",\"Ja\",\"Ja\",\"Ja\",\"Ja\",\"Ja\",\"Ja\",\"Ja\",\"Ja\",\"Ja\"]},\"columns\":[{\"id\":\"aWN\",\"name\":\"aWN\",\"type\":\"character\",\"minWidth\":50,\"sticky\":\"left\"},{\"id\":\"EWID\",\"name\":\"EWID\",\"type\":\"numeric\",\"minWidth\":55,\"align\":\"left\",\"sticky\":\"left\"},{\"id\":\"Stockwerk\",\"name\":\"Stockwerk\",\"type\":\"character\",\"minWidth\":100},{\"id\":\"Lage Wohnung\",\"name\":\"Lage\",\"type\":\"character\",\"minWidth\":60},{\"id\":\"Zimmer\",\"name\":\"Zimmer\",\"type\":\"numeric\",\"minWidth\":70},{\"id\":\"Wohnfläche (m2)\",\"name\":\"Wohnfläche (m2)\",\"type\":\"numeric\",\"minWidth\":100},{\"id\":\"Maisonette\",\"name\":\"Maisonette\",\"type\":\"character\",\"minWidth\":95},{\"id\":\"Küche\",\"name\":\"Küche\",\"type\":\"character\",\"minWidth\":70}],\"defaultPageSize\":10,\"paginationType\":\"simple\",\"className\":\"table-striped\",\"language\":{\"noData\":\"Keine Einträge gefunden\",\"pageNext\":\"❯\",\"pagePrevious\":\"❮\",\"pageNumbers\":\"{page} von {pages}\",\"pageInfo\":\"{rowStart} bis {rowEnd} von {rows} Einträgen\",\"pageNextLabel\":\"Nächste Seite\",\"pagePreviousLabel\":\"Vorherige Seite\"},\"dataKey\":\"2bd91a106664a1213c0b8e136fa9f456\"},\"children\":[]},\"class\":\"reactR_markup\"},\"evals\":[],\"jsHooks\":[]}<\/script>",
+      "deps": [
+        {
+          "name": "core-js",
+          "version": "2.5.3",
+          "src": {
+            "href": "core-js-2.5.3"
+          },
+          "meta": null,
+          "script": "shim.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "react",
+          "version": "18.2.0",
+          "src": {
+            "href": "react-18.2.0"
+          },
+          "meta": null,
+          "script": [
+            "react.min.js",
+            "react-dom.min.js"
+          ],
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "reactwidget",
+          "version": "2.0.0",
+          "src": {
+            "href": "reactwidget-2.0.0"
+          },
+          "meta": null,
+          "script": "react-tools.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "htmltools-fill",
+          "version": "0.5.9",
+          "src": {
+            "href": "htmltools-fill-0.5.9"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "fill.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "htmlwidgets",
+          "version": "1.6.4",
+          "src": {
+            "href": "htmlwidgets-1.6.4"
+          },
+          "meta": null,
+          "script": "htmlwidgets.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "reactable",
+          "version": "0.4.5",
+          "src": {
+            "href": "reactable-0.4.5"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "reactable.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "reactable-binding",
+          "version": "0.4.5",
+          "src": {
+            "href": "reactable-binding-0.4.5"
+          },
+          "meta": null,
+          "script": "reactable.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        }
+      ]
+    },
+    "results_1-building_info": {
+      "html": "<br/>\n<h2>Verenastrasse 16 (EGID 302065780)<\/h2>\n<p>\n  <a href=\"https://www.maps.stadt-zuerich.ch/zueriplan3/Stadtplan.aspx?adresse=Verenastrasse%2016&amp;selectedObject=adr1066490&amp;toggleScreen=1\" target=\"_blank\">\n    Stadtplan öffnen \n    <svg fill=\"none\" viewBox=\"0 0 24 24\" style=\"height:1em;display:inline-block;vertical-align:-.1em;\" xmlns=\"http://www.w3.org/2000/svg\">\n      <g clip-path=\"url(#a)\">\n        <path fill=\"currentColor\" d=\"M10 6v2H5v11h11v-5h2v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1zm11-3v8h-2V6.413l-7.793 7.794-1.414-1.414L17.585 5H13V3z\"><\/path>\n      <\/g>\n      <defs>\n        <clipPath id=\"a\">\n          <path fill=\"currentColor\" d=\"M0 0h24v24H0z\"><\/path>\n        <\/clipPath>\n      <\/defs>\n    <\/svg>\n  <\/a>\n<\/p>\n<div class=\"bslib-grid bslib-mb-spacing html-fill-item\" data-require-bs-caller=\"layout_column_wrap()\" data-require-bs-version=\"5\" style=\"grid-template-columns:repeat(2, minmax(0, 1fr));grid-auto-rows:1fr;--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;\">\n  <div class=\"bslib-grid-item bslib-gap-spacing html-fill-container\">\n    <div class=\"card bslib-card bslib-mb-spacing html-fill-item html-fill-container\" data-bslib-card-init data-require-bs-caller=\"card()\" data-require-bs-version=\"5\" style=\"height:auto;\">\n      <div class=\"card-header bslib-gap-spacing\">\n        <h3>Allgemeine Informationen<\/h3>\n      <\/div>\n      <div class=\"card-body bslib-gap-spacing html-fill-item html-fill-container\" style=\"min-height:auto;margin-top:auto;margin-bottom:auto;flex:1 1 auto;\">\n        <ul class=\"dashed-list\">Gebäudetyp: <span class='bold-text'> Gebäude mit mehr als 2 Wohnungen <\/span><\/ul>\n        <ul class=\"dashed-list\">Baujahr: <span class='bold-text'> 2024 <\/span><\/ul>\n        <ul class=\"dashed-list\">Anzahl Geschosse: <span class='bold-text'> 5 <\/span><\/ul>\n        <ul class=\"dashed-list\">Zivilschutzraum: <span class='bold-text'> Nein <\/span><\/ul>\n      <\/div>\n      <script data-bslib-card-init>bslib.Card.initializeAllCards();<\/script>\n    <\/div>\n  <\/div>\n  <div class=\"bslib-grid-item bslib-gap-spacing html-fill-container\">\n    <div class=\"card bslib-card bslib-mb-spacing html-fill-item html-fill-container\" data-bslib-card-init data-require-bs-caller=\"card()\" data-require-bs-version=\"5\" style=\"height:auto;\">\n      <div class=\"card-header bslib-gap-spacing\">\n        <h3>Informationen zur Energie<\/h3>\n      <\/div>\n      <div class=\"card-body bslib-gap-spacing html-fill-item html-fill-container\" style=\"min-height:auto;margin-top:auto;margin-bottom:auto;flex:1 1 auto;\">\n        <ul class=\"dashed-list\">Wärmeerzeuger Heizung 1: <span class='bold-text'> Wärmepumpe <\/span><\/ul>\n        <ul class=\"dashed-list\">Energiequelle Heizung 1: <span class='bold-text'> Erdwärmesonde <\/span><\/ul>\n        <ul class=\"dashed-list\">Wärmeerzeuger Warmwasser 1: <span class='bold-text'> Wärmepumpe <\/span><\/ul>\n        <ul class=\"dashed-list\">Energiequelle Warmwasser 1: <span class='bold-text'> Erdwärmesonde <\/span><\/ul>\n        <ul class=\"dashed-list\">Wärmeerzeuger Warmwasser 2: <span class='bold-text'> Solaranlage thermisch <\/span><\/ul>\n        <ul class=\"dashed-list\">Energiequelle Warmwasser 2: <span class='bold-text'> Sonne <\/span><\/ul>\n      <\/div>\n      <script data-bslib-card-init>bslib.Card.initializeAllCards();<\/script>\n    <\/div>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "htmltools-fill",
+          "version": "0.5.9",
+          "src": {
+            "href": "htmltools-fill-0.5.9"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "fill.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "bslib-component-js",
+          "version": "0.12.0",
+          "src": {
+            "href": "bslib-component-js-0.12.0"
+          },
+          "meta": null,
+          "script": [
+            {
+              "src": "components.min.js"
+            },
+            {
+              "src": "web-components.min.js",
+              "type": "module"
+            }
+          ],
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "bslib-component-css",
+          "version": "0.12.0",
+          "src": {
+            "href": "bslib-component-css-0.12.0"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "components.css",
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        },
+        {
+          "name": "bslib-tag-require",
+          "version": "0.12.0",
+          "src": {
+            "href": "bslib-tag-require-0.12.0"
+          },
+          "meta": null,
+          "script": "tag-require.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": true
+        }
+      ]
+    },
+    "results_1-entrance_info": {
+      "html": "<div class=\"info-box-div sszInfoBox\">\n  <div class=\"info-box-content\">\n    <svg fill=\"none\" viewBox=\"0 0 24 24\" style=\"height:1em;display:inline-block;vertical-align:-.1em;\" xmlns=\"http://www.w3.org/2000/svg\">\n      <g clip-path=\"url(#a)\">\n        <path fill=\"currentColor\" d=\"M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10m-1-11v6h2v-6zm0-4v2h2V7z\"><\/path>\n      <\/g>\n      <defs>\n        <clipPath id=\"a\">\n          <path fill=\"currentColor\" d=\"M0 0h24v24H0z\"><\/path>\n        <\/clipPath>\n      <\/defs>\n    <\/svg>\n    <div class=\"info-box-text\">\n      <p>Info<\/p>\n      <p>\n        <p>Dieses Gebäude hat mehrere Eingänge mit unterschiedlichen Adressen. Wenn Sie Wohnungsinformationen zu einem der untenstehenden Eingänge suchen, geben Sie diese Adresse ins Suchfeld ein.<\/p>\n        <ul class=\"dashed-list\">\n          <li>Verenastrasse 18<\/li>\n        <\/ul>\n      <\/p>\n    <\/div>\n  <\/div>\n<\/div>",
+      "deps": [
+
+      ]
+    },
+    "results_1-info": {
+      "html": "<div class=\"context-box-div sszContextBox\">\n  <div class=\"context-box-header-bar\">\n    <h2>Erläuterungen<\/h2>\n  <\/div>\n  <div class=\"context-box context-box-text\">\n    <p><span class='bold-text'>Anzahl Geschosse<\/span>: umfasst unter- und oberirdische Geschosse<br><span class='bold-text'>Anzahl Zimmer<\/span>: halbe Zimmer werden abgerundet<br><span class='bold-text'>aWN<\/span>: amtliche Wohnungsnummer<br><span class='bold-text'>EGID<\/span>: Eidgenössischer Gebäudeidentifikator<br><span class='bold-text'>EWID<\/span>: Eidgenössischer Wohnungsidentifikator<\/p>\n  <\/div>\n<\/div>",
+      "deps": [
+
+      ]
+    },
+    "results_1-timestamp": {
+      "html": "<br/>\n<p style=\"text-align: right;font-size: 0.875rem;\">Stand der letzten Datenaktualisierung: 25.03.2026<\/p>",
+      "deps": [
+
+      ]
+    },
+    "warning": null
+  },
   "export": {
 
   }

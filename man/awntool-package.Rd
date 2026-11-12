@@ -13,6 +13,7 @@ Shiny App aWN-Tool that shows official aparment numbers for all the addresses in
 
 Authors:
 \itemize{
+  \item Alessandro Feller \email{alessandro.feller@zuerich.ch}
   \item Thamilini Easwaralingam \email{thamilini.easwaralingam@zuerich.ch}
 }
 
