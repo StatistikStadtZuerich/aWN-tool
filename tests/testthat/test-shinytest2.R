@@ -4,6 +4,7 @@ test_that("{shinytest2} recording: awn-tool starting values", {
   skip_on_cran()
   app <- AppDriver$new(
     app_dir = run_app,
+    seed = 123,
     name = "awn-tool",
     height = 953,
     width = 1619
@@ -12,10 +13,8 @@ test_that("{shinytest2} recording: awn-tool starting values", {
   # after click, wait until everything is ready/idle
   app$wait_for_idle()
   app$click("ActionButtonId")
-  app$expect_values(input = TRUE,
-                    output = FALSE, 
-                    export = TRUE
-  )
+  app$wait_for_idle()
+  app$expect_values()
 })
 
 test_that("{shinytest2} recording: test_sorting_floor_correctly", {
@@ -23,18 +22,16 @@ test_that("{shinytest2} recording: test_sorting_floor_correctly", {
   app <- AppDriver$new(
     app_dir = run_app,
     name = "test_sorting_floor_correctly",
+    seed = 123,
     height = 953,
     width = 1619
   )
   app$set_inputs(`input_module-address` = "Zähringerstrasse 27")
+  app$wait_for_idle()
   app$click("ActionButtonId")
   # after click, wait until everything is ready/idle
   app$wait_for_idle()
-  app$expect_values(
-    input = TRUE,
-    output = FALSE, 
-    export = TRUE
-  )
+  app$expect_values()
 })
 
 test_that("{shinytest2} recording: test_abc_wohnungen", {
@@ -42,31 +39,31 @@ test_that("{shinytest2} recording: test_abc_wohnungen", {
   app <- AppDriver$new(
     app_dir = run_app,
     name = "test_abc_wohnungen",
+    seed = 123,
     height = 1073,
     width = 1619
   )
   app$set_inputs(`input_module-address` = "Langstrasse 192")
+  app$wait_for_idle()
   app$click("ActionButtonId")
   # after click, wait until everything is ready/idle
   app$wait_for_idle()
-  app$expect_values(input = TRUE,
-                    output = FALSE, 
-                    export = TRUE)
+  app$expect_values()
 })
 
-test_that("{shinytest2} recording: ungültige Strasse", {
+test_that("{shinytest2} recording: ungueltig", {
   skip_on_cran()
   app <- AppDriver$new(
     app_dir = run_app,
-    name = "ungültige Strasse",
+    name = "ungueltig",
+    seed = 123,
     height = 1073,
     width = 1619
   )
   app$set_inputs(`input_module-address` = "babystrasse 98")
+  app$wait_for_idle()
   app$click("ActionButtonId")
   # after click, wait until everything is ready/idle
   app$wait_for_idle()
-  app$expect_values(input = TRUE,
-                    output = FALSE, 
-                    export = TRUE)
+  app$expect_values()
 })

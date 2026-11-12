@@ -1,0 +1,17 @@
+{
+  "input": {
+    "ActionButtonId": 1,
+    "input_module-address": "babystrasse 98"
+  },
+  "output": {
+    "warning": {
+      "html": "<div class=\"info-box-div info-box--warning\">\n  <div class=\"info-box-content\">\n    <svg fill=\"none\" viewBox=\"0 0 24 24\" style=\"height:1em;display:inline-block;vertical-align:-.1em;\" xmlns=\"http://www.w3.org/2000/svg\">\n      <g clip-path=\"url(#a)\">\n        <path fill=\"currentColor\" d=\"m12.866 3 9.526 16.5a1 1 0 0 1-.866 1.5H2.474a1 1 0 0 1-.866-1.5L11.134 3a1 1 0 0 1 1.732 0M11 16v2h2v-2zm0-7v5h2V9z\"><\/path>\n      <\/g>\n      <defs>\n        <clipPath id=\"a\">\n          <path fill=\"currentColor\" d=\"M0 0h24v24H0z\"><\/path>\n        <\/clipPath>\n      <\/defs>\n    <\/svg>\n    <div class=\"info-box-text\">\n      <p class=\"info-box-title\">Ungültige Adresseingabe<\/p>\n      <p class=\"info-box-body\">Die Adresse «babystrasse 98» existiert nicht.<\/p>\n    <\/div>\n  <\/div>\n<\/div>",
+      "deps": [
+
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
