@@ -5,7 +5,7 @@ include:
     file: "stages.yml"
   # use template for gitlab pipeline to deploy to shinyapps.io
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
-    ref: v1.1.12
+    ref: feature-pak-cache-abseil
     file: "deploy-to-shinyapps.yml"
   # use template for gitlab pipeline to push main to github 
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
@@ -13,68 +13,23 @@ include:
     file: "publish-to-github.yml"
   # use template to build package
   - project: "OE-7035/ssz-da/templates/pipeline-templates"
-    ref: v1.1.12
+    ref: feature-pak-cache-abseil
     file: "r-check-and-build-packages.yml"
-
-variables:
-  PKG_SYSREQS: "false"
-  R_USER_CACHE_DIR: "$CI_PROJECT_DIR/.cache"
-  
-.before-script-with-abseil:
-  before_script:
-    - echo "$KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY"
-    # curl & Kerberos Tools installieren
-    - apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl krb5-user libabsl-dev cmake
-
-    # Base64-Keytab aus GitLab Variable in Datei decodieren
-    # Wichtig: KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY muss in GitLab CI/CD Settings existieren
-    - echo "$KERBEROS_KEYTAB_SSZ_UPIPELINE_PROXY" | base64 -d > "$KRB5_KTNAME"
-    - chmod 600 "$KRB5_KTNAME"
-
-    # Kerberos-Login über Keytab
-    - kinit -k -t "$KRB5_KTNAME" "$KRB5_PRINCIPAL"
-    - klist  # Kontrolle: Ticket vorhanden?
-    - Rscript -e 'print(Sys.getenv(c("R_USER_CACHE_DIR", "RENV_PATHS_CACHE")))'
-    - Rscript -e "renv::restore(packages = 'pak')"
-    - Rscript -e "pak::cache_summary()"
-    - Rscript -e ".libPaths()"
-    - Rscript -e "renv::restore()"
 
 # run tests with nice report (view output in GitLab Pipeline > Tests)
 r-testthat-test:
   extends: .r-testthat-test
-  before_script:
-    - !reference [.before-script-with-abseil, before_script]
-  cache:
-    - key: apt-cache-test
-      paths:
-        - .apt-cache/
-    - key: ${CI_PROJECT_NAME}
-      paths:
-        - ${R_USER_CACHE_DIR}
 
 # run cmd check without tests (tests already exist in r-testthat-test)
 r-devtools-check:
   extends: .r-devtools-check
-  before_script:
-    - !reference [.before-script-with-abseil, before_script]
   script:
     - Rscript -e "renv::status()"
     - Rscript -e "devtools::check(args = '--no-tests', error_on = 'error')"
-  cache:
-    - key: apt-cache-check
-      paths:
-        - .apt-cache/
-    - key: ${CI_PROJECT_NAME}
-      paths:
-        - ${R_USER_CACHE_DIR}
 
 shiny-deploy-int:
   extends:
     - .shiny-deploy-int
-    - .before-script-with-abseil
-  before_script:
-    - !reference [.before-script-with-abseil, before_script]
   script:
     # run different file than specified in default deploy job
     - Rscript -e "source('dev/run_in_pipeline.R')"
@@ -82,9 +37,6 @@ shiny-deploy-int:
 shiny-deploy-prod:
   extends:
     - .shiny-deploy-prod 
-    - .before-script-with-abseil
-  before_script:
-    - !reference [.before-script-with-abseil, before_script]
   rules: 
     # keep inherited rules
     - !reference [.shiny-deploy-prod , rules]
