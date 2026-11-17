@@ -1,10 +1,6 @@
 # aWN Tool - Amtliche Wohnungsnummer
 
-[Shiny app](https://www.stadt-zuerich.ch/prd/de/index/statistik/publikationen-angebote/register-dwh/gebaeude-wohnungsregister/amtliche-wohnungsnummer-awn.html) for querying official apartment numbers (aWN - amtliche WohnungsNummern) and additional information such as primary and secondary energy sources, building details, and apartment sizes from the City of Zurich's [Building and Apartment Registry](https://www.stadt-zuerich.ch/prd/de/index/statistik/publikationen-angebote/register-dwh/gebaeude-wohnungsregister.html). The data is sourced from the [Open Data Catalogue](https://data.stadt-zuerich.ch/) of the City of Zurich and is updated daily. The specific datasets are as follows:
-
--   [building data](https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/resource/0dc7e4f2-09dd-4054-a14f-9ee8e6d5b2bb)
--   [entrance data](https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/resource/22094869-a3f4-44a1-a49d-a9d7dc80253a)
--   [apartement data](https://data.stadt-zuerich.ch/dataset/geo_gebaeude__und_wohnungsregister_der_stadt_zuerich__gwz__gemaess_gwr_datenmodell/resource/69aeb436-4718-4b56-a7b5-452f37a97147)
+[Shiny app](https://www.stadt-zuerich.ch/de/politik-und-verwaltung/statistik-und-daten/publikationen-und-dienstleistungen/register-und-datawarehouse/gebaeuderegister-wohnungsregister/amtliche-wohnungsnummer.html) for querying official apartment numbers (aWN - amtliche WohnungsNummern) and additional information such as primary and secondary energy sources, building details, and apartment sizes from the City of Zurich's [Building and Apartment Registry](https://www.stadt-zuerich.ch/de/politik-und-verwaltung/statistik-und-daten/publikationen-und-dienstleistungen/register-und-datawarehouse/gebaeuderegister-wohnungsregister.html). The data is sourced from the [Open Data Catalogue](https://data.stadt-zuerich.ch/) of the City of Zurich and is updated daily.
 
 ## App's Architecture
 
