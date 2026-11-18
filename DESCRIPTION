@@ -21,10 +21,6 @@ Imports:
     dplyr,
     furrr,
     golem (>= 0.4.1),
-    gtools,
-    jpeg,
-    kableExtra,
-    knitr,
     openxlsx,
     purrr,
     reactable,
@@ -41,7 +37,7 @@ LazyData: true
 Remotes:
     github::StatistikStadtZuerich/zuericssstyle
 Depends: 
-    R (>= 3.5)
+    R (>= 4.1)
 Suggests: 
     chromote,
     pkgload,

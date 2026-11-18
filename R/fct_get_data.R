@@ -22,16 +22,18 @@ get_data <- function() {
 
   # Read GeoJSON for gebaeudeeingangnummer
   geojson_url <- "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Adressen_Stadt_Zuerich?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typename=adrstzh_adressen_stzh_p"
-  geojson_data <- sf::st_read(geojson_url, quiet = TRUE)
-  
+  geojson_data <- sf::st_read(geojson_url, quiet = TRUE) |>
+    sf::st_drop_geometry()
+
   # Extract EGID and gebaeudeeingangnummer
   geojson_df <- geojson_data |>
     select(gwr_egid, gebaeudeeingangnummer, adresse) |>
     as_tibble() |>
-    mutate(gwr_egid = as.numeric(gwr_egid),
-    gebaeudeeingangnummer = as.numeric(gebaeudeeingangnummer)) |>
-    rename(EGID = gwr_egid,
-           Adresse = adresse)
+    mutate(
+      gwr_egid = as.numeric(gwr_egid),
+      gebaeudeeingangnummer = as.numeric(gebaeudeeingangnummer)
+    ) |>
+    rename(EGID = gwr_egid, Adresse = adresse)
 
   if (!is.null(data)) {
     ### Data Transformation
@@ -96,7 +98,7 @@ get_data <- function() {
         `Energiequelle Heizung 2` = GENH2Lang,
         `Wärmeerzeuger Warmwasser 2` = GWAERZW2Lang,
         `Energiequelle Warmwasser 2` = GENW2Lang
-      ) |> 
+      ) |>
       left_join(geojson_df, by = c("EGID", "Adresse"))
 
     # Select and transform the data for apartments
@@ -125,7 +127,11 @@ get_data <- function() {
         WHGNR = stringr::str_remove(WHGNR, "Wohnung\\s"),
         whg_num = as.numeric(stringr::str_extract(WHGNR, "[:digit:]{1,}")),
         # Correct aWN values between 9800-9999 by subtracting 10,000
-        aWN_korrigiert = ifelse(!is.na(whg_num) & whg_num >= 9800 & whg_num <= 9999, whg_num - 10000, whg_num)
+        aWN_korrigiert = ifelse(
+          !is.na(whg_num) & whg_num >= 9800 & whg_num <= 9999,
+          whg_num - 10000,
+          whg_num
+        )
       ) |>
       # Sort by street, house number, apartment number (whg_num), and aWn korrigiert
       arrange(
@@ -145,10 +151,9 @@ get_data <- function() {
         `Küche` = WKCHELang
       )
 
-
     # Select unique addresses
     unique_addresses <- unique(building_with_address$Adresse)
-    
+
     # Return the final transformed data
     return(list(
       df_building = building_with_address,
