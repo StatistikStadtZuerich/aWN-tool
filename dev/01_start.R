@@ -61,7 +61,3 @@ golem::remove_favicon() # Uncomment to remove the default favicon
 golem::use_utils_ui(with_test = TRUE)
 golem::use_utils_server(with_test = TRUE)
 
-# You're now set! ----
-
-# go to dev/02_dev.R
-rstudioapi::navigateToFile("dev/02_dev.R")
