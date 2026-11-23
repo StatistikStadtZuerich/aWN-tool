@@ -1,69 +1,39 @@
-library(shinytest2)
-
-test_that("{shinytest2} recording: awn-tool starting values", {
+test_that("{shinytest2} awn-tool starting values", {
   skip_on_cran()
-  app <- AppDriver$new(
-    app_dir = run_app,
-    seed = 123,
-    name = "awn-tool",
-    height = 953,
-    width = 1619
-  )
-  app$set_inputs(`input_module-address` = "Verenastrasse 16")
-  # after click, wait until everything is ready/idle
-  app$wait_for_idle()
-  app$click("ActionButtonId")
-  app$wait_for_idle()
-  app$expect_values()
+  app <- start_awn_app("awn-tool")
+  withr::defer(app$stop())
+  
+  query_address(app, "Verenastrasse 16")
+  
+  app$expect_values(transform = fix_reactable_key)
 })
 
-test_that("{shinytest2} recording: test_sorting_floor_correctly", {
+test_that("{shinytest2} floors are sorted correctly", {
   skip_on_cran()
-  app <- AppDriver$new(
-    app_dir = run_app,
-    name = "test_sorting_floor_correctly",
-    seed = 123,
-    height = 953,
-    width = 1619
-  )
-  app$set_inputs(`input_module-address` = "Zähringerstrasse 27")
-  app$wait_for_idle()
-  app$click("ActionButtonId")
-  # after click, wait until everything is ready/idle
-  app$wait_for_idle()
-  app$expect_values()
+  app <- start_awn_app("test_sorting_floor_correctly")
+  withr::defer(app$stop())
+  
+  query_address(app, "Zähringerstrasse 27")
+  
+  app$expect_values(transform = fix_reactable_key)
 })
 
-test_that("{shinytest2} recording: test_abc_wohnungen", {
+test_that("{shinytest2} building with many apartments (abc numbering)", {
   skip_on_cran()
-  app <- AppDriver$new(
-    app_dir = run_app,
-    name = "test_abc_wohnungen",
-    seed = 123,
-    height = 1073,
-    width = 1619
-  )
-  app$set_inputs(`input_module-address` = "Langstrasse 192")
-  app$wait_for_idle()
-  app$click("ActionButtonId")
-  # after click, wait until everything is ready/idle
-  app$wait_for_idle()
-  app$expect_values()
+  app <- start_awn_app("test_abc_wohnungen", height = 1073)
+  withr::defer(app$stop())
+  
+  query_address(app, "Langstrasse 192")
+  
+  app$expect_values(transform = fix_reactable_key)
 })
 
-test_that("{shinytest2} recording: ungueltig", {
+test_that("{shinytest2} invalid address", {
   skip_on_cran()
-  app <- AppDriver$new(
-    app_dir = run_app,
-    name = "ungueltig",
-    seed = 123,
-    height = 1073,
-    width = 1619
-  )
-  app$set_inputs(`input_module-address` = "babystrasse 98")
-  app$wait_for_idle()
-  app$click("ActionButtonId")
-  # after click, wait until everything is ready/idle
-  app$wait_for_idle()
-  app$expect_values()
+  app <- start_awn_app("ungueltig", height = 1073)
+  withr::defer(app$stop())
+  
+  query_address(app, "babystrasse 98")
+  
+  app$expect_values(transform = fix_reactable_key)
 })
