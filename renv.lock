@@ -6067,12 +6067,12 @@
       "Author": "Sara Hänzi [aut, cre], Alessandro Feller [aut], Statistik Stadt Zürich (SSZ) [cph, fnd]",
       "Maintainer": "Sara Hänzi <sara.haenzi@zuerich.ch>",
       "RemoteType": "github",
-      "Remotes": "github::daqana/dqshiny",
       "RemoteUsername": "StatistikStadtZuerich",
       "RemoteRepo": "zuericssstyle",
       "RemoteRef": "HEAD",
       "RemoteSha": "a1e8915245c51654a4f92f4eaf78d3d8a285b95d",
-      "RemoteHost": "api.github.com"
+      "RemoteHost": "api.github.com",
+      "Remotes": "github::daqana/dqshiny"
     }
   }
 }
