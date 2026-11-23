@@ -34,11 +34,6 @@ test_that("test get data", {
   missing_apartments <- inconstruction_apartments |>
     filter(EGID %in% missing_egids)
   
-  
-  # Output the result
-  print(paste("Number of missing EGIDs:", missing_count))
-  print("List of missing EGIDs:")
-  print(missing_egids)
   expect_true(all(existing_apartments$EGID %in% data_main$df_building$EGID)) 
 
   

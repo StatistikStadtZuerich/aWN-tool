@@ -18,7 +18,7 @@ get_data <- function() {
   )
 
   # Parallelisation
-  data <- furrr::future_map(URLs, \(x) data.table::fread(x, encoding = "UTF-8"))
+  data <- furrr::future_map(URLs, \(x) data.table::fread(x, encoding = "UTF-8", showProgress = FALSE))
 
   # Read GeoJSON for gebaeudeeingangnummer
   geojson_url <- "https://www.ogd.stadt-zuerich.ch/wfs/geoportal/Adressen_Stadt_Zuerich?service=WFS&version=1.1.0&request=GetFeature&outputFormat=application/json&typename=adrstzh_adressen_stzh_p"
