@@ -40,8 +40,11 @@ Depends:
     R (>= 4.1)
 Suggests: 
     chromote,
+    devtools,
     pkgload,
     shinytest2,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    usethis,
+    withr
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.1
